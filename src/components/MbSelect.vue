@@ -84,6 +84,7 @@
                     <div class="detail">
                         <div class="area">
                             <span class="housearea">Taipei Zoghshan</span>
+                            <br>
                             <span class="housetype">Single room</span>
                         </div>
                         <div class="price">
@@ -110,7 +111,6 @@ export default {
     mounted() {
         $(document).ready(function() {
             $('.multiple-items').slick({
-                dots: true,
                 infinite: true,
                 slidesToShow: 3,
                 slidesToScroll: 1,
@@ -135,6 +135,7 @@ export default {
         margin-left: 100px;
     }
     .slick-center {
+        transition: 0.5s;
         transform: scale(1.2);
     }
     .multiple-items {
@@ -142,22 +143,24 @@ export default {
             background-image: url('../assets/media/patrick_perkins_3wylDrjxH_E_un_bx@2x.png');
             background-position: center;
             background-size: cover;
-            border-radius: 20px;
+            border-radius: 5px;
             margin-right: 50px;
             margin-left: 50px;
             margin-top: 100px;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             height: 300px;
             display: flex;
             justify-content: center;
             align-items: flex-end;
             box-sizing: border-box;
             overflow: hidden;
+            transition: 0.4s;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
             .itemsdetail {
                 width: 200px;
-                height: 80px;
+                height: 70px;
                 background-color: white;
-                margin-bottom: 50px;
+                margin-bottom: 30px;
                 border-radius: 17px;
                 box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
                 display: flex;
@@ -168,14 +171,14 @@ export default {
                 transition-duration: 0.5s;
                 .housetypeicon {
                     width: 40%;
-                    height: 80px;
+                    height: 70px;
                     display: flex;
                     margin: auto;
                     justify-content: center;
                     align-items: center; // border: solid 1px;
                     .iconbg {
-                        width: 60px;
-                        height: 60px;
+                        width: 50px;
+                        height: 50px;
                         background-color: darkorange; // margin: auto;
                         border-radius: 15px;
                     }
@@ -188,15 +191,15 @@ export default {
                     flex-direction: column;
                     justify-content: space-evenly;
                     .housearea {
-                        font-size: 5px;
+                        font-size: 1px;
                         color: #A6B6AE;
                     }
                     .housetype {
-                        font-size: 3px;
+                        font-size: 1px;
                         color: #7AA08F;
                     }
                     .houseprice {
-                        font-size: 2px;
+                        font-size: 0.5px;
                         color: #A6B6AE;
                     }
                 }
