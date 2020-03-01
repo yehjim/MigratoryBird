@@ -42,7 +42,8 @@
                 <span>2 months</span>
             </div>
             <div class="col-3 search">
-                <span>BOOK NOW</span>
+                <router-link to="/search"><span>BOOK NOW</span></router-link>
+                <router-view></router-view>
             </div>
         </div>
     </div>

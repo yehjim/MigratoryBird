@@ -115,7 +115,7 @@ export default {
                 slidesToShow: 3,
                 slidesToScroll: 1,
                 centerMode: true,
-                autoplay: true,
+                // autoplay: true,
                 autoplaySpeed: 1000
             });
         });
