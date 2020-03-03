@@ -7,7 +7,10 @@
                 </div>
                 <div class="col-5"></div>
                 <div class="col-1">
-                    <span class="find">Find</span>
+                    <router-link to="/test123">
+                        <span class="find">Find</span>
+                    </router-link>
+                    <router-view></router-view>
                 </div>
                 <div class="col-1">
                     <span>Need</span>
@@ -48,7 +51,7 @@ export default {
             display: flex;
             background-color: white;
         }
-        .find{
+        .find {
             font-size: 20px;
         }
     }
