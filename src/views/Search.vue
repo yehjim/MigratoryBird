@@ -26,7 +26,7 @@
                 <div class="col-9">
                     <div class="row">
                         <div class="col-6">
-                            <Item></Item>
+                            <router-link to='/HouseDetail'><Item></Item></router-link>
                         </div>
                         <div class="col-6">
                             <Item></Item>

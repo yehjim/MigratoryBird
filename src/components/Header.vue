@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-2">
-                    <span>Migratory Bird</span>
+                    <router-link to="/"><span>Migratory Bird</span></router-link>
                 </div>
                 <div class="col-5"></div>
                 <div class="col-1">
