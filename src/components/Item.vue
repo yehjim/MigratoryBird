@@ -2,9 +2,9 @@
     <div class="item">
         <div class="piccover">
             <div class="itemcontent">
-                <span class="loc">Taipei</span>
-                <span class="area">Zongshan</span>
-                <span class="price">NTD:12500</span>
+                <span class="loc">{{loc}}</span>
+                <span class="area">{{area}}</span>
+                <span class="price">{{gender}}</span>
             </div>
             <div class="bookbtn">
                 <span class="btn">BOOK</span>
@@ -15,6 +15,11 @@
 
 <script>
 export default {
+    props:['loc','area','price','gender'],
+    data() {
+        return {
+        }
+    },
     name: 'Item'
 
 

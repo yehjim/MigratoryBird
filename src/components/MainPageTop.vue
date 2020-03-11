@@ -121,6 +121,7 @@ export default {
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
+
             span {
                 margin-left: 40px;
                 margin-bottom: 10px;

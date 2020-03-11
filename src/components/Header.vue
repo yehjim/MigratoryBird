@@ -1,19 +1,15 @@
 <template>
-    <div class="div header">
+    <div class="header">
         <div class="container">
             <div class="row">
-                <div class="col-2">
-                    <span>Migratory Bird</span>
-                </div>
+                <div class="col-2"><span>Migratory Bird</span></div>
                 <div class="col-5"></div>
                 <div class="col-1">
                     <router-link to="/test123">
                         <span class="find">Find</span>
                     </router-link>
-                    <router-view></router-view>
                 </div>
-                <div class="col-1">
-                    <span>Need</span>
+                <div class="col-1"><span>Need</span>
                 </div>
                 <div class="col-1">
                     <span>Comunity</span>
