@@ -35,6 +35,7 @@ export default {
             img {
                 width: 106px;
                 height: 63px;
+                border: 1px solid #000;
             }
         }
         .col-5 {
