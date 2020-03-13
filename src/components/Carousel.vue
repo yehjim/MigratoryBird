@@ -1,13 +1,13 @@
 <template>
   <div id="myCarousel">
-    
-
-    <div id="demo" class="carousel slide" data-ride="carousel">
-        <div class="carouselHeader container">
+     <div class="carouselHeader container">
             <div class="row">
                 <div class="col-12"><HouseDTHeader></HouseDTHeader></div>
             </div>
         </div>
+
+    <div id="demo" class="carousel slide" data-ride="carousel">
+       
       <!-- The slideshow -->
       <div class="carousel-inner">
         <div class="carousel-item pic1 active"></div>
@@ -57,7 +57,7 @@ export default {
   z-index: 1;
 }
 .carousel {
-    // margin-top: -50px;
+    margin-top: -50px;
   .carousel-inner {
     .carousel-item {
       @include size($w: 100%, $h: 100vh);
@@ -75,8 +75,10 @@ export default {
       background-image: url("../assets/media/pic_MB03.jpg");
     }
   }
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon {
+  .carousel-control-prev, .carousel-control-next{
+    z-index: 0;
+  }
+  .carousel-control-prev-icon,.carousel-control-next-icon {
     position: relative;
     filter: invert(100%);
   }

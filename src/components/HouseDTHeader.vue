@@ -86,6 +86,8 @@ $color_tagColor: #a6b6ae;
       display: flex;
       background-color: $color_grey;
       cursor: pointer;
+      position: relative;
+      z-index: 2;
     }
     .find {
       font-size: $font_basic_size * 2;
@@ -104,8 +106,8 @@ $color_tagColor: #a6b6ae;
   border-radius: 10px;
   text-align: left;
   padding: 10px 10px 10px 17px;
-  left: 90%;
-  transform: translateX(-50%) translateY(65%);
+  left: 100%;
+  transform: translateX(-50%);
   a {
     color: $color_grey;
   }
