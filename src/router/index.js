@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Search from '../views/Search.vue'
 import test123 from '../components/filtertest.vue'
+import profile from '../views/Profile.vue'
 
 Vue.use(VueRouter)
 
@@ -20,6 +21,11 @@ const routes = [{
         path: '/test123',
         name: 'test123',
         component: test123
+    },
+    {
+        path: '/profile',
+        name: 'profile',
+        component: profile
     }
 
 ]

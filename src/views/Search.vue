@@ -2,12 +2,12 @@
     <div class="search">
         <Header></Header>
         <!-- <div class="container">
-                                                                                                                                                            <div class="row" style="border: solid 1px;">
-                                                                                                                                                                <div class="col-4" style="border: solid 1px;">1</div>
-                                                                                                                                                                <div class="col-4">2</div>
-                                                                                                                                                                <div class="col-4">3</div>
-                                                                                                                                                            </div>
-                                                                                                                                                        </div> -->
+                                                                                                                                                                        <div class="row" style="border: solid 1px;">
+                                                                                                                                                                            <div class="col-4" style="border: solid 1px;">1</div>
+                                                                                                                                                                            <div class="col-4">2</div>
+                                                                                                                                                                            <div class="col-4">3</div>
+                                                                                                                                                                        </div>
+                                                                                                                                                                    </div> -->
         <div class="container">
             <div class="row searchbar">
                 <div class="loc">
@@ -22,7 +22,7 @@
                 <div class="stay">
                     <span>Stay</span>
                 </div>
-                <div class="searchbtn">
+                <div class="searchbtn" @click="search">
                     <span>SEARCH</span>
                 </div>
             </div>
@@ -32,13 +32,13 @@
             <div class="row searchresult">
                 <div class="col-9">
                     <div class="row">
-                        <div class="col-6" v-for="(ppl,index) in filterItems" :key="index">
-                            <Item :loc=ppl.loc :area=ppl.area price="NTD:12500"></Item>
+                        <div class="col-6" v-for="(ppl,index) in pagedListdata" :key="index">
+                            <Item :loc=ppl.city :area=ppl.area :price="ppl.price"></Item>
                             <!-- <Item></Item> -->
                         </div>
                         <!-- <div class="col-6">
-                                                                                                                                <Item></Item>
-                                                                                                                            </div> -->
+                                                                                                                                            <Item></Item>
+                                                                                                                                        </div> -->
                     </div>
                 </div>
                 <div class="col-3 filter">
@@ -46,7 +46,7 @@
                         <span class="renttitle">Rent/mon</span>
                         <div>
                             <!-- <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-                                                                                                                                                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange"> -->
+                                                                                                                                                                <input type="range" min="1" max="100" value="50" class="slider" id="myRange"> -->
                         </div>
     
                     </div>
@@ -166,6 +166,7 @@
 
 </script>
 
+
 <script>
 import Header from '../components/Header'
 import MbSelect from '../components/MbSelect'
@@ -189,13 +190,13 @@ export default {
             currentPage: 1,
             pageCount: 3,
             itemdata: [
-                { loc: 'Taipei', area: '1', gender: 'male' },
-                { loc: 'NewTaipei', area: '2', gender: 'female' },
-                { loc: 'NewTaipei', area: '3', gender: 'male' },
-                { loc: 'Taoyuan', area: '4', gender: 'female' },
-                { loc: 'Taoyuan', area: '4', gender: 'female' },
-                { loc: 'Taoyuan', area: '4', gender: 'female' },
-                { loc: 'Hualien', area: '5', gender: 'male' }
+                // { city: 'Taipei', area: '1', gender: 'male' },
+                // { city: 'NewTaipei', area: '2', gender: 'female' },
+                // { city: 'NewTaipei', area: '3', gender: 'male' },
+                // { city: 'Taoyuan', area: '4', gender: 'female' },
+                // { city: 'Taoyuan', area: '4', gender: 'female' },
+                // { loc: 'Taoyuan', area: '4', gender: 'female' },
+                // { loc: 'Hualien', area: '5', gender: 'male' }
             ],
             selecteditems: "All",
             colors: [{
@@ -228,13 +229,15 @@ export default {
                     name: 'female'
                 }
             ],
-            gendertype: 'All'
+            gendertype: 'All',
+            loading: false,
+
         }
     },
     created() {
-        const FOO_DATA = this.itemdata;
-        var vm = this;
-        vm.listdata = FOO_DATA;
+        // const FOO_DATA = this.itemdata;
+        // var vm = this;
+        // vm.listdata = FOO_DATA;
     },
     mounted() {
         $(document).ready(function() {
@@ -242,6 +245,18 @@ export default {
 
             });
         });
+        this.loading = true
+        // axios.get('http://localhost:7000/Items')
+        // .then((res)=>{
+        //     console.log(res.data)
+        //     // this.itemdata = res.data
+        //     var vm = this;
+        //     vm.listdata  = res.data
+        //     console.log(vm.listdata)
+        // }).catch((err)=>{
+        //     console.log(err)
+
+        // })
 
     },
     computed: {
@@ -302,8 +317,47 @@ export default {
             var vm = this;
             this.$set(vm, 'currentPage', page);
         },
+        search: function() {
+            axios.get('http://localhost:7000/Items')
+                .then((res) => {
+                    console.log(res.data)
+                    // this.itemdata = res.data
+                    var vm = this;
+                    vm.listdata = res.data
+                    console.log(vm.listdata)
+                }).catch((err) => {
+                    console.log(err)
+
+                })
+        },
         show(gender) {
             this.gendertype = gender;
+            if (this.gendertype == "male") {
+                axios.get('http://localhost:7000/gendermale')
+                    .then((res) => {
+                        console.log(res.data)
+                        // this.itemdata = res.data
+                        var vm = this;
+                        vm.listdata = res.data
+                        console.log(vm.listdata)
+                    }).catch((err) => {
+                        console.log(err)
+
+                    })
+            } else {
+                axios.get('http://localhost:7000/genderfemale')
+                    .then((res) => {
+                        console.log(res.data)
+                        // this.itemdata = res.data
+                        var vm = this;
+                        vm.listdata = res.data
+                        console.log(vm.listdata)
+                    }).catch((err) => {
+                        console.log(err)
+
+                    })
+
+            }
             console.log(this.gendertype)
         },
         More: function() {
@@ -381,6 +435,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
         span {
             color: white;
             font-size: 17px;

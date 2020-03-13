@@ -10,7 +10,9 @@
                 <nav class="rightbar" id="rightbar">
                     <span class="toggle" @click="close">☰</span>
                     <div class="navitems">
-                        <span>Profile</span>
+                        <router-link to="/profile">
+                            <span>Profile</span>
+                        </router-link>
                         <span>Find</span>
                         <span>Post</span>
                         <span>Comunity</span>
@@ -121,7 +123,6 @@ export default {
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
-
             span {
                 margin-left: 40px;
                 margin-bottom: 10px;

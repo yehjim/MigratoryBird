@@ -6,16 +6,19 @@
                 <div class="col-5"></div>
                 <div class="col-1">
                     <router-link to="/test123">
-                        <span class="find">Find</span>
+                        <span class="find">FIND</span>
                     </router-link>
                 </div>
-                <div class="col-1"><span>Need</span>
+                <div class="col-1">
+                    <router-link to="/slidertest">
+                        <span>NEED</span>
+                    </router-link>
                 </div>
                 <div class="col-1">
-                    <span>Comunity</span>
+                    <span>COMUNITY</span>
                 </div>
                 <div class="col-1">
-                    <span>About</span>
+                    <span>ABOUT</span>
                 </div>
                 <div class="col-1">
                     <div class="profilepic">
@@ -35,6 +38,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.header{
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+}
 .row {
     div {
         display: flex;
@@ -53,6 +59,8 @@ export default {
     }
     span {
         color: white;
+        font-size: 13px;
+        font-weight: bold;
     }
 }
 

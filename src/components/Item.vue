@@ -4,7 +4,7 @@
             <div class="itemcontent">
                 <span class="loc">{{loc}}</span>
                 <span class="area">{{area}}</span>
-                <span class="price">{{gender}}</span>
+                <span class="price">{{price}}</span>
             </div>
             <div class="bookbtn">
                 <span class="btn">BOOK</span>
