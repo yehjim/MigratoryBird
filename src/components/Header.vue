@@ -24,6 +24,7 @@
                     </div>
                 </div>
             </div>
+            <!-- hidden navigation bar -->
             <div class="hidden_nav" v-show="isShow_hiddenNav">
                 <a href="http://" v-on:click="show_hiddenNav">Profile</a> <br />
                 <a href="http://">My Nest</a> <br />

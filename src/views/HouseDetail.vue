@@ -2,24 +2,26 @@
 
 <template>
     <div class="HouseDetail">
-        <Header></Header>
-        <h1>hello</h1>
-        
-
+        <Carousel></Carousel>
     </div>
 </template>
 
 <script>
-import Header from '../components/Header'
+import Carousel from '../components/Carousel'
+
 export default {
     name: 'HouseDetail',
     components: {
-        Header,
+        Carousel,
     }
 }
 </script>
 
 <style lang="scss" scoped>
-    
-    
+*{
+    font-family: 微軟正黑體;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
 </style>
