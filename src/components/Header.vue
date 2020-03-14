@@ -21,9 +21,16 @@
                     <span>ABOUT</span>
                 </div>
                 <div class="col-1">
-                    <div class="profilepic">
+                    <div class="profilepic" @click="show_hiddenNav">
     
                     </div>
+                </div>
+                <div class="hidden_nav" v-show="isShow_hiddenNav">
+                    <a href="http://" v-on:click="show_hiddenNav">Profile</a> <br />
+                    <a href="http://">My Nest</a> <br />
+                    <a href="http://">Like</a> <br />
+                    <a href="http://">LFR</a> <br />
+                    <a href="http://">In Box</a> <br />
                 </div>
             </div>
         </div>
@@ -32,15 +39,25 @@
 
 <script>
 export default {
-    name: 'Header'
-
+    name: 'Header',
+    data() {
+        return {
+            isShow_hiddenNav: false
+        }
+    },
+    methods: {
+        show_hiddenNav: function() {
+            this.isShow_hiddenNav = !this.isShow_hiddenNav;
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-.header{
-    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+.header {
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
+
 .row {
     div {
         display: flex;
@@ -70,5 +87,22 @@ export default {
     height: 50px;
     justify-content: center;
     align-items: center;
+}
+
+.hidden_nav {
+    width: 100px;
+    height: auto;
+    position: absolute;
+    z-index: 1;
+    background-color: #75572e;
+    border: 1px solid #666b46;
+    border-radius: 10px;
+    text-align: left;
+    padding: 10px 10px 10px 17px;
+    left: 100%;
+    transform: translateX(-50%);
+    a {
+        color: #848484;
+    }
 }
 </style>
