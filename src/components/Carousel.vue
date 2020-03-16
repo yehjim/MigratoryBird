@@ -1,13 +1,8 @@
 <template>
-  <div id="myCarousel">
-     <div class="carouselHeader container">
-            <div class="row">
-                <div class="col-12"><HouseDTHeader></HouseDTHeader></div>
-            </div>
-        </div>
+  <div class="container-fluid myCarousel">
+    <HouseDTHeader></HouseDTHeader>
 
     <div id="demo" class="carousel slide" data-ride="carousel">
-       
       <!-- The slideshow -->
       <div class="carousel-inner">
         <div class="carousel-item pic1 active"></div>
@@ -23,15 +18,19 @@
         <span class="carousel-control-next-icon"></span>
       </a>
     </div>
+
+    <Brief_InfoBar></Brief_InfoBar>
   </div>
 </template>
 
 <script>
 import HouseDTHeader from "../components/HouseDTHeader";
+import Brief_InfoBar from '../components/Brief_InfoBar';
 export default {
   name: "Carousel",
   components: {
-    HouseDTHeader
+    HouseDTHeader,
+    Brief_InfoBar,
   },
   data() {
     return {
@@ -51,6 +50,12 @@ export default {
   width: $w;
   height: $h;
 }
+*{
+  padding: 0px;
+}
+.myCarousel{
+  border: 1px solid #000;
+}
 .carouselHeader {
   @include size($w:auto,$h:50px);
   position: relative;
@@ -60,7 +65,7 @@ export default {
     margin-top: -50px;
   .carousel-inner {
     .carousel-item {
-      @include size($w: 100%, $h: 100vh);
+      @include size($w: 100vw, $h: 100vh);
       background-repeat: no-repeat;
       background-size: cover;
       background-position: 0% 40%;
@@ -79,7 +84,7 @@ export default {
     z-index: 0;
   }
   .carousel-control-prev-icon,.carousel-control-next-icon {
-    position: relative;
+    // position: relative;
     filter: invert(100%);
   }
 }

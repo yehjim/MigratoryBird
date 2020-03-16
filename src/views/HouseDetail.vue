@@ -1,9 +1,8 @@
-
-
 <template>
-    <div class="HouseDetail">
+    <div class="container-fluid HDT">
         <Carousel></Carousel>
     </div>
+    
 </template>
 
 <script>
@@ -18,10 +17,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-*{
-    font-family: 微軟正黑體;
-    position: relative;
-    margin: 0;
-    padding: 0;
-}
+    *{
+        padding:0px;
+    }
 </style>

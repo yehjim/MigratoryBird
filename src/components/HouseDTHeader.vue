@@ -1,34 +1,32 @@
 <template>
-  <div id="HouseDTHeader" >
-    <div class="container wholeNav">
-      <div class="row navBar">
-        <div class="col-2">
-          <router-link to="/"><span>Migratory Bird</span></router-link>
-        </div>
-        <div class="col-5"></div>
-        <div class="col-1">
-          <span class="find">Find</span>
-        </div>
-        <div class="col-1">
-          <span>Need</span>
-        </div>
-        <div class="col-1">
-          <span>Comunity</span>
-        </div>
-        <div class="col-1">
-          <span>About</span>
-        </div>
-        <div class="col-1">
-          <div class="profilepic" @click="show_hiddenNav"></div>
-        </div>
+  <div class="container">
+    <div class="row navBar" > 
+      <div class="col-2">
+        <router-link to="/"><span>Migratory Bird</span></router-link>
       </div>
-      <div class="hidden_nav" v-show="isShow_hiddenNav">
-        <a href="http://" v-on:click="show_hiddenNav">Profile</a> <br />
-        <a href="http://">My Nest</a> <br />
-        <a href="http://">Like</a> <br />
-        <a href="http://">LFR</a> <br />
-        <a href="http://">In Box</a> <br />
+      <div class="col-5"></div>
+      <div class="col-1">
+        <span class="find">Find</span>
       </div>
+      <div class="col-1">
+        <span>Need</span>
+      </div>
+      <div class="col-1">
+        <span>Comunity</span>
+      </div>
+      <div class="col-1">
+        <span>About</span>
+      </div>
+      <div class="col-1">
+        <div class="profilepic" @click="show_hiddenNav"></div>
+      </div>
+    </div>
+    <div class="hidden_nav" v-show="isShow_hiddenNav">
+      <a href="http://" v-on:click="show_hiddenNav">Profile</a> <br />
+      <a href="http://">My Nest</a> <br />
+      <a href="http://">Like</a> <br />
+      <a href="http://">LFR</a> <br />
+      <a href="http://">In Box</a> <br />
     </div>
   </div>
 </template>
@@ -64,12 +62,6 @@ $color_darkBrown: #75572e;
 $color_darkGreen: #666b46;
 $color_tagColor: #a6b6ae;
 
-#HouseDTHeader {
-  display: flex;
-  height: 50px;
-  justify-content: center;
-  align-items: center;
-}
 .navBar {
   @include size($w: auto, $h: 50px);
   overflow: hidden;
@@ -107,7 +99,7 @@ $color_tagColor: #a6b6ae;
   text-align: left;
   padding: 10px 10px 10px 17px;
   left: 100%;
-  transform: translateX(-50%);
+  transform: translateX(-150%);
   a {
     color: $color_grey;
   }
