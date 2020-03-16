@@ -12,6 +12,7 @@
                     <div class="detail">
                         <div class="area">
                             <span class="housearea">Taipei Zoghshan</span>
+                            <br>
                             <span class="housetype">Single room</span>
                         </div>
                         <div class="price">
@@ -113,7 +114,7 @@ export default {
                 slidesToShow: 3,
                 slidesToScroll: 1,
                 centerMode: true,
-                // autoplay: true,
+                autoplay: true,
                 autoplaySpeed: 1000
             });
         });

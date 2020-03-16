@@ -25,13 +25,14 @@
     
                     </div>
                 </div>
-                <div class="hidden_nav" v-show="isShow_hiddenNav">
-                    <a href="http://" v-on:click="show_hiddenNav">Profile</a> <br />
-                    <a href="http://">My Nest</a> <br />
-                    <a href="http://">Like</a> <br />
-                    <a href="http://">LFR</a> <br />
-                    <a href="http://">In Box</a> <br />
-                </div>
+    
+            </div>
+            <div class="hidden_nav" v-show="isShow_hiddenNav">
+                <a href="http://" v-on:click="show_hiddenNav">Profile</a> <br />
+                <a href="http://">My Nest</a> <br />
+                <a href="http://">Like</a> <br />
+                <a href="http://">LFR</a> <br />
+                <a href="http://">In Box</a> <br />
             </div>
         </div>
     </div>
@@ -90,19 +91,18 @@ export default {
 }
 
 .hidden_nav {
-    width: 100px;
-    height: auto;
+    width: 100px; // height: auto;
     position: absolute;
     z-index: 1;
-    background-color: #75572e;
-    border: 1px solid #666b46;
+    background-color: white;
+    border: 1px solid #A6B6AE;
     border-radius: 10px;
     text-align: left;
     padding: 10px 10px 10px 17px;
     left: 100%;
-    transform: translateX(-50%);
+    transform: translateX(-150%);
     a {
-        color: #848484;
+        color: #7E7E7E;
     }
 }
 </style>

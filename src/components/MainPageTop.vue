@@ -44,7 +44,7 @@
                 <span>2 months</span>
             </div>
             <div class="col-3 search">
-                <router-link to="/search"><span>BOOK NOW</span></router-link>
+                <router-link to="/search" style="color:white;"><span>BOOK NOW</span></router-link>
                 <router-view></router-view>
             </div>
         </div>
@@ -131,6 +131,7 @@ export default {
             span:hover {
                 font-size: 28px;
                 text-decoration: underline;
+                
             }
         }
     }
@@ -177,7 +178,7 @@ export default {
         transition: 0.3s;
     }
     .search:hover {
-        font-size: 28px;
+        font-size: 23px;
         text-decoration: underline;
     }
 }

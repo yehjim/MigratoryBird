@@ -2,7 +2,7 @@
     <div class="tabswrap">
         <div class="tabs">
             <ul>
-                <li v-for="tab in tabs" :key="tab" :class="{ 'is-active': tab.isActive }">
+                <li v-for="(tab,index) in tabs" :key="index" :class="{ 'is-active': tab.isActive }">
                     <a :href="tab.href" @click="selectTab(tab)">{{ tab.name }}</a>
                 </li>
             </ul>

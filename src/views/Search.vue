@@ -13,11 +13,11 @@
                 <div class="loc">
                     <span>Location</span>
                     <br>
-                    <input type="text" v-model="selecteditems" placeholder="Taipei">
+                    <input type="text" placeholder="Taipei">
                 </div>
                 <div class="date">
                     <span>Date</span>
-                    <input type='text' class="form-control" id='datetimepicker4' />
+                    <input type='text' class="form-control" id='datetimepicker4' placeholder="2020/06/30"/>
                 </div>
                 <div class="stay">
                     <span>Stay</span>
@@ -417,8 +417,12 @@ export default {
         padding-top: 5px;
         padding-left: 30px;
         input {
-            width: 80%;
+            width: 85%;
             height: 20px;
+            border: none;
+            .gj-icon,.gj-icon,.gj-icon,.gj-icon,.gj-icon,.gj-icon{
+                display: none;
+            }
         }
     }
     .stay {

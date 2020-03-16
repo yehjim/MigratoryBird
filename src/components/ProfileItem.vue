@@ -1,10 +1,6 @@
 <template>
     <div class="item">
         <div class="piccover">
-            <div>
-                <span>Taipei</span>
-            </div>
-    
             <div class="itemcontent">
                 <span class="loc">{{loc}}</span>
                 <span class="area">{{area}}</span>
@@ -24,19 +20,17 @@ export default {
         return {}
     },
     name: 'Item'
-
-
 }
 </script>
 
 <style lang="scss" scoped>
 .item {
-    background-image: url('../assets/media/patrick_perkins_3wylDrjxH_E_un_bx@2x.png');
-    width: 350px;
-    height: 300px;
+    background-image: url('../assets/media/jarek-ceborski-jn7uVeCdf6U-unsplash.jpg');
+    width: 278px;
+    height: 207px;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position-x: -100px;
+    background-position-x: -30px;
     border-radius: 20px; // filter: brightness(50%);
     .piccover {
         width: 100%;
@@ -51,21 +45,21 @@ export default {
             align-items: flex-start; // border: solid 1px white;
             padding-top: 30px; // visibility: hidden;
             .loc {
-                font-size: 25px;
+                font-size: 15px;
                 opacity: 1;
                 transform: translateX(100px);
                 transition: 0.3s ease-in-out;
             }
             .price {
                 opacity: 1;
-                font-size: 35px;
+                font-size: 18px;
                 text-decoration: underline;
                 transform: translateX(100px);
                 transition: 0.3s ease-in-out;
             }
-            .area .area .area .area.area.area .area {
+            .area {
                 opacity: 1;
-                font-size: 30px;
+                font-size: 20px;
                 transform: translateX(100px);
                 transition: 0.3s ease-in-out;
             }
@@ -88,17 +82,17 @@ export default {
             transition-duration: 0.3s;
             .btn {
                 color: white;
-                height: 70px;
-                width: 90px;
+                height: 53px;
+                width: 70px;
                 border: solid 1px;
-                font-size: 18px;
+                font-size: 10px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 border-bottom-right-radius: 20px;
                 background-color: white;
                 color: black;
-                margin-top: 20px;
+                margin-top: 10px;
             }
         }
     }
