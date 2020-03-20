@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container HouseDTHeader">
     <div class="row navBar" > 
       <div class="col-2">
         <router-link to="/"><span>Migratory Bird</span></router-link>
@@ -19,6 +19,7 @@
       </div>
       <div class="col-1">
         <div class="profilepic" @click="show_hiddenNav"></div>
+        <div class="infoDot" v-if="isShowInfoDot"></div>
       </div>
     </div>
     <div class="hidden_nav" v-show="isShow_hiddenNav">
@@ -27,17 +28,20 @@
       <a href="http://">Like</a> <br />
       <a href="http://">LFR</a> <br />
       <a href="http://">In Box</a> <br />
+      <div class="infoDot_inBox" v-if="isShowInfoDot"></div>
     </div>
   </div>
 </template>
 
 <script>
+'use strict'
 export default {
   name: "HouseDTHeaderer",
 
   data() {
     return {
-      isShow_hiddenNav: false
+      isShow_hiddenNav: false,
+      isShowInfoDot: false,
     };
   },
   methods: {
@@ -45,7 +49,7 @@ export default {
       this.isShow_hiddenNav = !this.isShow_hiddenNav;
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -56,52 +60,76 @@ export default {
 $font_basic_size: 10px;
 $color_white: #ffffff;
 $color_black: #000;
-$color_grey: #848484;
 $color_darkWhite: #e8e8e8;
 $color_darkBrown: #75572e;
 $color_darkGreen: #666b46;
 $color_tagColor: #a6b6ae;
 
-.navBar {
-  @include size($w: auto, $h: 50px);
-  overflow: hidden;
+* {
+  font-family: 微軟正黑體;
   position: relative;
+  box-sizing: border-box;
+}
+// .HouseDTHeader{ 嘗試新增 使整塊消失
+//   position: fixed;
+//   margin-bottom: 50px;
+// }
+.navBar {
+  @include size($w: 1140px, $h: 50px);
+  overflow: hidden;
+  
+  position: fixed;
   z-index: 1;
   div {
     display: flex;
     justify-content: center;
     align-items: center;
+    .find {
+      font-size: $font_basic_size * 2;
+    }
     .profilepic {
       width: 30px;
       height: 30px;
       border-radius: 50%;
       display: flex;
-      background-color: $color_grey;
+      background-color: $color_darkGreen;
       cursor: pointer;
       position: relative;
       z-index: 2;
     }
-    .find {
-      font-size: $font_basic_size * 2;
+    .infoDot{
+      @include size($w: 10px,$h: 10px);
+      border-radius: 50%;
+      background-color: #FA8937;
+      z-index: 2;
+      transform: translateX(-80%) translateY(-100%);
     }
   }
   span {
-    color: $color_black;
+    color: $color_white;
   }
 }
 .hidden_nav {
   @include size($w: 100px, $h: auto);
-  position: absolute;
+  position: fixed;
   z-index: 1;
   background-color: $color_darkWhite;
-  border: 1px solid $color_darkGreen;
+  border: 1px solid #A6B6AE;
   border-radius: 10px;
   text-align: left;
   padding: 10px 10px 10px 17px;
   left: 100%;
-  transform: translateX(-150%);
+  transform: translateX(-170%) translateY(25%);
   a {
-    color: $color_grey;
+    color: #7E7E7E;
+  }
+  .infoDot_inBox{
+    @include size($w: 10px,$h: 10px);
+    border-radius: 50%;
+    background-color: #FA8937;
+    position: absolute;
+    left:60%;
+    top: 77%
   }
 }
 </style>

@@ -1,36 +1,40 @@
 <template>
   <div class="container-fluid myCarousel">
-    <HouseDTHeader></HouseDTHeader>
 
-    <div id="demo" class="carousel slide" data-ride="carousel">
-      <!-- The slideshow -->
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner">
-        <div class="carousel-item pic1 active"></div>
-        <div class="carousel-item pic2"></div>
-        <div class="carousel-item pic3"></div>
+        <div class="carousel-item pic1 active">
+          
+        </div>
+        <div class="carousel-item pic2">
+         
+        </div>
+        <div class="carousel-item pic3">
+         
+        </div>
       </div>
-
-      <!-- Left and right controls -->
-      <a class="carousel-control-prev" href="#demo" data-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
+      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
       </a>
-      <a class="carousel-control-next" href="#demo" data-slide="next">
-        <span class="carousel-control-next-icon"></span>
+      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
       </a>
     </div>
 
-    <Brief_InfoBar></Brief_InfoBar>
+    <!-- <Brief_InfoBar></Brief_InfoBar> -->
   </div>
 </template>
 
 <script>
-import HouseDTHeader from "../components/HouseDTHeader";
-import Brief_InfoBar from '../components/Brief_InfoBar';
+// import HouseDTHeader from "../components/HouseDTHeader";
+// import Brief_InfoBar from '../components/Brief_InfoBar';
 export default {
   name: "Carousel",
   components: {
-    HouseDTHeader,
-    Brief_InfoBar,
+    // HouseDTHeader,
+    // Brief_InfoBar,
   },
   data() {
     return {
@@ -56,13 +60,8 @@ export default {
 .myCarousel{
   border: 1px solid #000;
 }
-.carouselHeader {
-  @include size($w:auto,$h:50px);
-  position: relative;
-  z-index: 1;
-}
 .carousel {
-    margin-top: -50px;
+  margin-top: -50px;
   .carousel-inner {
     .carousel-item {
       @include size($w: 100vw, $h: 100vh);

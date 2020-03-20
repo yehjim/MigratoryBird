@@ -1,5 +1,5 @@
 <template>
-    <div class="contaniner bottom">
+    <div class="container bottom">
         <div class="row aboutcontent">
             <div class="col-1">
             </div>    
@@ -26,6 +26,7 @@ export default {
 
 <style lang="scss" scoped>
 .bottom {
+    // border: 1px solid #000;
     .aboutcontent {
         margin-top: 50px;
         .about {

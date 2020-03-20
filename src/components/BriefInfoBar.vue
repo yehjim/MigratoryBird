@@ -1,7 +1,7 @@
 <template>
-  <div id="Brief_InfoBar" class="container">
-    <div class="row align-items-end brief_infobar">
-      <div class="col-1"></div>
+  <div id="BriefInfoBar" class="container">
+    <div class="row brief_infobar">
+      <div class="col-1">1</div>
       <div class="col-1 city">Taipei</div>
       <div class="col-1 district">Zhongshan</div>
       <div class="col-4"></div>
@@ -30,8 +30,10 @@
 
 <script>
 export default {
-  name: "Brief_InfoBar",
-  components: {}
+  name: "BriefInfoBar",
+  components: {
+
+  }
 };
 </script>
 
@@ -43,28 +45,24 @@ export default {
 $font_basic_size: 10px;
 $color_white: #ffffff;
 $color_grey: #848484;
-$color_darkWhite: #e8e8e8;
+$color_darkWhite: #ededed;
 $color_darkGreen: #666b46;
+
 * {
   font-family: 微軟正黑體;
   position: relative;
-  // margin: 0;
-  // padding: 0;
   box-sizing: border-box;
 }
 .brief_infobar {
   @include size($w: auto, $h: 90px);
   position: relative;
-//   border: 1px solid black;
+  // border: 1px solid black;
   margin-top: -90px;
-  .city,
-  .district {
+  .city, .district {
     background-color: $color_darkWhite;
     line-height: 90px;
   }
-  .col-4,
-  .price,
-  .col-2 {
+  .col-4,.price,.col-2 {
     background-color: $color_darkWhite;
     height: 90px;
   }
