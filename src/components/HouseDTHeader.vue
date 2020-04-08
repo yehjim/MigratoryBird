@@ -1,25 +1,27 @@
 <template>
-  <div class="container HouseDTHeader">
-    <div class="row navBar" > 
-      <div class="col-2">
-        <router-link to="/"><span>Migratory Bird</span></router-link>
-      </div>
-      <div class="col-5"></div>
-      <div class="col-1">
-        <span class="find">Find</span>
-      </div>
-      <div class="col-1">
-        <span>Need</span>
-      </div>
-      <div class="col-1">
-        <span>Comunity</span>
-      </div>
-      <div class="col-1">
-        <span>About</span>
-      </div>
-      <div class="col-1">
-        <div class="profilepic" @click="show_hiddenNav"></div>
-        <div class="infoDot" v-if="isShowInfoDot"></div>
+  <div class="container HouseDTHeader" >
+    <div class="extraBG" v-bind:style="{backgroundColor: NavBgColor}">
+      <div class="row navBar" > 
+        <div class="col-2">
+          <router-link to="/"><span>Migratory Bird</span></router-link>
+        </div>
+        <div class="col-5"></div>
+        <div class="col-1">
+          <span class="find">Find</span>
+        </div>
+        <div class="col-1">
+          <span>Need</span>
+        </div>
+        <div class="col-1">
+          <span>Comunity</span>
+        </div>
+        <div class="col-1">
+          <span>About</span>
+        </div>
+        <div class="col-1">
+          <div class="profilepic" @click="show_hiddenNav"></div>
+          <div class="infoDot" v-if="isShowInfoDot"></div>
+        </div>
       </div>
     </div>
     <div class="hidden_nav" v-show="isShow_hiddenNav">
@@ -42,13 +44,32 @@ export default {
     return {
       isShow_hiddenNav: false,
       isShowInfoDot: false,
+      NavBgColor: '',
+      navHeight: '',
     };
+  },
+  mounted () {//给window添加一个滚动滚动监听事件
+    window.addEventListener('scroll', this.handleScroll)
   },
   methods: {
     show_hiddenNav: function() {
       this.isShow_hiddenNav = !this.isShow_hiddenNav;
-    }
-  }
+    },
+    handleScroll: function(){
+      var scrollFromTop = window.pageYOffset|| document.documentElement.scrollTop || document.body.scrollTop;
+      // console.log(scrollFromTop)
+      if (scrollFromTop < 100){
+        this.NavBgColor = 'transparent';
+      }else{
+        // this.NavBgColor = '#CFDDD6';
+        this.NavBgColor = '#a6b6ae';
+        this.navHeight = 70+'px';
+      }
+    },
+  },
+  beforedestroyed () { //离开该页面前需要移除这个监听的事件
+    window.removeEventListener('scroll', this.handleScroll)
+  },
 }
 </script>
 
@@ -70,16 +91,27 @@ $color_tagColor: #a6b6ae;
   position: relative;
   box-sizing: border-box;
 }
-// .HouseDTHeader{ 嘗試新增 使整塊消失
-//   position: fixed;
-//   margin-bottom: 50px;
+// .HouseDTHeader{
+//   border: 1px solid yellow;
 // }
-.navBar {
-  @include size($w: 1140px, $h: 50px);
-  overflow: hidden;
-  
+.extraBG{
+  @include size($w: 100vw, $h: 50px);
   position: fixed;
   z-index: 1;
+  left: 0px;
+  display: flex;
+  justify-content: center;
+}
+.navBar {
+  @include size($w: 1140px, $h: 50px);
+  // @include size($w: 100vw, $h: 50px);
+  //to make navbar align to the left
+  // left: 0px; 
+  overflow: hidden;
+  border-radius: 5px;
+  position: fixed;
+  // z-index: 1;
+  transition-duration: 0.4s;
   div {
     display: flex;
     justify-content: center;
@@ -119,7 +151,7 @@ $color_tagColor: #a6b6ae;
   text-align: left;
   padding: 10px 10px 10px 17px;
   left: 100%;
-  transform: translateX(-170%) translateY(25%);
+  transform: translateX(-160%) translateY(25%);
   a {
     color: #7E7E7E;
   }
