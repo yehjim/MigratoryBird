@@ -1,14 +1,19 @@
 <template>
-    <div class="item">
-        <div class="piccover">
-            <div class="itemcontent">
-                <span class="loc">{{loc}}</span>
-                <span class="area">{{area}}</span>
-                <span class="price">{{price}}</span>
+    <div class="itemwrap">
+        <img src="../assets/media/jarek-ceborski-jn7uVeCdf6U-unsplash.jpg" alt="">
+        <div class="wrap">
+            <div class="city">
+                <span>台北</span>
             </div>
-            <div class="bookbtn">
-                <span class="btn">BOOK</span>
+            <div class="area">
+                <span>中山區</span>
             </div>
+            <div class="price">
+                <span>
+                NTD:12500
+              </span>
+            </div>
+            <!--     <hr> -->
         </div>
     </div>
 </template>
@@ -24,89 +29,61 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.item {
-    background-image: url('../assets/media/jarek-ceborski-jn7uVeCdf6U-unsplash.jpg');
+.itemwrap {
+    /*   border: solid 1px; */
     width: 278px;
     height: 207px;
+    border-radius: 13px;
+    // background-image: url('../assets/media/jarek-ceborski-jn7uVeCdf6U-unsplash.jpg');
+    // filter: brightness(0.5);
     background-size: cover;
-    background-repeat: no-repeat;
-    background-position-x: -30px;
-    border-radius: 20px; // filter: brightness(50%);
-    .piccover {
-        width: 100%;
-        height: 100%;
-        border-radius: 20px;
-        background-color: black;
-        opacity: 0.5;
-        .itemcontent {
-            height: 70%;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start; // border: solid 1px white;
-            padding-top: 30px; // visibility: hidden;
-            .loc {
-                font-size: 15px;
-                opacity: 1;
-                transform: translateX(100px);
-                transition: 0.3s ease-in-out;
-            }
-            .price {
-                opacity: 1;
-                font-size: 18px;
-                text-decoration: underline;
-                transform: translateX(100px);
-                transition: 0.3s ease-in-out;
-            }
-            .area {
-                opacity: 1;
-                font-size: 20px;
-                transform: translateX(100px);
-                transition: 0.3s ease-in-out;
-            }
-            span {
-                color: white;
-                font-size: 25px;
-                margin-left: 25px;
-                margin-bottom: 5px;
-                opacity: 1;
-                visibility: hidden;
-            }
-        }
-        .bookbtn {
-            height: 30%; // border: solid 1px white;
-            display: flex;
-            justify-content: flex-end; // visibility: hidden;
-            align-items: center; // overflow: hidden;
-            // border: solid 1px
-            visibility: hidden;
-            transition-duration: 0.3s;
-            .btn {
-                color: white;
-                height: 53px;
-                width: 70px;
-                border: solid 1px;
-                font-size: 10px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                border-bottom-right-radius: 20px;
-                background-color: white;
-                color: black;
-                margin-top: 10px;
-            }
-        }
+    /*   filter: brightness(0.5); */
+    box-sizing: border-box;
+    img{
+        width: 278px;
+        height: 207px;
+        border-radius: 13px;
+        position: absolute;
+        filter: brightness(0.6);
+        z-index: -1;
     }
-    .piccover:hover {
-        .loc,
-        .price,
-        .area {
-            transform: translateX(5px);
-            visibility: visible;
-            color: white;
-        }
-        .bookbtn {
-            visibility: visible;
-        }
-    }
+}
+
+// .wrap {
+//     /*   border:solid 1px; */
+//     width: 280px;
+//     height: 210px;
+//     border-radius: 13px;
+//     // background-color:black;
+//     // opacity: 0.4;
+// }
+
+.city,
+.area,
+.price {
+    /*   border: solid 1px; */
+    color: white;
+    font-size: 20px;
+    // padding-left: 45px;
+    padding-top: 20px;
+    padding-right: 70px;
+}
+
+.city {
+    padding-top: 30px;
+}
+
+.price {
+    /*   border: solid 1px; */
+    padding-left: 0;
+    padding-bottom: 5px;
+    /*   border-bottom: solid 3px; */
+    width: 95%;
+    margin: auto;
+    transition-duration: 0.2s;
+}
+
+.itemwrap:hover .price {
+    border-bottom: solid 3px;
 }
 </style>

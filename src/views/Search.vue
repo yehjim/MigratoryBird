@@ -1,13 +1,6 @@
 <template>
     <div class="search">
         <Header></Header>
-        <!-- <div class="container">
-                                                                                                                                                                        <div class="row" style="border: solid 1px;">
-                                                                                                                                                                            <div class="col-4" style="border: solid 1px;">1</div>
-                                                                                                                                                                            <div class="col-4">2</div>
-                                                                                                                                                                            <div class="col-4">3</div>
-                                                                                                                                                                        </div>
-                                                                                                                                                                    </div> -->
         <div class="container">
             <div class="row searchbar">
                 <div class="loc">
@@ -17,10 +10,12 @@
                 </div>
                 <div class="date">
                     <span>Date</span>
-                    <input type='text' class="form-control" id='datetimepicker4' placeholder="2020/06/30"/>
+                    <input type='text' class="form-control" id='datetimepicker4' />
                 </div>
                 <div class="stay">
                     <span>Stay</span>
+                    <br>
+                    <input type="text" placeholder="1mon">
                 </div>
                 <div class="searchbtn" @click="search">
                     <span>SEARCH</span>
@@ -37,18 +32,15 @@
                             <!-- <Item></Item> -->
                         </div>
                         <!-- <div class="col-6">
-                                                                                                                                            <Item></Item>
-                                                                                                                                        </div> -->
+                                                                                                                                                            <Item></Item>
+                                                                                                                                                        </div> -->
                     </div>
                 </div>
                 <div class="col-3 filter">
                     <div class="row rentslider">
                         <span class="renttitle">Rent/mon</span>
                         <div>
-                            <!-- <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-                                                                                                                                                                <input type="range" min="1" max="100" value="50" class="slider" id="myRange"> -->
                         </div>
-    
                     </div>
                     <div class="row stay">
                         <span class="staytitle">Stay</span>
@@ -245,21 +237,26 @@ export default {
 
             });
         });
-        this.loading = true
-        // axios.get('http://localhost:7000/Items')
-        // .then((res)=>{
-        //     console.log(res.data)
-        //     // this.itemdata = res.data
-        //     var vm = this;
-        //     vm.listdata  = res.data
-        //     console.log(vm.listdata)
-        // }).catch((err)=>{
-        //     console.log(err)
+        // this.loading = true
+        // this.$store.dispatch('GETLIST')
+        axios.get('http://localhost:7000/Items')
+            .then((res) => {
+                console.log(res.data)
+                // this.itemdata = res.data
+                var vm = this;
+                vm.listdata = res.data
+                console.log(vm.listdata)
+            }).catch((err) => {
+                console.log(err)
 
-        // })
+            })
+
 
     },
     computed: {
+        list() {
+            return this.$store.state.list
+        },
         pagedListdata: function() {
             var vm = this;
             if (vm.listdata && vm.listdata.length > 0) {
@@ -295,9 +292,13 @@ export default {
         listdata: function() {
             this._setPage2Model();
         }
+
     },
     methods: {
+        // da: function() {
 
+        // }(),
+        // da();,
         _setPage2Model: function() {
             const PAGE_SIZE = 6; //Show how many records in a single page
 
@@ -318,6 +319,9 @@ export default {
             this.$set(vm, 'currentPage', page);
         },
         search: function() {
+            // console.log(this.list)
+            // this.listdata = this.list;
+            // console.log(this.listdata.gender)
             axios.get('http://localhost:7000/Items')
                 .then((res) => {
                     console.log(res.data)
@@ -417,11 +421,17 @@ export default {
         padding-top: 5px;
         padding-left: 30px;
         input {
-            width: 85%;
+            width: 90%;
             height: 20px;
             border: none;
-            .gj-icon,.gj-icon,.gj-icon,.gj-icon,.gj-icon,.gj-icon{
-                display: none;
+            .gj-icon,
+            .gj-icon,
+            .gj-icon,
+            .gj-icon,
+            .gj-icon,
+            .gj-icon {
+                // display: none;
+                visibility: hidden; // color: green;
             }
         }
     }
@@ -429,6 +439,19 @@ export default {
         width: 25%;
         padding-top: 5px;
         padding-left: 30px;
+        input {
+            width: 85%;
+            height: 20px;
+            border: none;
+            .gj-icon,
+            .gj-icon,
+            .gj-icon,
+            .gj-icon,
+            .gj-icon,
+            .gj-icon {
+                display: none;
+            }
+        }
     }
     .searchbtn {
         width: 15%;

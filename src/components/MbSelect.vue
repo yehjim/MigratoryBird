@@ -114,8 +114,8 @@ export default {
                 slidesToShow: 3,
                 slidesToScroll: 1,
                 centerMode: true,
-                autoplay: true,
-                autoplaySpeed: 1000
+                // autoplay: true,
+                // autoplaySpeed: 1000
             });
         });
     },
@@ -156,8 +156,8 @@ export default {
             transition: 0.4s;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
             .itemsdetail {
-                width: 200px;
-                height: 70px;
+                width: 250px;
+                height: 85px;
                 background-color: white;
                 margin-bottom: 30px;
                 border-radius: 17px;
@@ -179,7 +179,7 @@ export default {
                         width: 50px;
                         height: 50px;
                         background-color: darkorange; // margin: auto;
-                        border-radius: 15px;
+                        border-radius: 10px;
                     }
                 }
                 .detail {

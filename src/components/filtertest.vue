@@ -1,20 +1,5 @@
 <template>
     <div>
-        <!-- <div class="container" id="people">
-                                                                            <div class="filter">
-                                                                                <label><input type="radio" v-model="selectedCategory" value="All" /> All</label>
-                                                                                <label><input type="radio" v-model="selectedCategory" value="Tech" /> Tech</label>
-                                                                                <label><input type="radio" v-model="selectedCategory" value="Entertainment" /> Entertainment</label>
-                                                                                <label><input type="radio" v-model="selectedCategory" value="Fictional" /> Fictional</label>
-                                                                            </div>
-                                                                    
-                                                                            <ul class="people-list">
-                                                                                <div class="itemfilter" v-for="item in fitlteritems" :key="item">
-                                                                                                        
-                                                                                                                    </div>
-                                                                                <li v-for="person in filteredPeople" :key="person">{{ person.name }}</li>
-                                                                            </ul>
-                                                                        </div> -->
         <div class="container" id="people">
             <div class="row">
                 <div class="col-6">

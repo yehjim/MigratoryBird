@@ -1,5 +1,5 @@
 <template>
-    <div class="contaniner bottom">
+    <div class="container-fluid bottom">
         <div class="row aboutcontent">
             <div class="col-1">
             </div>    

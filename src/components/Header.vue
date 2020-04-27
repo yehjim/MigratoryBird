@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-2"><span>Migratory Bird</span></div>
                 <div class="col-5"></div>
@@ -15,7 +15,9 @@
                     </router-link>
                 </div>
                 <div class="col-1">
-                    <span>COMUNITY</span>
+                    <router-link to="/payment">
+                        <span>COMUNITY</span>
+                    </router-link>
                 </div>
                 <div class="col-1">
                     <span>ABOUT</span>

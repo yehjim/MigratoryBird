@@ -9,6 +9,7 @@
                     <div>
                         <ProfileItem loc="Taipei" area="ZoghShan" price="NTD:12000"></ProfileItem>
                     </div>
+                    <!-- <Item></Item> -->
                 </div>
                 <div class="itemwrap">
                     <div>
@@ -43,7 +44,7 @@ export default {
     components: {
         tabs,
         tab,
-        ProfileItem
+        ProfileItem,
         // Item
     }
 }
@@ -59,7 +60,7 @@ export default {
     .itemwrap {
         display: flex;
         justify-content: space-evenly;
-        margin-top: 20px;
+        margin-top: 10px;
     }
 }
 </style>
