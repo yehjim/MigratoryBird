@@ -1,21 +1,22 @@
 <template>
     <div class="search">
-        <Header></Header>
+        <!-- <SearchHeader></SearchHeader> -->
+        <Header headercolor="#666B46" v-if="!hoststatus"></Header>
+        <hostheader headercolor="#666B46" v-else></hostheader>
+        <PopUp></PopUp>
         <div class="container">
             <div class="row searchbar">
                 <div class="loc">
                     <span>Location</span>
                     <br>
-                    <input type="text" placeholder="Taipei">
+                    <input type="text" placeholder="Taipei" v-model="loc">
                 </div>
                 <div class="date">
                     <span>Date</span>
                     <input type='text' class="form-control" id='datetimepicker4' />
                 </div>
-                <div class="stay">
-                    <span>Stay</span>
-                    <br>
-                    <input type="text" placeholder="1mon">
+                <div class="staywrap">
+                    <Staydropdown></Staydropdown>
                 </div>
                 <div class="searchbtn" @click="search">
                     <span>SEARCH</span>
@@ -28,24 +29,16 @@
                 <div class="col-9">
                     <div class="row">
                         <div class="col-6" v-for="(ppl,index) in pagedListdata" :key="index">
-                            <Item :loc=ppl.city :area=ppl.area :price="ppl.price"></Item>
-                            <!-- <Item></Item> -->
+                            <router-link :to="{name:'HouseDetail',params:{id:ppl.id}}">
+                                <Item :loc=ppl.city :area=ppl.area :price=ppl.monthly></Item>
+                            </router-link>
                         </div>
-                        <!-- <div class="col-6">
-                                                                                                                                                            <Item></Item>
-                                                                                                                                                        </div> -->
                     </div>
                 </div>
                 <div class="col-3 filter">
                     <div class="row rentslider">
                         <span class="renttitle">Rent/mon</span>
                         <div>
-                        </div>
-                    </div>
-                    <div class="row stay">
-                        <span class="staytitle">Stay</span>
-                        <div class="staydropdown">
-                            <Dropdown datatype="Stay" :cata=colors></Dropdown>
                         </div>
                     </div>
                     <div class="row stay">
@@ -57,7 +50,7 @@
                     <div class="row squre">
                         <span class="squretitle">Squre</span>
                         <div class="squreinput">
-                            <input type="text">
+                            <input type="text" placeholder="坪數">
                         </div>
                     </div>
                     <div class="row more">
@@ -65,7 +58,7 @@
                             <span>More</span>
                         </div>
                     </div>
-                    <div id="myModal" class="modal">
+                    <div id="myModal1" class="modal">
     
                         <!-- Modal content -->
                         <div class="modal-content">
@@ -74,14 +67,14 @@
                             </div>
                             <div class="topfilter">
                                 <div class="type" style="width: 50%;">
-                                    <span>type</span>
+                                    <div class="title">type</div>
                                     <div class="typecheck" style="display:flex;">
-                                        <CheckBox labelname="整層住家"></CheckBox>
-                                        <CheckBox labelname="獨立套房"></CheckBox>
+                                        <CheckBox labelname="整層住家" @check="fullhousecheck"></CheckBox>
+                                        <CheckBox labelname="獨立套房" @check="studiocheck"></CheckBox>
                                     </div>
                                     <div class="typecheck" style="display:flex;">
-                                        <CheckBox labelname="分租套房"></CheckBox>
-                                        <CheckBox labelname="雅房"></CheckBox>
+                                        <CheckBox labelname="分租套房" @check="roomcheck"></CheckBox>
+                                        <CheckBox labelname="雅房" @check="singlecheck"></CheckBox>
                                     </div>
                                     <div class="typecheck" style="display:flex;">
                                         <CheckBox labelname="其他"></CheckBox>
@@ -90,7 +83,7 @@
     
                                 </div>
                                 <div class="rent" style="width: 50%;">
-                                    <span>Rent</span>
+                                    <div class="title">Rent</div>
                                     <div class="typecheck" style="display:flex;">
                                         <CheckBox labelname="網路費"></CheckBox>
                                         <CheckBox labelname="水費"></CheckBox>
@@ -103,7 +96,7 @@
                             </div>
                             <div class="bottomfilter">
                                 <div class="life">
-                                    <span>生活機能</span>
+                                    <div class="title">生活機能</div>
                                     <div class="typecheck" style="display:flex;">
                                         <CheckBox labelname="近傳統市場"></CheckBox>
                                         <CheckBox labelname="近百貨公司"></CheckBox>
@@ -119,20 +112,23 @@
                                 </div>
                                 <div class="pet">
                                     <div>
-                                        <span>開伙</span>
+                                        <div class="title">開伙</div>
                                         <div class="typecheck" style="display:flex;">
                                             <CheckBox labelname="是"></CheckBox>
                                             <CheckBox labelname="否"></CheckBox>
                                         </div>
                                     </div>
                                     <div>
-                                        <span>Pet</span>
+                                        <div class="title">寵物</div>
                                         <div class="typecheck" style="display:flex;">
                                             <CheckBox labelname="是"></CheckBox>
                                             <CheckBox labelname="否"></CheckBox>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="confirm">
+                                <span @click="submitfilter">confirm</span>
                             </div>
     
                         </div>
@@ -160,27 +156,37 @@
 
 
 <script>
+import SearchHeader from '../components/SearchHeader'
+import hostheader from '../components/Hostheader'
 import Header from '../components/Header'
 import MbSelect from '../components/MbSelect'
 import Item from '../components/Item'
 import Paginate from 'vuejs-paginate'
 import Dropdown from '../components/Dropdown'
 import CheckBox from '../components/CheckBox'
+import Staydropdown from '../components/Staydropdown'
+import PopUp from '../components/PopUp'
 export default {
     name: 'search',
     components: {
-        Header,
         MbSelect,
         Item,
         Paginate,
         Dropdown,
-        CheckBox
+        CheckBox,
+        SearchHeader,
+        Staydropdown,
+        Header,
+        PopUp,
+        hostheader
     },
     data() {
         return {
             listdata: [],
             currentPage: 1,
             pageCount: 3,
+            langblockclick: 'none',
+            // langpopup:'',
             itemdata: [
                 // { city: 'Taipei', area: '1', gender: 'male' },
                 // { city: 'NewTaipei', area: '2', gender: 'female' },
@@ -221,8 +227,29 @@ export default {
                     name: 'female'
                 }
             ],
+            filtertype: {
+                Location:'',
+                fullhouse: false,
+                studio: false,
+                room: false,
+                single: false,
+                other: false,
+                market: false,
+                apramentstore: false,
+                nightmarker: false,
+                hospital: false,
+                convenient: false,
+                park: false,
+                internet: false,
+                water: false,
+                eletice: false,
+                manage: false,
+            },
             gendertype: 'All',
             loading: false,
+            testchek: false,
+            loc:''
+
 
         }
     },
@@ -239,7 +266,7 @@ export default {
         });
         // this.loading = true
         // this.$store.dispatch('GETLIST')
-        axios.get('http://localhost:7000/Items')
+        axios.get('http://localhost:7000/housedetail')
             .then((res) => {
                 console.log(res.data)
                 // this.itemdata = res.data
@@ -254,8 +281,13 @@ export default {
 
     },
     computed: {
-        list() {
-            return this.$store.state.list
+        // list() {
+        //     return this.$store.state.list
+        // },
+
+        //取得listdata
+        hoststatus() {
+            return this.$store.state.hostcheck;
         },
         pagedListdata: function() {
             var vm = this;
@@ -299,6 +331,22 @@ export default {
 
         // }(),
         // da();,
+        fullhousecheck(val) {
+            this.filtertype.fullhouse = val
+            console.log(this.filtertype)
+        },
+        studiocheck(val) {
+            this.filtertype.studio = val
+            console.log(this.filtertype)
+        },
+        roomcheck(val) {
+            this.filtertype.room = val
+            console.log(this.filtertype)
+        },
+        singlecheck(val) {
+            this.filtertype.single = val
+            console.log(this.filtertype);
+        },
         _setPage2Model: function() {
             const PAGE_SIZE = 6; //Show how many records in a single page
 
@@ -322,7 +370,9 @@ export default {
             // console.log(this.list)
             // this.listdata = this.list;
             // console.log(this.listdata.gender)
-            axios.get('http://localhost:7000/Items')
+            // console.log('按到',this.loc)
+            let loc = this.loc
+            axios.get(`http://localhost:7000/Items?city=${loc}`)
                 .then((res) => {
                     console.log(res.data)
                     // this.itemdata = res.data
@@ -366,13 +416,13 @@ export default {
         },
         More: function() {
 
-            var modal = document.getElementById("myModal");
+            var modal = document.getElementById("myModal1");
 
             // Get the button that opens the modal
-            var btn = document.getElementById("myBtn");
+            // var btn = document.getElementById("myBtn");
 
-            // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0];
+            // // Get the <span> element that closes the modal
+            // var span = document.getElementsByClassName("close")[0];
 
             // When the user clicks the button, open the modal 
             modal.style.display = "block";
@@ -382,9 +432,28 @@ export default {
 
         },
         MoreClose: function() {
-            var modal = document.getElementById("myModal");
+            var modal = document.getElementById("myModal1");
 
             modal.style.display = "none";
+        },
+        submitfilter() {
+            let full = this.filtertype.fullhouse;
+            axios.get(`http://localhost:7000/items?fullhouse=${full}`)
+                .then((res) => {
+                    console.log(res.data)
+                    this.listdata = res.data;
+                    // this.itemdata = res.data
+                    // var vm = this;
+                    // vm.listdata = res.data
+                    // console.log(vm.listdata)
+                }).catch((err) => {
+                    console.log(err)
+
+                })
+            var modal = document.getElementById("myModal1");
+
+            modal.style.display = "none";
+
         }
 
 
@@ -392,14 +461,13 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.container.container.container.container.container.container {
-    max-width: 1140px;
-}
-
+<style lang="scss" scoped>
+// .container.container.container.container.container.container {
+//     max-width: 1140px;
+// }
 .searchbar {
     margin-top: 70px;
-    height: 58px;
+    height: 61px;
     border-radius: 10px;
     border: solid 0.5px #A6B6AE;
     span {
@@ -413,6 +481,7 @@ export default {
         input {
             border: none;
             font-size: 13px;
+            width: 90%;
         }
     }
     .date {
@@ -435,10 +504,9 @@ export default {
             }
         }
     }
-    .stay {
-        width: 25%;
-        padding-top: 5px;
-        padding-left: 30px;
+    .staywrap {
+        width: 25%; // padding-top: 5px;
+        // padding-left: 30px;
         input {
             width: 85%;
             height: 20px;
@@ -552,6 +620,7 @@ export default {
                 width: 80%;
                 border: solid 1px #666B46;
                 border-radius: 2px;
+                border-radius: 4px;
             }
         }
         .squretitle {
@@ -591,39 +660,57 @@ export default {
         /* Black w/ opacity */
         .topfilter {
             display: flex;
+            .type,
             .rent {
-                span {
-                    font-size: 30px;
-                }
-            }
-            .type {
-                span {
-                    font-size: 30px;
+                color: #7E7E7E;
+                .title {
+                    font-size: 30px; // border: solid 1px;
+                    border-bottom: solid 1px #7E7E7E;
+                    width: 70%;
+                    margin-left: 30px;
                 }
             }
             .typecheck {
-                margin-bottom: 30px;
+                margin-bottom: 20px;
                 margin-top: 20px;
             }
         }
         .bottomfilter {
             display: flex;
-            .life {
-                width: 50%;
-                span {
-                    font-size: 30px;
-                }
-            }
+            color: #7E7E7E;
+            .life,
             .pet {
                 width: 50%;
-                span {
+                .title {
                     font-size: 30px;
+                    border-bottom: solid 1px #7E7E7E;
+                    width: 70%;
+                    margin-left: 30px;
                 }
             }
             .typecheck {
-                margin-bottom: 30px;
+                margin-bottom: 20px;
                 margin-top: 20px;
             }
+        }
+        .confirm {
+            // border: solid 1px;
+            // display: flex;
+            margin-bottom: 20px;
+            span {
+                float: right;
+                border: solid 1px #A6B6AE;
+                color: #A6B6AE;
+                border-radius: 5px;
+                padding: 3px;
+                width: 86px;
+                text-align: center;
+                cursor: pointer;
+            }
+        }
+        .confirm:hover span {
+            background-color: #A6B6AE;
+            color: white;
         }
     }
     /* Modal Content */

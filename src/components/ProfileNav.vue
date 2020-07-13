@@ -10,7 +10,7 @@
                 <span>{{profile}}</span>
             </router-link>
         </div>
-        <div class="mynestbtn" @click="mynesthandle">
+        <div class="mynestbtn" @click="mynesthandle" v-if="hashouse">
             <router-link :to="{name:'mynest'}">
                 <span>{{mynest}}</span>
             </router-link>
@@ -21,12 +21,7 @@
             </router-link>
         </div>
         <div class="lfrbtn">
-            <span>{{lfrpost}}</span>
-    
-        </div>
-        <div class="chatroombtn">
-            <span>{{chatroom}}</span>
-    
+            <span>MB Mating</span>
         </div>
     
     
@@ -38,6 +33,7 @@
 export default {
     data() {
         return {
+            houseid: 0,
             profile: "Profile",
             mynest: "MyNest",
             like: "Like",
@@ -46,17 +42,24 @@ export default {
 
         }
     },
+    watch: {
+    },
     methods: {
-        profilehandle(){
-            this.$emit('profile-handle',this.profile)
+        profilehandle() {
+            this.$emit('profile-handle', this.profile)
         },
-        mynesthandle(){
-            this.$emit('mynest-handle',this.mynest)
+        mynesthandle() {
+            this.$emit('mynest-handle', this.mynest)
         },
-        likehandle(){
-            this.$emit('like-handle',this.like)
+        likehandle() {
+            this.$emit('like-handle', this.like)
         }
     },
+    computed:{
+        hashouse(){
+            return this.$store.state.hashouse
+        }
+    }
 
 }
 </script>

@@ -10,14 +10,16 @@
                         </div>
                     </div>
                     <div class="detail">
-                        <div class="area">
-                            <span class="housearea">Taipei Zoghshan</span>
-                            <br>
-                            <span class="housetype">Single room</span>
-                        </div>
-                        <div class="price">
-                            <span class="houseprice">NTD:12500</span>
-                        </div>
+                        <router-link to="/HouseDetail">
+                            <div class="area">
+                                <span class="housearea">Taipei Zoghshan</span>
+                                <br>
+                                <span class="housetype">Single room</span>
+                            </div>
+                            <div class="price">
+                                <span class="houseprice">NTD:12500</span>
+                            </div>
+                        </router-link>
                     </div>
                 </div>
             </div>

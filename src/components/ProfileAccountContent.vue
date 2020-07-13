@@ -9,30 +9,30 @@
         <div class="accountcontent">
             <div>
                 <span>Name:</span>
-                <input type="text" placeholder="JIMYEH">
+                <input type="text" placeholder="JIMYEH" v-model="userdata.username">
             </div>
             <div>
                 <span>Gender:</span>
-                <input type="text" placeholder="male">
+                <input type="text" placeholder="male" v-model="userdata.gender">
             </div>
             <div>
                 <span>Birth:</span>
-                <input type="text" placeholder="1999/02/14">
+                <input type="text" placeholder="1999/02/14" v-model="userdata.birth">
             </div>
     
         </div>
         <div class="accountcontent">
             <div>
-                <span>Name:</span>
-                <input type="text" placeholder="JIMYEH">
+                <span>Phone:</span>
+                <input type="text" placeholder="JIMYEH" v-model="userdata.phone" >
             </div>
             <div>
-                <span>Gender:</span>
-                <input type="text" placeholder="male">
+                <span>Password:</span>
+                <input type="text" placeholder="male" v-model="userdata.password">
             </div>
             <div>
-                <span>Birth:</span>
-                <input type="text" placeholder="1999/02/14">
+                <span>Type:</span>
+                <input type="text" placeholder="1999/02/14"  v-model="userdata.type">
             </div>
     
         </div>
@@ -40,7 +40,20 @@
 </template>
 
 <script>
-export default {}
+export default {
+    data() {
+        return {
+            userdata:{
+                username:this.$store.state.userdata[0].username,
+                password: this.$store.state.userdata[0].password,
+                gender:this.$store.state.userdata[0].gender,
+                birth:this.$store.state.userdata[0].birth,
+                phone:this.$store.state.userdata[0].phone,
+                type:this.$store.state.userdata[0].type
+            }
+        }
+    },
+}
 </script>
 
 <style lang="scss" scoped>

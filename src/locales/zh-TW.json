@@ -1,7 +1,14 @@
 {
     "message": "大家好我是18n",
     "mainpagetop": {
-        "BOOKNOW": "訂房"
+        "BOOKNOW": "訂房",
+        "location": "地點",
+        "date": "日期",
+        "stay": "居住",
+        "find": "尋找",
+        "need": "求巢"
+
+
     }
 
 }

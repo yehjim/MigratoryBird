@@ -1,14 +1,24 @@
 <template>
     <div class="checkbox">
-        <label for="">{{labelname}}</label>
-        <input type="checkbox">
+        <input type="checkbox" @change="handleChange" v-model="checked">
+        <label for="">{{labelname}}</label>   
     </div>
 </template>
 
 <script>
 export default {
     props:['labelname'],
-    name: 'CheckBox'
+    name: 'CheckBox',
+    data() {
+        return {
+            checked:false
+        }
+    },
+    methods:{
+        handleChange(){
+            this.$emit('check',this.checked)
+        }
+    }
 
 }
 </script>
@@ -16,19 +26,25 @@ export default {
 <style lang="scss">
 .checkbox {
     display: flex;
-    width: 100px;
+    width: 150px;
     margin-right: 30px;
+    margin-left: 30px;
+    color: #7E7E7E;
+    // border: solid 1px;
+    // justify-content: space-between;
     input {
-        width: 18px;
+        width: 16px;
         /*Desired width*/
-        height: 18px;
-        margin-left: 20px;
-        margin: auto;
+        height: 16px;
+        // margin-left: 20px;
+        margin-right: 10px;
+        
+        // margin: auto;
     }
     label{
         font-size: 15px;
         // border: solid 1px;
-        margin: auto;
+        // margin: auto;
     }
 }
 </style>

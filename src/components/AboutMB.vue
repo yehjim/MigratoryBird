@@ -1,62 +1,86 @@
 <template>
-    <div class="container-fluid bottom">
+    <b-container fluid class="bottom">
         <div class="row aboutcontent">
-            <div class="col-1">
-            </div>    
-            <div class="col-5 about">
-                <span>ABOUT MIGRA</span>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam maxime officia voluptates aliquam iure harum dignissimos aspernatur itaque, totam corrupti neque eos ipsum cumque repellat nobis id nisi voluptas vitae.</p>
-                <span class="morebtn">more</span>
-            </div>
-            <div class="col-5 aboutpic">
-                <img src="../assets/media/patrick_perkins_3wylDrjxH_E_un_bx@2x.png" alt="">
-            </div>
-            <div class="col-1"></div>
+            <b-col cols="6" class="left">
+                <div class="who">
+                    <h3>Who is Migratory Bird</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae tenetur esse itaque ad. Quae enim accusantium eligendi, omnis impedit in veritatis. Tempore quibusdam minus voluptatibus id quaerat dicta distinctio nesciunt.</p>
+                </div>
+            </b-col>
+            <b-col cols="6" class="right">
+                <div class="goal">
+                    <h4>Our Goal</h4>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos, esse quia. Nihil, autem iusto? Unde iure sit earum at eveniet enim ipsam perferendis debitis, cumque doloribus dolorum distinctio. Repudiandae, quasi.</p>
+                </div>
+                <cr></cr>
+            </b-col>
     
         </div>
-    </div>
+    </b-container>
 </template>
 
+
 <script>
+import cr from '../components/Carousel'
 export default {
-    name: 'AboutMb'
+    name: 'AboutMb',
+    components: {
+        cr
+    }
 
 }
 </script>
 
 <style lang="scss" scoped>
-.bottom {
-    .aboutcontent {
-        margin-top: 50px;
-        .about {
-            padding: 0;
-            span {
-                font-size: 45px;
-                color: #666B46;
-                margin-left: 15px;
-            }
-            p {
-                padding: 10px;
-                padding-right: 20px;
-                margin-top: 20px;
-            }
-            .morebtn {
-                font-size: 20px;
-                margin-top: 100px;
-                float: right;
-                margin-right: 60px;
-            }
+.aboutcontent {
+    margin-top: 100px; // box-sizing: b;
+}
+.bottom{
+    padding: 0;
+}
+.left {
+    background-image: url('../assets/media/joyce-romero-okhOnEMWkVU-unsplash.jpg');
+    height: 510px; // margin-right: 5px;
+    // width: 50%;
+    // margin-left: 15px;
+    .who {
+        color: white;
+        h3 {
+            // border: solid 1px;
+            width: 396px;
+            margin: auto;
+            margin-top: 150px;
+            margin-bottom: 20px;
         }
-        .aboutpic {
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            max-width: 670px;
-            height: 400px;
-            img {
-                width: 100%;
-                height: 100%;
-            }
+        p {
+            // border: solid 1px;
+            width: 396px;
+            margin: auto;
+        }
+    }
+}
+
+.right {
+    height: 500px; // width: 50%;
+    // border: solid 1px;
+    .goal {
+        // border: solid 1px;
+        // border: solid 1px;
+
+        height: 22%;
+        p {
+            // border: solid 1px;
+        }
+    }
+    .carousel {
+        // background-image: url('../assets/media/joyce-romero-okhOnEMWkVU-unsplash.jpg');
+        // height: 75%;
+        // width: 100%;
+        border: solid 1px;
+        height: 75%;
+        .carousel-control-prev-icon {
+            border: solid 1px;
+            color: black;
         }
     }
 }

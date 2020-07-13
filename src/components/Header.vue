@@ -1,56 +1,112 @@
 <template>
-    <div class="header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-2"><span>Migratory Bird</span></div>
-                <div class="col-5"></div>
-                <div class="col-1">
-                    <router-link to="/test123">
-                        <span class="find">FIND</span>
+    <b-container fluid>
+        <b-row v-bind:style="{backgroundColor: headercolor}">
+            <div class="col-2 logo">
+                <router-link to="/">
+                    <span>Migratory Bird</span>
+                </router-link>
+            </div>
+            <div class="col-5"></div>
+            <div class="col-1">
+                <router-link to="/search">
+                    <span class="find">{{ $t('mainpagetop.find') }}</span>
+                </router-link>
+            </div>
+            <div class="col-1">
+                <router-link to="/need">
+                    <span>{{ $t('mainpagetop.need') }}</span>
+                </router-link>
+            </div>
+            <div class="col-1">
+                <router-link to="/payment">
+                    <span>COMUNITY</span>
+                </router-link>
+            </div>
+            <div class="col-1">
+                <span>ABOUT</span>
+            </div>
+            <div class="col-1 profile">
+                <div class="profilepic" v-if="loginstatus==true" @click="dropdownopen">
+                </div>
+                <router-link to="/login" v-else>
+                    <span class="login">LOGIN</span>
+                </router-link>
+                <div class="dropdownmenu" v-if="dropdown">
+                    <router-link to="/profile">
+                        <span>Profile</span>
                     </router-link>
-                </div>
-                <div class="col-1">
-                    <router-link to="/slidertest">
-                        <span>NEED</span>
+                    <router-link to="/profile/MyNest">
+                        <span>MyNest</span>
                     </router-link>
-                </div>
-                <div class="col-1">
-                    <router-link to="/payment">
-                        <span>COMUNITY</span>
+                    <router-link to="/profile/Like">
+                        <span>Like</span>
                     </router-link>
-                </div>
-                <div class="col-1">
-                    <span>ABOUT</span>
-                </div>
-                <div class="col-1">
-                    <div class="profilepic" @click="show_hiddenNav">
+                    <div>
+                        <span>LFR Post</span>
+                    </div>
+                    <div @click="changelang">
+                        <span>Language</span>
+                    </div>
+                    <div @click="logout">
+                        <span>Logout</span>
     
                     </div>
-                </div>
     
+                </div>
             </div>
-            <div class="hidden_nav" v-show="isShow_hiddenNav">
-                <a href="http://" v-on:click="show_hiddenNav">Profile</a> <br />
-                <a href="http://">My Nest</a> <br />
-                <a href="http://">Like</a> <br />
-                <a href="http://">LFR</a> <br />
-                <a href="http://">In Box</a> <br />
-            </div>
-        </div>
-    </div>
+        </b-row>
+        <!-- <div class="row">
+                                                                                    
+                                                                                        </div> -->
+    </b-container>
 </template>
 
 <script>
 export default {
     name: 'Header',
+    props: ['headercolor'],
     data() {
         return {
-            isShow_hiddenNav: false
+            isShow_hiddenNav: false,
+            NavBgColor: '',
+            navHeight: '',
+            login: false,
+            dropdown: false,
+            // headercolor:'#666B46'
         }
     },
+    mounted() {
+        window.addEventListener('scroll', this.handleScroll)
+    },
     methods: {
-        show_hiddenNav: function() {
-            this.isShow_hiddenNav = !this.isShow_hiddenNav;
+        dropdownopen() {
+            if (this.dropdown == false) {
+                this.dropdown = true;
+            } else {
+                this.dropdown = false;
+            }
+
+        },
+        changelang() {
+            this.$emit('changelanghandler');
+            console.log('app')
+            this.$store.commit('diplaylangmodal')
+        },
+        logout() {
+            console.log('按到')
+            // this.login = false;
+            // this.$store.commit('logincheck')
+            this.$store.commit('logoutcheck')
+            this.dropdown = false;
+            // this.$router.push('/')
+        }
+    },
+    computed: {
+        loginstatus() {
+            return this.$store.state.login;
+        },
+        test() {
+            return this.$store.state.test
         }
     }
 }
@@ -62,6 +118,12 @@ export default {
 }
 
 .row {
+    height: 7vh; // border: solid 1px;
+    .logo {
+        span {
+            font-size: 20px;
+        }
+    }
     div {
         display: flex;
         justify-content: center;
@@ -81,6 +143,33 @@ export default {
         color: white;
         font-size: 13px;
         font-weight: bold;
+    }
+    .login {
+        text-decoration: underline;
+        font-size: 15px;
+    }
+    .profile {
+        .dropdownmenu {
+            position: absolute;
+            height: 200px;
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            top: 55px;
+            background-color: white;
+            border-radius: 5px;
+            border: solid 1px #A6B6AE; // text-align: left;
+            z-index: 2;
+            span {
+                color: #7E7E7E;
+                font-size: 15px;
+                border: solid 1px; // width: 100%;
+                width: 100%;
+            }
+        } // .dropdown span:hover {
+        //     text-decoration: underline;
+        // }
     }
 }
 

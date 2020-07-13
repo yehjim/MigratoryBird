@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="savecard" @click="selectedsave()">
+        <div class="savecard" :class="savepayment.savecardselect" @click="selectedsave()">
             <div class="icon">
                 <i></i>
                 <span>Save Card</span>
@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <div class="linepay" @click="selectedline()">
+        <div :class="linepaymet" @click="selectedline()">
             <div class="icon">
                 <img src="../assets/media/LINE Pay_PNG/LINE-Pay(h)_W238_n.png" alt="">
                 <!-- <span>Line Pay</span> -->
@@ -25,17 +25,17 @@
                 <P>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima quod vitae excepturi. Numquam, dolorum facilis debitis fugit natus aliquam dolores architecto eius id esse cum ipsa neque quam. Quasi, nihil!</P>
             </div>
         </div>
-        <div class="seven" @click="selectedseven()">
+        <div :class="sevenpaymet" @click="selectedseven()">
             <div class="icon">
                 <i></i>
                 <span>7-11代碼繳費</span>
-
+    
             </div>
             <div class="cardwrap">
-               <P>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima quod vitae excepturi. Numquam, dolorum facilis debitis fugit natus aliquam dolores architecto eius id esse cum ipsa neque quam. Quasi, nihil!</P>
+                <P>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima quod vitae excepturi. Numquam, dolorum facilis debitis fugit natus aliquam dolores architecto eius id esse cum ipsa neque quam. Quasi, nihil!</P>
             </div>
         </div>
-        <div class="atm" @click="selectedatm()">
+        <div :class="atmpaymet" @click="selectedatm()">
             <div class="icon">
                 <i></i>
                 <span>ATM轉帳繳費</span>
@@ -49,69 +49,53 @@
 
 <script>
 export default {
+    data() {
+        return {
+            savepayment: {
+                savecard: true,
+                savecardselect: false,
+            },
+            sevenpaymet: {
+                savecard: true,
+                sevenselect: false,
+            },
+            linepaymet: {
+                savecard: true,
+                linepayselect: false
+
+            },
+            atmpaymet: {
+                savecard: true,
+                atmselect: false
+
+            }
+
+        }
+    },
     methods: {
         selectedsave() {
-            document.querySelector(".savecard").style.overflow = "visible";
-            document.querySelector(".savecard").style.height = "205px";
-            document.querySelector(".savecard").style.boxShadow = "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)";
-            document.querySelector(".linepay").style.overflow = "hidden";
-            document.querySelector(".linepay").style.height = "50px";
-            document.querySelector(".linepay").style.boxShadow = "none";
-            document.querySelector(".seven").style.overflow = "hidden";
-            document.querySelector(".seven").style.height = "50px";
-            document.querySelector(".seven").style.boxShadow = "none";
-            document.querySelector(".atm").style.overflow = "hidden";
-            document.querySelector(".atm").style.height = "50px";
-            document.querySelector(".atm").style.boxShadow = "none";
-
-
-
+            this.savepayment.savecardselect = true
+            this.sevenpaymet.sevenselect = false
+            this.linepaymet.linepayselect = false
+            this.atmpaymet.atmselect = false
         },
         selectedline() {
-            document.querySelector(".linepay").style.overflow = "visible";
-            document.querySelector(".linepay").style.height = "205px";
-            document.querySelector(".linepay").style.boxShadow = "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)";
-            document.querySelector(".savecard").style.overflow = "hidden";
-            document.querySelector(".savecard").style.height = "50px";
-            document.querySelector(".savecard").style.boxShadow = "none";
-            document.querySelector(".seven").style.overflow = "hidden";
-            document.querySelector(".seven").style.height = "50px";
-            document.querySelector(".seven").style.boxShadow = "none";
-            document.querySelector(".atm").style.overflow = "hidden";
-            document.querySelector(".atm").style.height = "50px";
-            document.querySelector(".atm").style.boxShadow = "none";
-
-
-
+            this.savepayment.savecardselect = false
+            this.sevenpaymet.sevenselect = false
+            this.linepaymet.linepayselect = true
+            this.atmpaymet.atmselect = false
         },
         selectedseven() {
-            document.querySelector(".seven").style.overflow = "visible";
-            document.querySelector(".seven").style.height = "205px";
-            document.querySelector(".seven").style.boxShadow = "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)";
-            document.querySelector(".atm").style.overflow = "hidden";
-            document.querySelector(".atm").style.height = "50px";
-            document.querySelector(".atm").style.boxShadow = "none";
-            document.querySelector(".savecard").style.overflow = "hidden";
-            document.querySelector(".savecard").style.height = "50px";
-            document.querySelector(".savecard").style.boxShadow = "none";
-            document.querySelector(".linepay").style.overflow = "hidden";
-            document.querySelector(".linepay").style.height = "50px";
-            document.querySelector(".linepay").style.boxShadow = "none";
+            this.savepayment.savecardselect = false
+            this.sevenpaymet.sevenselect = true
+            this.linepaymet.linepayselect = false
+            this.atmpaymet.atmselect = false
         },
         selectedatm() {
-            document.querySelector(".atm").style.overflow = "visible";
-            document.querySelector(".atm").style.height = "205px";
-            document.querySelector(".atm").style.boxShadow = "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)";
-            document.querySelector(".savecard").style.overflow = "hidden";
-            document.querySelector(".savecard").style.height = "50px";
-            document.querySelector(".savecard").style.boxShadow = "none";
-            document.querySelector(".linepay").style.overflow = "hidden";
-            document.querySelector(".linepay").style.height = "50px";
-            document.querySelector(".linepay").style.boxShadow = "none";
-            document.querySelector(".seven").style.overflow = "hidden";
-            document.querySelector(".seven").style.height = "50px";
-            document.querySelector(".seven").style.boxShadow = "none";
-
+            this.savepayment.savecardselect = false
+            this.sevenpaymet.sevenselect = false
+            this.linepaymet.linepayselect = false
+            this.atmpaymet.atmselect = true
         }
     }
 }
@@ -146,7 +130,6 @@ export default {
         margin-top: 30px;
         p {
             padding-left: 20px;
-             
         }
         .cardcontent {
             // border: solid 1px;
@@ -187,10 +170,19 @@ export default {
     }
 }
 
+.savecardselect,
+.linepayselect,
+.evenselect,
+.atmselect {
+    overflow: visible;
+    height: 205px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
 .savecard:hover {
     height: 205px !important;
     overflow: visible !important;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
 
@@ -207,21 +199,21 @@ export default {
 .linepay:hover {
     height: 205px !important;
     overflow: visible !important;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
 
 .seven:hover {
     height: 205px !important;
     overflow: visible !important;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
 
 .atm:hover {
     height: 205px !important;
     overflow: visible !important;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
 </style>

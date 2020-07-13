@@ -3,14 +3,14 @@
         <img src="../assets/media/jarek-ceborski-jn7uVeCdf6U-unsplash.jpg" alt="">
         <div class="wrap">
             <div class="city">
-                <span>台北</span>
+                <span>{{loc}}</span>
             </div>
             <div class="area">
-                <span>中山區</span>
+                <span>{{area}}</span>
             </div>
             <div class="price">
                 <span>
-                NTD:12500
+                {{price}}
               </span>
             </div>
             <!--     <hr> -->

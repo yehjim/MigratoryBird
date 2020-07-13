@@ -14,30 +14,26 @@
                 <div class="accountcontent">
                     <div>
                         <span>Start:</span>
-                        <input type="text" placeholder="JIMYEH">
+                        <input type="text" placeholder="2020/03/20">
                     </div>
                     <div>
                         <span>Adress:</span>
-                        <input type="text" placeholder="male">
+                        <input type="text" placeholder="台北市中山區">
                     </div>
                     <div>
                         <span>live/total:</span>
-                        <input type="text" placeholder="1999/02/14">
+                        <input type="text" placeholder="12mon">
                     </div>
     
                 </div>
                 <div class="accountcontent">
                     <div>
-                        <span>End:</span>
-                        <input type="text" placeholder="JIMYEH">
+                        <span>End:{{houseid}}</span>
+                        <input type="text" placeholder="2020/09/30">
                     </div>
                     <div>
-                        <span>Rent:</span>
-                        <input type="text" placeholder="male">
-                    </div>
-                    <div>
-                        <span>LFR Status:</span>
-                        <input type="text" placeholder="1999/02/14">
+                        <span>Rent:{{hashouse}}</span>
+                        <input type="text" placeholder="unpaid">
                     </div>
     
                 </div>
@@ -50,8 +46,27 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
+    mounted(){
+        axios.get('http://localhost:7000/housedetail')
+            .then((res) => {
+                console.log(res.data)
+                // this.itemdata = res.dat
+                this.housedetail = res.data
+                this.houseid = res.data.houseid
+                console.log(this.housedetail, "123")
+            }).catch((err) => {
+                console.log(err)
 
+            })
+    },
+    data() {
+        return {
+            houseid: this.$store.state.userdata[0].houseid,
+            hashouse: this.$store.state.userdata[0].hashouse
+        }
+    },
 }
 </script>
 

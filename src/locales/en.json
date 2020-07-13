@@ -1,6 +1,12 @@
 {
     "message": "hello i18n!",
     "mainpagetop": {
-        "BOOKNOW": "BOOK NOW"
+        "BOOKNOW": "BOOK NOW",
+        "location": "Lacation",
+        "date": "Date",
+        "stay": "Stay",
+        "find": "FIND",
+        "need": "NEED"
+
     }
 }

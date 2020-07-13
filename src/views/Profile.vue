@@ -1,6 +1,7 @@
 <template>
     <div>
-        <Header></Header>
+        <Header headercolor="#666B46" v-if="!hoststatus"></Header>
+        <hostheader headercolor="#666B46" v-else></hostheader>
         <div class="container">
             <div class="row">
                 <ProfileNav v-on:profile-handle="catchhandler" v-on:mynest-handle="catchhandler" v-on:like-handle="catchhandler"></ProfileNav>
@@ -22,6 +23,7 @@
 
 <script>
 import Header from '../components/Header'
+import hostheader from '../components/Hostheader'
 // import PaymentCatd from '../components/PaymentCard'
 import ProfileNav from '../components/ProfileNav'
 export default {
@@ -33,7 +35,13 @@ export default {
     components: {
         Header,
         ProfileNav,
+        hostheader
         // PaymentCatd
+    },
+    computed:{
+        hoststatus() {
+            return this.$store.state.hostcheck;
+        },
     },
     methods: {
         catchhandler: function(val){
@@ -44,7 +52,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .container {
     font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }

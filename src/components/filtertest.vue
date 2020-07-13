@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!-- <input type="text" v-model="ischeck"> -->
         <div class="container" id="people">
             <div class="row">
                 <div class="col-6">
