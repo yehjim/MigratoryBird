@@ -1,9 +1,7 @@
 <template>
     <div class="stay">
-        <span>Stay</span>
-        <br>
         <div class="dropdown">
-            <button class="dropbtn">{{stayplace}}</button>
+            <div class="dropbtn">{{stayplace}}</div>
             <div class="arrow-down" @click="clickdrop"></div>
             <div class="dropdown-content">
                 <li href="#" v-for="(list,index) in stay" :key="index" @click="clickestay(index)">{{index}}:{{list.staytime}}</li>
@@ -50,8 +48,9 @@ export default {
     // border: solid 1px;
     width: 100%; // margin-top: 5px;
     // margin-left: 30px;
+    // border: solid 1px;
     padding-top: 5px;
-    padding-left: 30px;
+    padding-left: 20px;
     span {
         padding-left: 5px;
     }

@@ -21,7 +21,8 @@
             </div>
             <div class="col-3 searchstay">
                 <span>{{ $t('mainpagetop.stay') }}</span>
-                <span>2 months</span>
+                <!-- <span>2 months</span> -->
+                <Staydropdown></Staydropdown>
             </div>
             <div class="col-3 search">
                 <router-link to="/search" style="color:white;"><span>{{ $t('mainpagetop.BOOKNOW') }}</span></router-link>
@@ -39,6 +40,7 @@
 <script>
 import Header from '../components/Header'
 import PopUp from '../components/PopUp'
+import Staydropdown from '../components/Staydropdown'
 export default {
     name: 'MainPageTop',
     props: {
@@ -59,7 +61,8 @@ export default {
     },
     components: {
         Header,
-        PopUp
+        PopUp,
+        Staydropdown
     },
     mounted() {
         $(document).ready(function() {
@@ -148,6 +151,9 @@ export default {
             border: none;
             height: 20px;
         }
+    }
+    .searchstay{
+        // border: solid 1px;
     }
     .search {
         color: white;

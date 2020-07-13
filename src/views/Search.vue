@@ -16,6 +16,7 @@
                     <input type='text' class="form-control" id='datetimepicker4' />
                 </div>
                 <div class="staywrap">
+                    <span>Stay</span>
                     <Staydropdown></Staydropdown>
                 </div>
                 <div class="searchbtn" @click="search">
