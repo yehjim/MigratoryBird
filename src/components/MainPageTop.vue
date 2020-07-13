@@ -13,18 +13,18 @@
         <div class="row b1">
             <div class="col-3 searchloaction">
                 <span>{{ $t('mainpagetop.location') }}</span>
-                <input type="text" placeholder="Taipei">
+                <input type="text" placeholder="Taipei" v-model="loc">
             </div>
             <div class="col-3 searchdate">
                 <span>{{ $t('mainpagetop.date') }}</span>
-                <input type='text' class="form-control" id='datetimepicker4' placeholder="2020/06/30" />
+                <input type='text' class="form-control" id='datetimepicker4' placeholder="2020/06/30" v-model="date" />
             </div>
             <div class="col-3 searchstay">
                 <span>{{ $t('mainpagetop.stay') }}</span>
                 <!-- <span>2 months</span> -->
                 <Staydropdown></Staydropdown>
             </div>
-            <div class="col-3 search">
+            <div class="col-3 search" @click="searchinput">
                 <router-link to="/search" style="color:white;"><span>{{ $t('mainpagetop.BOOKNOW') }}</span></router-link>
                 <router-view></router-view>
             </div>
@@ -49,14 +49,18 @@ export default {
         nav3: String,
         nav4: String,
         nav5: String,
-        
+
+
     },
     data() {
         return {
             labelname: [],
             group: [],
-            displaystyle:'block',
-            zh:''
+            displaystyle: 'block',
+            zh: '',
+            loc: '',
+            date: '',
+            stay: ''
         }
     },
     components: {
@@ -75,8 +79,7 @@ export default {
         setzhlang() {
             console.log(this.labelname[0])
         },
-        setenlang() {
-        },
+        setenlang() {},
         setjplang() {
 
         },
@@ -85,8 +88,11 @@ export default {
             this.$i18n.locale = this.labelname[0];
             var modal = document.getElementById("myModal");
             modal.style.display = "none";
-            
+
             console.log(this.labelname[0])
+        },
+        searchinput() {
+            this.$store.commit('setsearchdata', this.loc, this.date, '123')
         }
     },
 }
@@ -152,7 +158,7 @@ export default {
             height: 20px;
         }
     }
-    .searchstay{
+    .searchstay {
         // border: solid 1px;
     }
     .search {
@@ -212,11 +218,9 @@ export default {
             justify-content: space-around;
             align-items: center;
             margin: auto;
-            margin-top: 20px;
-            // border: solid 1px;
+            margin-top: 20px; // border: solid 1px;
             width: 300px;
-           
-            label{
+            label {
                 color: #A6B6AE;
                 font-weight: lighter;
             }
@@ -225,7 +229,6 @@ export default {
                 height: 15px; // margin-left: 100px;
                 // list-style: none;
                 background-color: #A6B6AE;
-
             }
         }
         .confirmbtn {

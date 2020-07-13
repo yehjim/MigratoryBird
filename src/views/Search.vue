@@ -9,7 +9,7 @@
                 <div class="loc">
                     <span>Location</span>
                     <br>
-                    <input type="text" placeholder="Taipei" v-model="loc">
+                    <input type="text" :placeholder="location" >
                 </div>
                 <div class="date">
                     <span>Date</span>
@@ -285,7 +285,9 @@ export default {
         // list() {
         //     return this.$store.state.list
         // },
-
+        location(){
+            return this.$store.state.searchdata.key;
+        },
         //取得listdata
         hoststatus() {
             return this.$store.state.hostcheck;

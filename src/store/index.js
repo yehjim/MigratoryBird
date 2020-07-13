@@ -24,8 +24,12 @@ export default new Vuex.Store({
         },
         posthousedata: {
 
+        },
+        searchdata: {
+            key: '',
+            date: '',
+            stay: ''
         }
-
 
     },
     mutations: {
@@ -58,6 +62,12 @@ export default new Vuex.Store({
         },
         posthousestatus(state, hashouse) {
             state.hashouse = hashouse;
+        },
+        setsearchdata(state, key, date, stay) {
+            state.searchdata.key = key
+            state.searchdata.date = date
+            state.searchdata.stay = stay
+
         }
     },
     actions: {
