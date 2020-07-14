@@ -7,17 +7,16 @@
         <div class="container">
             <div class="row searchbar">
                 <div class="loc">
-                    <span>Location</span>
-                    <br>
-                    <input type="text" :placeholder="location">
+                    <span>City</span>
+                    <dropdown dropdownwidth="250px" dropcontentwidth="250px" :locdata="citydata" :loc="city" @clickcity="cityhandler"></dropdown>
                 </div>
                 <div class="date">
-                    <span>Date</span>
-                    <b-form-datepicker size="sm" v-model="datecomputed"></b-form-datepicker>
+                    <span>Area</span>
+                    <dropdown dropdownwidth="250px" dropcontentwidth="250px" :locdata="areadata" :loc="area" @clickcity="areahandler"></dropdown>
                 </div>
                 <div class="staywrap">
-                    <span>Stay</span>
-                    <Staydropdown :staytime="staytime"></Staydropdown>
+                    <span>地址/關鍵字</span>
+                    <input type="text" v-model="searchdata.key" :placeholder="keyword">
                 </div>
                 <div class="searchbtn" @click="search">
                     <span>SEARCH</span>
@@ -45,7 +44,7 @@
                     <div class="row stay">
                         <span class="staytitle">Gender</span>
                         <div class="staydropdown">
-                            <Dropdown datatype="Gender" :cata=Genders @custom-event-trigger="show"></Dropdown>
+                            <!-- <Dropdown datatype="Gender" :cata=Genders @custom-event-trigger="show"></Dropdown> -->
                         </div>
                     </div>
                     <div class="row squre">
@@ -163,7 +162,7 @@ import Header from '../components/Header'
 import MbSelect from '../components/MbSelect'
 import Item from '../components/Item'
 import Paginate from 'vuejs-paginate'
-import Dropdown from '../components/Dropdown'
+import dropdown from '../components/itemlocdrop'
 import CheckBox from '../components/CheckBox'
 import Staydropdown from '../components/Staydropdown'
 import PopUp from '../components/PopUp'
@@ -173,7 +172,7 @@ export default {
         MbSelect,
         Item,
         Paginate,
-        Dropdown,
+        dropdown,
         CheckBox,
         SearchHeader,
         Staydropdown,
@@ -189,16 +188,15 @@ export default {
             langblockclick: 'none',
             date: this.datecomputed,
             test: "2020-07-15",
-            // langpopup:'',
-            itemdata: [
-                // { city: 'Taipei', area: '1', gender: 'male' },
-                // { city: 'NewTaipei', area: '2', gender: 'female' },
-                // { city: 'NewTaipei', area: '3', gender: 'male' },
-                // { city: 'Taoyuan', area: '4', gender: 'female' },
-                // { city: 'Taoyuan', area: '4', gender: 'female' },
-                // { loc: 'Taoyuan', area: '4', gender: 'female' },
-                // { loc: 'Hualien', area: '5', gender: 'male' }
-            ],
+            alldata: [],
+            citydata: [],
+            areadata: [],
+            searchdata: {
+                city: '',
+                area: '',
+                key: ''
+            },
+            itemdata: [],
             selecteditems: "All",
             colors: [{
                     hex: '#00759A',
@@ -280,6 +278,18 @@ export default {
                 console.log(err)
 
             })
+        axios.get(`https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/CityCountyData.json`)
+            .then((res) => {
+                this.alldata = res.data;
+
+                for (let i = 0; i < res.data.length; i++) {
+                    this.citydata[i] = res.data[i].CityName;
+                }
+                console.log(this.citydata);
+            }).catch((err) => {
+                console.log(err)
+
+            })
 
 
     },
@@ -287,14 +297,14 @@ export default {
         // list() {
         //     return this.$store.state.list
         // },
-        location() {
+        keyword() {
             return this.$store.state.searchdata.key;
         },
-        datecomputed() {
-            return this.$store.state.searchdata.date;
+        city() {
+            return this.$store.state.searchdata.city;
         },
-        staytime() {
-            return this.$store.state.searchdata.stay;
+        area() {
+            return this.$store.state.searchdata.area;
         },
         //取得listdata
         hoststatus() {
@@ -395,6 +405,28 @@ export default {
 
                 })
         },
+        cityhandler(cityname) {
+            this.searchdata.city = cityname;
+            for (let i = 0; i < this.alldata.length; i++) {
+                if (cityname == this.alldata[i].CityName) {
+                    // this.areadata = this.alldata[i].AreaList
+                    for (let j = 0; j < this.alldata[i].AreaList.length; j++) {
+                        // this.areadata[j]
+                        this.$set(this.areadata, j, this.alldata[i].AreaList[j].AreaName)
+                    }
+                    // for(let j = 0;j<this.areadata.length;j++){
+                    //     this.areadata = this.areadata[i].AreaName
+                    // }
+                    // this.changearea();
+                    // console.log(this.areadata)
+
+                }
+            }
+        },
+        areahandler(val) {
+            this.searchdata.area = val;
+
+        },
         show(gender) {
             this.gendertype = gender;
             if (this.gendertype == "male") {
@@ -478,7 +510,7 @@ export default {
 // }
 .searchbar {
     margin-top: 70px;
-    height: 70px;
+    height: 75px;
     border-radius: 10px;
     border: solid 0.5px #A6B6AE;
     span {
@@ -505,18 +537,12 @@ export default {
     .staywrap {
         width: 25%; // padding-top: 5px;
         padding-left: 20px;
+        padding-top: 5px;
         input {
-            width: 85%;
-            height: 20px;
-            border: none;
-            .gj-icon,
-            .gj-icon,
-            .gj-icon,
-            .gj-icon,
-            .gj-icon,
-            .gj-icon {
-                display: none;
-            }
+            width: 90%;
+            height: 25px;
+            margin-top: 5px;
+
         }
     }
     .searchbtn {

@@ -26,9 +26,9 @@ export default new Vuex.Store({
 
         },
         searchdata: {
-            key: '',
-            date: 0,
-            stay: ''
+            city: '',
+            area: '',
+            key: ''
         }
 
     },
@@ -64,9 +64,9 @@ export default new Vuex.Store({
             state.hashouse = hashouse;
         },
         setsearchdata(state, searchdata) {
-            state.searchdata.key = searchdata.loc
-            state.searchdata.date = searchdata.date
-            state.searchdata.stay = searchdata.stay
+            state.searchdata.city = searchdata.city
+            state.searchdata.area = searchdata.area
+            state.searchdata.key = searchdata.key
 
         }
     },

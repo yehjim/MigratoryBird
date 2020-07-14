@@ -12,17 +12,18 @@
         </div>
         <div class="row b1">
             <div class="col-3 searchloaction">
-                <span>{{ $t('mainpagetop.location') }}</span>
-                <input type="text" placeholder="Taipei" v-model="searchdata.loc">
+                <span>城市</span>
+                <dropdown  dropdownwidth="200px" bordercolor="solid 1px #A6B6AE" dropcontentwidth="200px" :locdata="citydata" loc="城市" @clickcity="cityhandler"></dropdown> 
+                <!-- <input type="text" placeholder="Taipei" v-model="searchdata.loc"> -->
             </div>
             <div class="col-3 searchdate">
-                <span>{{ $t('mainpagetop.date') }}</span>
-                <b-form-datepicker size="sm" v-model="searchdata.date"></b-form-datepicker>
+                <span>地區</span>
+                <dropdown dropdownwidth="200px" bordercolor="solid 1px #A6B6AE" dropcontentwidth="200px" :locdata="areadata" loc="地區" @clickcity="areahandler"></dropdown>
             </div>
             <div class="col-3 searchstay">
-                <span>{{ $t('mainpagetop.stay') }}</span>
+                <span>地址/關鍵字</span>
                 <!-- <span>2 months</span> -->
-                <Staydropdown @stayhandler="stay"></Staydropdown>
+                <input type="text" placeholder="" v-model="searchdata.key">
             </div>
             <div class="col-3 search" @click="searchinput">
                 <router-link to="/search" style="color:white;"><span>{{ $t('mainpagetop.BOOKNOW') }}</span></router-link>
@@ -41,6 +42,7 @@
 import Header from '../components/Header'
 import PopUp from '../components/PopUp'
 import Staydropdown from '../components/Staydropdown'
+import dropdown from '../components/itemlocdrop'
 export default {
     name: 'MainPageTop',
     props: {
@@ -59,19 +61,36 @@ export default {
             displaystyle: 'block',
             zh: '',
             searchdata: {
-                loc: '',
-                date: '',
-                stay: ''
-            }
+                city: '',
+                area: '',
+                key: ''
+            },
+            alldata:[],
+            citydata:[],
+            areadata:[]
 
         }
     },
     components: {
         Header,
         PopUp,
-        Staydropdown
+        Staydropdown,
+        dropdown
     },
-    mounted() {},
+    mounted() {
+        axios.get(`https://raw.githubusercontent.com/donma/TaiwanAddressCityAreaRoadChineseEnglishJSON/master/CityCountyData.json`)
+            .then((res) => {
+                this.alldata = res.data;
+
+                for (let i = 0; i < res.data.length; i++) {
+                    this.citydata[i] = res.data[i].CityName;
+                }
+                console.log(this.citydata);
+            }).catch((err) => {
+                console.log(err)
+
+            })
+    },
     computed: {
         location() {
             return this.$store.state.searchdata.key;
@@ -84,6 +103,24 @@ export default {
         },
     },
     methods: {
+        cityhandler(cityname) {
+            this.searchdata.city = cityname;
+            for (let i = 0; i < this.alldata.length; i++) {
+                if (cityname == this.alldata[i].CityName) {
+                    // this.areadata = this.alldata[i].AreaList
+                    for (let j = 0; j < this.alldata[i].AreaList.length; j++) {
+                        // this.areadata[j]
+                        this.$set(this.areadata, j, this.alldata[i].AreaList[j].AreaName)
+                    }
+                    // for(let j = 0;j<this.areadata.length;j++){
+                    //     this.areadata = this.areadata[i].AreaName
+                    // }
+                    // this.changearea();
+                    // console.log(this.areadata)
+
+                }
+            }
+        },
         setzhlang() {
             console.log(this.labelname[0])
         },
@@ -104,6 +141,10 @@ export default {
         },
         stay(time) {
             this.searchdata.stay = time;
+
+        },
+        areahandler(val) {
+            this.searchdata.area = val;
 
         }
     },

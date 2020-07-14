@@ -3,8 +3,8 @@
         <div class="left">
             <div class="about">
                 <span>Item location</span>
-                <dropdown class="drop" :locdata="citydata" loc="城市" @clickcity="cityhandler"></dropdown>
-                <dropdown class="drop" :locdata="areadata" loc="地區" @clickcity="areahandler"></dropdown>
+                <dropdown class="drop" dropdownwidth="300px" dropcontentwidth="300px" :locdata="citydata" loc="城市" @clickcity="cityhandler" backgroundColor="#ededed"></dropdown>
+                <dropdown  class="drop" dropdownwidth="300px" dropcontentwidth="300px" :locdata="areadata" loc="地區" @clickcity="areahandler" backgroundColor="#ededed"></dropdown>
                 <input class="loctext" type="text" placeholder="地址" v-model="add">
                 <span>{{address}}</span>
             </div>
@@ -28,7 +28,8 @@ export default {
             areadata: [],
             city: '',
             area: '',
-            add: ''
+            add: '',
+            
         }
     },
     mounted() {

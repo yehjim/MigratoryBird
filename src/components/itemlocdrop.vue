@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="drop">
+        <div class="drop" :style="{width:dropdownwidth,backgroundColor:backgroundColor,border:bordercolor}">
             <ul class="droplabel" @click="dropdownyeaar">
                 <li>{{location}}</li>
-                <span>v</span>
+                <div class="arrow-down"></div>
             </ul>
-            <ul class="dropcontent" v-if="dropyear">
+            <ul class="dropcontent" v-if="dropyear" :style="{width:dropcontentwidth}">
                 <div v-for="(items,index) in locdrop" :key="index" @click="clickitem(index)">
                     <li>{{items}}</li>
                     <!-- <li>items.item</li> -->
@@ -17,7 +17,7 @@
 
 <script>
 export default {
-    props: ['locdata', 'loc'],
+    props: ['locdata', 'loc', 'dropdownwidth', 'dropcontentwidth', 'backgroundColor', 'bordercolor'],
     mounted() {
 
     },
@@ -64,9 +64,8 @@ export default {
 <style lang="scss" scoped>
 .drop {
     // border: solid 1px;
-    width: 300px;
+    // width: 300px;
     border-radius: 5px;
-    background-color: #ededed;
     li {
         list-style: none;
         border-bottom: none;
@@ -79,9 +78,22 @@ export default {
         align-items: center;
     }
     .dropcontent {
+        position: absolute;
         margin-bottom: 0;
-        height: 200px;
+        height: 200px; // width: 100%;
         overflow: scroll;
+        background-color: #ededed;
+        border-radius: 2px;
+        z-index: 2;
     }
+}
+
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid #A6B6AE;
+    margin-right: 20px;
 }
 </style>
