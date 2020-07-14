@@ -38,13 +38,14 @@
                 <div class="col-3 filter">
                     <div class="row rentslider">
                         <span class="renttitle">Rent/mon</span>
-                        <div>
+                        <div class="drop">
+                            <dropdown dropdownwidth="250px" dropcontentwidth="250px" bordercolor="solid 1px #A6B6AE" loc="城市"></dropdown>
                         </div>
                     </div>
                     <div class="row stay">
                         <span class="staytitle">Gender</span>
                         <div class="staydropdown">
-                            <!-- <Dropdown datatype="Gender" :cata=Genders @custom-event-trigger="show"></Dropdown> -->
+                            <dropdown dropdownwidth="250px" dropcontentwidth="250px" bordercolor="solid 1px #A6B6AE" loc="gender" :locdata="gender"></dropdown>
                         </div>
                     </div>
                     <div class="row squre">
@@ -196,6 +197,7 @@ export default {
                 area: '',
                 key: ''
             },
+            gender:['male','female'],
             itemdata: [],
             selecteditems: "All",
             colors: [{
@@ -619,6 +621,10 @@ export default {
             font-size: 15px;
             margin: 10px;
             color: #666B46;
+        }
+        .drop{
+            // border: solid 1px;
+            padding-left: 30px;
         }
     }
     .stay {

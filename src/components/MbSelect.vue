@@ -11,7 +11,7 @@
                             </div>
                         </div>
                         <div class="detail">
-                            <router-link to="/HouseDetail">
+                            <router-link :to="{name:'HouseDetail',params:{id:item.id}}">
                                 <div class="area">
                                     <span class="housearea">{{item.city}} {{item.area}}</span>
                                     <br>

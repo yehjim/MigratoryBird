@@ -23,6 +23,10 @@ export default new Vuex.Store({
 
         },
         posthousedata: {
+            city: "",
+            area: "",
+            address: "",
+            house_describe: "",
 
         },
         searchdata: {
@@ -62,6 +66,11 @@ export default new Vuex.Store({
         },
         posthousestatus(state, hashouse) {
             state.hashouse = hashouse;
+        },
+        setpostlocdata(state, locdata) {
+            state.posthousedata.city = locdata.city
+            state.posthousedata.area = locdata.area
+            state.posthousedata.address = locdata.add
         },
         setsearchdata(state, searchdata) {
             state.searchdata.city = searchdata.city

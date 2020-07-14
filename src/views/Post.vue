@@ -52,6 +52,10 @@ export default {
         }
     },
     methods: {
+        test123(val){
+            console.log(val);
+
+        },
         next() {
             this.num = this.num + 17;
             this.wd = this.num + "%";

@@ -80,7 +80,7 @@ export default {
     .dropcontent {
         position: absolute;
         margin-bottom: 0;
-        height: 200px; // width: 100%;
+        height: 150px; // width: 100%;
         overflow: scroll;
         background-color: #ededed;
         border-radius: 2px;

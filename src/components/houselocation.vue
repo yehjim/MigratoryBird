@@ -4,8 +4,8 @@
             <div class="about">
                 <span>Item location</span>
                 <dropdown class="drop" dropdownwidth="300px" dropcontentwidth="300px" :locdata="citydata" loc="城市" @clickcity="cityhandler" backgroundColor="#ededed"></dropdown>
-                <dropdown  class="drop" dropdownwidth="300px" dropcontentwidth="300px" :locdata="areadata" loc="地區" @clickcity="areahandler" backgroundColor="#ededed"></dropdown>
-                <input class="loctext" type="text" placeholder="地址" v-model="add">
+                <dropdown class="drop" dropdownwidth="300px" dropcontentwidth="300px" :locdata="areadata" loc="地區" @clickcity="areahandler" backgroundColor="#ededed"></dropdown>
+                <input class="loctext" type="text" placeholder="地址" v-model="locdata.add" @change="emitlocdata">
                 <span>{{address}}</span>
             </div>
         </div>
@@ -26,10 +26,13 @@ export default {
             alldata: [],
             citydata: [],
             areadata: [],
-            city: '',
-            area: '',
-            add: '',
-            
+            locdata: {
+                city: '',
+                area: '',
+                add: '',
+            }
+
+
         }
     },
     mounted() {
@@ -50,8 +53,12 @@ export default {
 
     },
     methods: {
+        emitlocdata(){
+            console.log('成功')
+            this.$store.commit("setpostlocdata", this.locdata)
+        },
         cityhandler(cityname) {
-            this.city = cityname;
+            this.locdata.city = cityname;
             for (let i = 0; i < this.alldata.length; i++) {
                 if (cityname == this.alldata[i].CityName) {
                     // this.areadata = this.alldata[i].AreaList
@@ -67,13 +74,13 @@ export default {
 
                 }
             }
-            this.changearea();
-            // console.log(cityname)
+            this.$store.commit("setpostlocdata", this.locdata)
 
         },
 
         areahandler(val) {
-            this.area = val;
+            this.locdata.area = val;
+            this.$store.commit("setpostlocdata", this.locdata)
 
         }
     },
