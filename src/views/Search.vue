@@ -9,15 +9,15 @@
                 <div class="loc">
                     <span>Location</span>
                     <br>
-                    <input type="text" :placeholder="location" >
+                    <input type="text" :placeholder="location">
                 </div>
                 <div class="date">
                     <span>Date</span>
-                    <input type='text' class="form-control" id='datetimepicker4' />
+                    <b-form-datepicker size="sm" v-model="datecomputed"></b-form-datepicker>
                 </div>
                 <div class="staywrap">
                     <span>Stay</span>
-                    <Staydropdown></Staydropdown>
+                    <Staydropdown :staytime="staytime"></Staydropdown>
                 </div>
                 <div class="searchbtn" @click="search">
                     <span>SEARCH</span>
@@ -187,6 +187,8 @@ export default {
             currentPage: 1,
             pageCount: 3,
             langblockclick: 'none',
+            date: this.datecomputed,
+            test: "2020-07-15",
             // langpopup:'',
             itemdata: [
                 // { city: 'Taipei', area: '1', gender: 'male' },
@@ -229,7 +231,7 @@ export default {
                 }
             ],
             filtertype: {
-                Location:'',
+                Location: '',
                 fullhouse: false,
                 studio: false,
                 room: false,
@@ -249,7 +251,7 @@ export default {
             gendertype: 'All',
             loading: false,
             testchek: false,
-            loc:''
+            loc: ''
 
 
         }
@@ -285,8 +287,14 @@ export default {
         // list() {
         //     return this.$store.state.list
         // },
-        location(){
+        location() {
             return this.$store.state.searchdata.key;
+        },
+        datecomputed() {
+            return this.$store.state.searchdata.date;
+        },
+        staytime() {
+            return this.$store.state.searchdata.stay;
         },
         //取得listdata
         hoststatus() {
@@ -470,7 +478,7 @@ export default {
 // }
 .searchbar {
     margin-top: 70px;
-    height: 61px;
+    height: 70px;
     border-radius: 10px;
     border: solid 0.5px #A6B6AE;
     span {
@@ -492,24 +500,11 @@ export default {
         border-right: solid 0.5px #7E7E7E;
         padding-top: 5px;
         padding-left: 30px;
-        input {
-            width: 90%;
-            height: 20px;
-            border: none;
-            .gj-icon,
-            .gj-icon,
-            .gj-icon,
-            .gj-icon,
-            .gj-icon,
-            .gj-icon {
-                // display: none;
-                visibility: hidden; // color: green;
-            }
-        }
+        padding-right: 30px;
     }
     .staywrap {
         width: 25%; // padding-top: 5px;
-        // padding-left: 30px;
+        padding-left: 20px;
         input {
             width: 85%;
             height: 20px;

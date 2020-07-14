@@ -14,9 +14,10 @@
 
 <script>
 export default {
+    props:['staytime'],
     data() {
         return {
-            stayplace: "6mon",
+            stayplace: this.staytime,
             stay: [{
                     staytime: "6mon",
                 },
@@ -36,6 +37,7 @@ export default {
         },
         clickestay(index) {
             this.stayplace = this.stay[index].staytime
+            this.$emit('stayhandler',this.stayplace)
             console.log(index + "按到")
             document.querySelector(".dropdown-content").style.display = "none";
         }

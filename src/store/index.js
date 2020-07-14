@@ -27,7 +27,7 @@ export default new Vuex.Store({
         },
         searchdata: {
             key: '',
-            date: '',
+            date: 0,
             stay: ''
         }
 
@@ -63,10 +63,10 @@ export default new Vuex.Store({
         posthousestatus(state, hashouse) {
             state.hashouse = hashouse;
         },
-        setsearchdata(state, key, date, stay) {
-            state.searchdata.key = key
-            state.searchdata.date = date
-            state.searchdata.stay = stay
+        setsearchdata(state, searchdata) {
+            state.searchdata.key = searchdata.loc
+            state.searchdata.date = searchdata.date
+            state.searchdata.stay = searchdata.stay
 
         }
     },

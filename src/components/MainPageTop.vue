@@ -13,16 +13,16 @@
         <div class="row b1">
             <div class="col-3 searchloaction">
                 <span>{{ $t('mainpagetop.location') }}</span>
-                <input type="text" placeholder="Taipei" v-model="loc">
+                <input type="text" placeholder="Taipei" v-model="searchdata.loc">
             </div>
             <div class="col-3 searchdate">
                 <span>{{ $t('mainpagetop.date') }}</span>
-                <input type='text' class="form-control" id='datetimepicker4' placeholder="2020/06/30" v-model="date" />
+                <b-form-datepicker size="sm" v-model="searchdata.date"></b-form-datepicker>
             </div>
             <div class="col-3 searchstay">
                 <span>{{ $t('mainpagetop.stay') }}</span>
                 <!-- <span>2 months</span> -->
-                <Staydropdown></Staydropdown>
+                <Staydropdown @stayhandler="stay"></Staydropdown>
             </div>
             <div class="col-3 search" @click="searchinput">
                 <router-link to="/search" style="color:white;"><span>{{ $t('mainpagetop.BOOKNOW') }}</span></router-link>
@@ -58,9 +58,12 @@ export default {
             group: [],
             displaystyle: 'block',
             zh: '',
-            loc: '',
-            date: '',
-            stay: ''
+            searchdata: {
+                loc: '',
+                date: '',
+                stay: ''
+            }
+
         }
     },
     components: {
@@ -68,12 +71,17 @@ export default {
         PopUp,
         Staydropdown
     },
-    mounted() {
-        $(document).ready(function() {
-            $('#datetimepicker4').datepicker({
-
-            });
-        });
+    mounted() {},
+    computed: {
+        location() {
+            return this.$store.state.searchdata.key;
+        },
+        datecomputed() {
+            return this.$store.state.searchdata.date;
+        },
+        staytime() {
+            return this.$store.state.searchdata.stay;
+        },
     },
     methods: {
         setzhlang() {
@@ -92,7 +100,11 @@ export default {
             console.log(this.labelname[0])
         },
         searchinput() {
-            this.$store.commit('setsearchdata', this.loc, this.date, '123')
+            this.$store.commit('setsearchdata', this.searchdata)
+        },
+        stay(time) {
+            this.searchdata.stay = time;
+
         }
     },
 }
