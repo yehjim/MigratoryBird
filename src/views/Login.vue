@@ -19,9 +19,9 @@
                 <div class="logintitile">
                     <span>Login to Migratory Bird</span>
                 </div>
-                <div class="fblogin">
+                <!-- <div class="fblogin">
     
-                </div>
+                </div> -->
                 <div class="googlelogin">
                     <GoogleLogin class="test" :params="params" :renderParams="renderParams" :onSuccess="onSuccess"></GoogleLogin>
                 </div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="password">
                     <span>Password</span>
-                    <input type="text" v-model="password" v-bind:style="{border:style}">
+                    <input  type="password" v-model="password" v-bind:style="{border:style}">
                     <label v-if="notUser" for="" class="notuserlabel">還未加入？</label>
     
                 </div>
@@ -119,14 +119,8 @@ export default {
                     let currentusername = this.userdata[i].username
                     this.$store.state.userdata.username =  currentusername;
                     this.$store.dispatch('GETUSERDATA')
-                    // axios.get(`http://localhost:7000/user/?username=${username}`)
-                    //     .then((res) => {
-                    //         console.log(this.res)
-                    //     }).catch((err) => {
-                    //         console.log(err)
-
-                    //     })
                     this.$store.commit('logincheck')
+                    this.$store.commit('landrodcheck')
                     vm.$router.push('/')
                 } else if (this.username == this.userdata[i].username && this.password == this.userdata[i].password && this.userdata[i].type == "host") {
                     this.$store.commit('logincheck')
@@ -134,7 +128,7 @@ export default {
                     let currentusername = this.userdata[i].username
                     this.$store.state.userdata.username =  currentusername;
                     this.$store.dispatch('GETUSERDATA')
-                    vm.$router.push('/Hosthome')
+                     vm.$router.push('/')
                 } else {
                     this.notUser = true
                     this.style = 'solid 0.3px red'
@@ -200,9 +194,9 @@ export default {
             .logintitile {
                 // border: solid 1px;
                 color: #7E7E7E;
-                font-size: 20px;
+                font-size: 23px;
                 text-align: center;
-                padding-top: 25px;
+                padding-top: 30px;
             }
             .fblogin,
             .googlelogin {
@@ -214,12 +208,13 @@ export default {
             }
         }
         .or {
-            margin-top: 20px;
+            margin-top: 30px;
             display: flex;
             justify-content: center;
             align-items: center;
             color: #6a6a6a;
             font-size: 28px;
+            ;
             .rightline {
                 border: solid 1px #6a6a6a;
                 width: 150px;
@@ -239,6 +234,7 @@ export default {
             color: #6A6A6A; // border: solid 1px;
             width: 80%;
             margin: auto;
+            margin-top: 30px;
         }
         .username,
         .password {

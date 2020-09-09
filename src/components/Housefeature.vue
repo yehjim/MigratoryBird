@@ -6,48 +6,30 @@
                 <div class="wrap">
                     <label for="">物件類型</label>
                     <div class="drop">
-                        <ul class="droplabel" @click="dropdowntype">
-                            <li>{{item}}</li>
-                            <span>v</span>
-                        </ul>
-                        <ul class="dropcontent" v-if="droptype">
-                            <div v-for="(items,index) in typedrop" :key="index" @click="clickitem(index)">
-                                <li>{{items.item}}</li>
-                                <!-- <li>items.item</li> -->
-                            </div>
-                        </ul>
+                        <dropdown dropdownwidth="300px" dropcontentwidth="300px" :locdata="typedrop" loc="類型" @clickcity="typehandler"></dropdown>
                     </div>
                 </div>
                 <div class="wrap">
-                    <label for="">物件</label>
+                    <label for="">物件坪數</label>
                     <br>
-                    <input type="text" placeholder="120坪">
+                    <input type="text" @change="square" placeholder="120坪" v-model="postitemdata.square">
                 </div>
                 <div class="wrap flexbox">
                     <div>
                         <label for="">樓層</label>
                         <br>
-                        <input type="text" placeholder="層數" class="level">
+                        <input type="text" placeholder="層數" class="level" v-model="postitemdata.stair">
                     </div>
                     <div>
                         <label for="">總樓層</label>
                         <br>
-                        <input type="text" placeholder="總層數" class="totallevel">
+                        <input type="text" placeholder="總層數" class="totallevel" v-model="postitemdata.totalstair">
                     </div>
                 </div>
                 <div class="wrap">
                     <label for="">最短租期</label>
                     <div class="drop">
-                        <ul class="droplabel" @click="dropdownyeaar">
-                            <li>{{year}}</li>
-                            <span>v</span>
-                        </ul>
-                        <ul class="dropcontent" v-if="dropyear">
-                            <div v-for="(items,index) in yeardrop" :key="index" @click="yearclick(index)">
-                                <li>{{items.item}}</li>
-                                <!-- <li>items.item</li> -->
-                            </div>
-                        </ul>
+                        <dropdown dropdownwidth="300px" dropcontentwidth="300px" :locdata="yeardrop" loc="半年" @clickcity="yearhandler"></dropdown>
                     </div>
                 </div>
     
@@ -56,21 +38,21 @@
                 <div class="wrap">
                     <label for="">押金</label>
                     <br>
-                    <input type="text" placeholder="1000">
+                    <input type="text" @change="deposit" placeholder="1000" v-model="postitemdata.deposit">
                 </div>
                 <div class="wrap">
                     <label for="">租金</label>
                     <br>
-                    <input type="text" placeholder="12500/月">
+                    <input type="text" @change="monthly" placeholder="12500/月" v-model="postitemdata.monthly">
                 </div>
                 <div class="wrap">
                     <label for="">住屋上限人數</label>
                     <br>
-                    <input type="text" placeholder="1/人">
+                    <input @change="live_number" type="text" placeholder="1/人" v-model="postitemdata.live_number">
                 </div>
             </div>
             <div class="right">
-                <featurecheck></featurecheck>
+                <featurecheck @registrationhandler="registration" @bargainhandler="bargain" @feehandler="fee"></featurecheck>
             </div>
         </div>
     
@@ -79,57 +61,72 @@
 
 <script>
 import featurecheck from '../components/featurecheckbox'
+import dropdown from '../components/itemlocdrop'
 export default {
     data() {
         return {
-            droptype: false,
-            dropyear: false,
-            item: '透天',
-            year: '一年',
-            typedrop: [{
-                item: '透天'
-            }, {
-                item: '雅房'
-            }],
-            yeardrop: [{
-                item: '一年'
-            }, {
-                item: '兩年'
-            }]
+            typedrop: ['雅房', '透天', '獨棟', '公寓大樓'],
+            yeardrop: ['6mon', '12mon', '18mon'],
+            postitemdata: {
+                type: '',
+                square: null,
+                stair: null,
+                year: '',
+                deposit: null,
+                monthly: null,
+                live_number: null,
+                is_bargain: null,
+                registration: null,
+                fee:[],
+                totalstair:null
+
+            }
 
 
         }
     },
     methods: {
-        dropdowntype() {
-            if (this.drop == true) {
-                this.droptype = false;
-            } else {
-                this.droptype = true;
-            }
+        typehandler(val) {
+            this.postitemdata.type = val;
+            this.$store.commit('setfeturedata', this.postitemdata)
+        },
+        yearhandler(val) {
+            this.postitemdata.year = val;
+            this.$store.commit('setfeturedata', this.postitemdata)
+        },
+        square() {
+            this.$store.commit('setfeturedata', this.postitemdata)
+        },
+        deposit() {
+            this.$store.commit('setfeturedata', this.postitemdata)
+        },
+        monthly() {
+            this.$store.commit('setfeturedata', this.postitemdata)
+        },
+        live_number() {
+            this.$store.commit('setfeturedata', this.postitemdata)
+        },
+        registration(val) {
+            this.postitemdata.registration = val;
+            this.$store.commit('setfeturedata', this.postitemdata)
 
         },
-        dropdownyeaar() {
-            if (this.drop == true) {
-                this.dropyear = false;
-            } else {
-                this.dropyear = true;
-            }
-
+        bargain(val){
+            this.postitemdata.is_bargain = val;
+            this.$store.commit('setfeturedata', this.postitemdata)
         },
-        clickitem(index) {
-            this.item = this.typedrop[index].item;
-            this.droptype = false;
-
-        },
-        yearclick(index) {
-            this.year = this.yeardrop[index].item;
-            this.dropyear = false;
-
+        fee(val){
+            this.postitemdata.fee = val;
+            this.$store.commit('setfeturedata', this.postitemdata)
         }
+
     },
-    components:{
-        featurecheck
+    computed: {
+
+    },
+    components: {
+        featurecheck,
+        dropdown
     }
 }
 </script>
@@ -214,30 +211,15 @@ export default {
     }
     .right {
         // border: solid 1px;
-         width: 330px;
-        // margin-left: 90px;
+        width: 330px; // margin-left: 90px;
         margin-top: 25px;
+        
     }
     .drop {
         // border: solid 1px;
         width: 300px;
         border-radius: 5px;
         background-color: #ededed;
-        li {
-            list-style: none;
-            border-bottom: none;
-        }
-        .droplabel {
-            // border: solid 1px;
-            margin-bottom: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .dropcontent {
-            border: solid 1px;
-            margin-bottom: 0;
-        }
     }
 }
 </style>

@@ -9,12 +9,11 @@
             <div class="col-7 leftcontent">
                 <div class="paymentdetail">
                     <span class="payment">Payment Details</span>
-                    <span class="rent">Rent:  NT$12500</span>
-                    <span class="deposit">Deposit:  NT$2500</span>
+                    <span class="rent">Rent:  NT${{iteminfo.monthly}}</span>
                 </div>
                 <PaymentLine></PaymentLine>
                 <div class="total">
-                    <span>Total:NT$90000</span>
+                    <span>Total:NT${{iteminfo.monthly}}</span>
     
                 </div>
             </div>
@@ -30,19 +29,17 @@
                         <div class="hosttype">
                             超級房東
                         </div>
-                        <span>
-                                                        Taipei
-                                                    </span>
+                        <span>{{iteminfo.city}}</span>
                     </div>
                     <div class="housedescribe">
                         <div class="add">
-                            <span>新北市板橋區銘傳街</span>
+                            <span>{{iteminfo.city}}{{iteminfo.area}}{{iteminfo.address}}</span>
                         </div>
                         <div class="type">
                             <span>透天</span>
                         </div>
                         <div class="price">
-                            <span>NTD : 12500 / 月</span>
+                            <span>NTD : {{iteminfo.monthly}} / 月</span>
                         </div>
                     </div>
                     <div class="checkdate">
@@ -50,11 +47,11 @@
                         <div class="checkwrap">
                             <div class="start">
                                 <span>Start:</span>
-                                <span>2019/11/28</span>
+                                <span>{{iteminfo.start_date}}</span>
                             </div>
                             <div class="end">
                                 <span>End:</span>
-                                <span>2020/02/20</span>
+                                <span>{{iteminfo.end_date}}</span>
                             </div>
                         </div>
                     </div>
@@ -65,15 +62,11 @@
                         </div>
                         <div class="rent">
                             <span>Rent：</span>
-                            <span class="rentprice">NTD：25000</span>
-                        </div>
-                        <div class="deposit">
-                            <span>Depositt：</span>
-                            <span class="depositprice">NTD：65000</span>
+                            <span class="rentprice">NTD：{{iteminfo.monthly}}</span>
                         </div>
                         <div class="totalrent">
                             <span>Total：</span>
-                            <span class="totalprice">NTD：90000</span>
+                            <span class="totalprice">NTD：{{iteminfo.monthly}}</span>
                         </div>
                     </div>
                 </div>
@@ -84,7 +77,29 @@
 
 <script>
 import PaymentLine from '../components/PaymentLine'
+import axios from 'axios'
 export default {
+    mounted(){
+        let userid = this.$route.params.id
+        axios.get(`http://localhost:7000/bookingRecord/?foreigner_id=${userid}`)
+            .then((res) => {
+                this.iteminfo = res.data[0]
+                console.log(this.iteminfo)
+            }).catch((err) => {
+                console.log(err)
+
+            })
+
+    },
+    data() {
+        return {
+            iteminfo:{
+
+            }
+        }
+    },
+    computed:{
+    },
     components: {
         PaymentLine
 

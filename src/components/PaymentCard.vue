@@ -3,17 +3,21 @@
         <div class="paymentwrap">
             <span>Payment</span>
             <div class="editbtn">
-                <span>edit</span>
+                <router-link to="/profile/editingpayment">
+    
+    
+                    <span >edit</span>
+                </router-link>
             </div>
         </div>
         <div>
             <div class="cardwrap">
-                <div class="cardcontent">
+                <div class="cardcontent" v-for="(item,index) in paylist" :key="index">
                     <div class="cardicon">
                         <img src="../assets/media/visa.svg" alt="">
                     </div>
                     <div class="cardnumber">
-                        <span>123 194 8612 111</span>
+                        <span>{{cardnumer(item.card_number)}}</span>
                     </div>
                 </div>
             </div>
@@ -24,13 +28,38 @@
 
 <script>
 export default {
+    data() {
+        return {
 
+        }
+    },
+    methods: {
+        // editing(){
+        //     this.$emit('editinghandler')
+        // }
+        cardnumer(number){
+            let num = ''
+            for(let i = 0 ; i<number.length ;i+=4){
+                let j = 4+i;
+                num += number.slice(i,j)+' '
+            }
+            return num;
+
+            
+        }
+    },
+    computed: {
+        paylist() {
+            return this.$store.state.userdata[0].pay_list;
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 .payment {
     height: 250px;
+    width: 700px;
     margin-top: 30px;
     border-bottom: 10px solid #A6B6AE;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -65,10 +94,11 @@ export default {
 
 .cardwrap {
     // border: solid 1px;
+    display: flex;
     .cardcontent {
         // border: solid 1px;
-        width: 160px;
-        height: 93px;
+        width: 200px;
+        height: 120px;
         border-radius: 15px;
         margin: auto;
         background-color: #EDEDED;

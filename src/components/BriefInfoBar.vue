@@ -6,8 +6,8 @@
             <div class="col-1 leftcorner"></div>
             <div class="col-2 houseCity">{{city}}{{area}}</div>
             <!-- </div> -->
-            <div class="col-1 houseTitle">{{state}}</div>
-            <div class="col-2"></div>
+            <div class="col-2 houseTitle">{{state}}</div>
+            <div class="col-1"></div>
             <div class="col-3 price">
                 <div class="p_table">
                     <table>
@@ -19,7 +19,12 @@
                         </tr>
                     </table>
                 </div>
-                <div class="icon_Heart" @click="addlike">
+    
+                <div class="icon_Heart" v-if="hoststatus">
+                    <img v-if="isadd" src="../assets/media/heart-red.svg" alt="">
+                    <img v-else src="../assets/media/heart-black.svg" alt="save" />
+                </div>
+                <div class="icon_Heart" @click="addlike" v-else>
                     <img v-if="isadd" src="../assets/media/heart-red.svg" alt="">
                     <img v-else src="../assets/media/heart-black.svg" alt="save" />
                 </div>
@@ -57,7 +62,7 @@
 import axios from 'axios'
 export default {
     name: "BriefInfoBar",
-    props:['city','area','state','monthly'],
+    props: ['city', 'area', 'state', 'monthly'],
     mounted() {
         let houseid = this.$route.params.id;
         axios.get(`http://localhost:7000/housedetail?houseid=${houseid}`)
@@ -71,13 +76,21 @@ export default {
                 console.log(err)
 
             })
+        if (this.login == true) {
+            if (this.likestatus == true) {
+                this.isadd = true;
+            } else {
+                this.isadd = false;
+            }
+        }
+
     },
     data() {
         return {
             houseid: 0,
             housedetail: [],
             isadd: false,
-            likelist: [1, 2]
+            // likelist: [1, 2]
         }
     },
     methods: {
@@ -85,14 +98,32 @@ export default {
             console.log('按到')
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
-            this.$emit('showcheckinhandler')
+            if (this.login == false) {
+                alert('未登入')
+            } else if (this.usertype == "host") {
+                alert('你是房東')
+            } else {
+                this.$emit('showcheckinhandler')
+            }
+
         },
         addlike() {
+
+            let houseid = this.$route.params.id;
             if (this.isadd == true) {
+                this.$store.commit('delelikelist', houseid);
+                axios
+                    .patch(`http://localhost:7000/user/${this.userid}`, {
+                        likelist: this.likelist
+                    })
+                    .then(res => {
+                        console.log('修改成功', res.data)
+                    });
                 this.isadd = false;
             } else {
+                this.$store.commit('updatelikelist', houseid)
                 axios
-                    .patch('http://localhost:7000/user/1', {
+                    .patch(`http://localhost:7000/user/${this.userid}`, {
                         likelist: this.likelist
                     })
                     .then(res => {
@@ -105,6 +136,34 @@ export default {
     },
     components: {
 
+    },
+    computed: {
+        userid() {
+            return this.$store.state.userdata[0].id
+        },
+        likelist() {
+            return this.$store.state.userdata[0].likelist;
+        },
+        usertype() {
+            return this.$store.state.userdata[0].type;
+        },
+        likestatus() {
+            // let islike = false;
+            let houseid = this.$route.params.id;
+            let index = this.likelist.indexOf(houseid);
+            if (index != -1) {
+                return true
+            } else {
+                return false
+            }
+
+        },
+        login() {
+            return this.$store.state.login;
+        },
+        hoststatus() {
+            return this.$store.state.hostcheck;
+        }
     }
 };
 </script>
@@ -153,25 +212,25 @@ $color_darkGreen: #666b46;
     }
     .houseTitle {
         color: $color_grey;
-        font-size: $font_basic_size * 1.5;
+        font-size: 20px; // font-size: $font_basic_size * 1.5;
         font-weight: bold;
-        padding-left: 10px;
+        padding-left: 5px;
     }
     .price {
         // border: 1px solid;
-        padding-top: 20px;
-        color: $color_grey;
-        line-height: 30px;
+        padding-top: 15px;
+        color: $color_grey; // line-height: 30px;
         .Ta {
-            // border: 1px solid
-            font-size: $font_basic_size * 2.5;
+            // border: 1px solid;
+            font-size: 20px; // font-size: $font_basic_size * 2.5;
         }
         .Tb {
             // border: 1px solid
-            font-size: $font_basic_size * 1.5;
+            font-size: 17px;
         }
         .icon_Heart {
             bottom: 40px;
+            margin-left: 10px;
             cursor: pointer;
         }
         .icon_Heart,
@@ -187,6 +246,7 @@ $color_darkGreen: #666b46;
     //     border: 1px solid;
     // }
     .button_book {
+        // border: solid 1px;
         @include size($w: 120px, $h: 30px);
         font-weight: bold;
         color: $color_white;
@@ -195,7 +255,8 @@ $color_darkGreen: #666b46;
         top: 50%;
         left: 50%;
         transform: translateX(-50%) translateY(-50%);
-        border-radius: 10%;
+        border-radius: 5%;
+        border: none;
         cursor: pointer;
     }
     .button_magnify {
@@ -208,7 +269,7 @@ $color_darkGreen: #666b46;
         background-size: 20px 20px;
         background-position: center;
         position: absolute;
-        left: 100%;
+        left: 145%;
         transform: translateX(-50%) translateY(-50%);
         cursor: pointer;
     }

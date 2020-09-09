@@ -1,41 +1,17 @@
 <template>
     <div class="equip">
-        <span>住屋設備</span> <br>
-        <div v-for="(item,index) in furniture" :key="index">
-            <div class="equip_icon">
-                <img src="../assets/media/icon_bed.png" alt="" /><br>
-                <span>{{item}}</span>
+        <span>住屋設備</span>
+        <br>
+        <div class="flex">
+            <div v-for="(item,index) in furniture" :key="index">
+                <div class="equip_icon">
+                    <!-- <img v-bind:src="imgsrc" alt="" /><br> -->
+                    <font-awesome-icon :icon="['fab', 'google-plus']" size="lg"/>
+                    <span>{{item}}</span>
+                </div>
             </div>
         </div>
     
-        <!-- <div class="equip_icon">
-                <img src="../assets/media/icon_bath.png" alt="" />
-                <span>衛浴</span>
-            </div>
-            <div class="equip_icon">
-                <img src="../assets/media/icon_wifi.png" alt="" />
-                <span>網路</span>
-            </div>
-            <div class="equip_icon">
-                <img src="../assets/media/icon_hair-dryer.png" alt="" />
-                <span>吹風機</span>
-            </div>
-            <div class="equip_icon">
-                <img src="../assets/media/icon_bed.png" alt="" />
-                <span>雙人床</span>
-            </div>
-            <div class="equip_icon">
-                <img src="../assets/media/icon_bath.png" alt="" />
-                <span>衛浴</span>
-            </div>
-            <div class="equip_icon">
-                <img src="../assets/media/icon_wifi.png" alt="" />
-                <span>網路</span>
-            </div>
-            <div class="equip_icon">
-                <img src="../assets/media/icon_hair-dryer.png" alt="" />
-                <span>吹風機</span>
-            </div> -->
     </div>
 </template>
 
@@ -45,7 +21,7 @@ export default {
     name: 'HouseEquip',
     data() {
         return {
-            imgsrc:'../assets/media/icon_'
+            imgsrc: '../assets/media/icon_bed.png'
         }
     },
 
@@ -53,24 +29,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.flex {
+    display: flex;
+}
+
 .equip {
+    // border: solid 1px;
     padding-top: 40px;
-    font-size: 30px;
-    font-weight: bolder;
     color: #666B46;
+    font-weight: bolder;
+    font-size: 25px;
     .equip_icon {
+        // border: solid 1px;
         width: 55px;
-        height: 75px;
         margin: 20px 10px 0px;
         color: #7E7E7E;
-        font-size: 9px;
-        display: inline-flex;
-        flex-wrap: wrap;
+        font-size: 15px;
+        display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        img {
-            width: 40px;
-            height: 40px;
+        span{
+            margin-top: 10px;
         }
     }
 }

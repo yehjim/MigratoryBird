@@ -1,25 +1,24 @@
 <template>
     <div class="search">
         <!-- <SearchHeader></SearchHeader> -->
-        <Header headercolor="#666B46" v-if="!hoststatus"></Header>
-        <hostheader headercolor="#666B46" v-else></hostheader>
+        <Header headercolor="#666B46"></Header>
         <PopUp></PopUp>
         <div class="container">
             <div class="row searchbar">
                 <div class="loc">
-                    <span>City</span>
+                    <span>{{ $t('mainpagetop.city') }}</span>
                     <dropdown dropdownwidth="250px" dropcontentwidth="250px" :locdata="citydata" :loc="city" @clickcity="cityhandler"></dropdown>
                 </div>
                 <div class="date">
-                    <span>Area</span>
+                    <span>{{ $t('mainpagetop.area') }}</span>
                     <dropdown dropdownwidth="250px" dropcontentwidth="250px" :locdata="areadata" :loc="area" @clickcity="areahandler"></dropdown>
                 </div>
                 <div class="staywrap">
-                    <span>地址/關鍵字</span>
+                    <span>{{ $t('mainpagetop.keyword') }}</span>
                     <input type="text" v-model="searchdata.key" :placeholder="keyword">
                 </div>
                 <div class="searchbtn" @click="search">
-                    <span>SEARCH</span>
+                    <span>{{ $t('mainpagetop.BOOKNOW') }}</span>
                 </div>
             </div>
         </div>
@@ -37,26 +36,27 @@
                 </div>
                 <div class="col-3 filter">
                     <div class="row rentslider">
-                        <span class="renttitle">Rent/mon</span>
+                        <span class="renttitle">{{ $t('search.rentmon') }}</span>
                         <div class="drop">
-                            <dropdown dropdownwidth="250px" dropcontentwidth="250px" bordercolor="solid 1px #A6B6AE" loc="城市"></dropdown>
+                            <div class="rangemarker"><span>{{rangevalue}}</span></div>
+                            <input type="range" min="5000" max="30000" class="rangeslider" id="myRange" @change="pricerange" v-model="rangevalue">
                         </div>
                     </div>
                     <div class="row stay">
-                        <span class="staytitle">Gender</span>
+                        <span class="staytitle">{{ $t('search.gender') }}</span>
                         <div class="staydropdown">
                             <dropdown dropdownwidth="250px" dropcontentwidth="250px" bordercolor="solid 1px #A6B6AE" loc="gender" :locdata="gender"></dropdown>
                         </div>
                     </div>
                     <div class="row squre">
-                        <span class="squretitle">Squre</span>
+                        <span class="squretitle">{{ $t('search.square') }}</span>
                         <div class="squreinput">
                             <input type="text" placeholder="坪數">
                         </div>
                     </div>
                     <div class="row more">
                         <div class="morebtn" @click="More">
-                            <span>More</span>
+                            <span>{{ $t('search.more') }}</span>
                         </div>
                     </div>
                     <div id="myModal1" class="modal">
@@ -68,7 +68,7 @@
                             </div>
                             <div class="topfilter">
                                 <div class="type" style="width: 50%;">
-                                    <div class="title">type</div>
+                                    <div class="title">{{ $t('search.type') }}</div>
                                     <div class="typecheck" style="display:flex;">
                                         <CheckBox labelname="整層住家" @check="fullhousecheck"></CheckBox>
                                         <CheckBox labelname="獨立套房" @check="studiocheck"></CheckBox>
@@ -84,7 +84,7 @@
     
                                 </div>
                                 <div class="rent" style="width: 50%;">
-                                    <div class="title">Rent</div>
+                                    <div class="title">{{ $t('search.rent') }}</div>
                                     <div class="typecheck" style="display:flex;">
                                         <CheckBox labelname="網路費"></CheckBox>
                                         <CheckBox labelname="水費"></CheckBox>
@@ -97,7 +97,7 @@
                             </div>
                             <div class="bottomfilter">
                                 <div class="life">
-                                    <div class="title">生活機能</div>
+                                    <div class="title">{{ $t('search.lifefunction') }}</div>
                                     <div class="typecheck" style="display:flex;">
                                         <CheckBox labelname="近傳統市場"></CheckBox>
                                         <CheckBox labelname="近百貨公司"></CheckBox>
@@ -113,14 +113,14 @@
                                 </div>
                                 <div class="pet">
                                     <div>
-                                        <div class="title">開伙</div>
+                                        <div class="title">{{ $t('search.fire') }}</div>
                                         <div class="typecheck" style="display:flex;">
                                             <CheckBox labelname="是"></CheckBox>
                                             <CheckBox labelname="否"></CheckBox>
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="title">寵物</div>
+                                        <div class="title">{{ $t('search.pet') }}</div>
                                         <div class="typecheck" style="display:flex;">
                                             <CheckBox labelname="是"></CheckBox>
                                             <CheckBox labelname="否"></CheckBox>
@@ -129,7 +129,7 @@
                                 </div>
                             </div>
                             <div class="confirm">
-                                <span @click="submitfilter">confirm</span>
+                                <span>confirm</span>
                             </div>
     
                         </div>
@@ -197,7 +197,8 @@ export default {
                 area: '',
                 key: ''
             },
-            gender:['male','female'],
+            rangevalue: 5000,
+            gender: ['male', 'female'],
             itemdata: [],
             selecteditems: "All",
             colors: [{
@@ -269,7 +270,7 @@ export default {
         });
         // this.loading = true
         // this.$store.dispatch('GETLIST')
-        axios.get('http://localhost:7000/housedetail')
+        axios.get('http://localhost:7000/housedetail', )
             .then((res) => {
                 console.log(res.data)
                 // this.itemdata = res.data
@@ -307,6 +308,9 @@ export default {
         },
         area() {
             return this.$store.state.searchdata.area;
+        },
+        key() {
+            return this.$store.state.searchdata.key;
         },
         //取得listdata
         hoststatus() {
@@ -354,6 +358,21 @@ export default {
 
         // }(),
         // da();,
+        pricerange() {
+            let max = document.querySelector('#myRange').max;
+            console.log(this.rangevalue);
+            axios.get(`http://localhost:7000/housedetail?monthly_gte=0&monthly_lte=${this.rangevalue}`)
+                .then((res) => {
+                    console.log(res.data)
+                    // this.itemdata = res.data
+                    var vm = this;
+                    vm.listdata = res.data
+                    console.log(vm.listdata)
+                }).catch((err) => {
+                    console.log(err)
+
+                })
+        },
         fullhousecheck(val) {
             this.filtertype.fullhouse = val
             console.log(this.filtertype)
@@ -390,25 +409,39 @@ export default {
             this.$set(vm, 'currentPage', page);
         },
         search: function() {
-            // console.log(this.list)
-            // this.listdata = this.list;
-            // console.log(this.listdata.gender)
-            // console.log('按到',this.loc)
-            let loc = this.loc
-            axios.get(`http://localhost:7000/Items?city=${loc}`)
-                .then((res) => {
-                    console.log(res.data)
-                    // this.itemdata = res.data
-                    var vm = this;
-                    vm.listdata = res.data
-                    console.log(vm.listdata)
-                }).catch((err) => {
-                    console.log(err)
+            let city = this.searchdata.city
+            let area = this.searchdata.area
+            let key = this.searchdata.key
+            if (city == '' && area == '' && key == '') {
+                axios.get(`http://localhost:7000/housedetail`)
+                    .then((res) => {
+                        console.log(res.data)
+                        // this.itemdata = res.data
+                        var vm = this;
+                        vm.listdata = res.data
+                        console.log(vm.listdata)
+                    }).catch((err) => {
+                        console.log(err)
 
-                })
+                    })
+            } else {
+                axios.get(`http://localhost:7000/housedetail?city_like=${city}&area_like=${area}&address_like=${key}`)
+                    .then((res) => {
+                        console.log(res.data)
+                        // this.itemdata = res.data
+                        var vm = this;
+                        vm.listdata = res.data
+                        console.log(vm.listdata)
+                    }).catch((err) => {
+                        console.log(err)
+
+                    })
+            }
+
         },
         cityhandler(cityname) {
             this.searchdata.city = cityname;
+            this.loc = cityname;
             for (let i = 0; i < this.alldata.length; i++) {
                 if (cityname == this.alldata[i].CityName) {
                     // this.areadata = this.alldata[i].AreaList
@@ -480,25 +513,6 @@ export default {
             var modal = document.getElementById("myModal1");
 
             modal.style.display = "none";
-        },
-        submitfilter() {
-            let full = this.filtertype.fullhouse;
-            axios.get(`http://localhost:7000/items?fullhouse=${full}`)
-                .then((res) => {
-                    console.log(res.data)
-                    this.listdata = res.data;
-                    // this.itemdata = res.data
-                    // var vm = this;
-                    // vm.listdata = res.data
-                    // console.log(vm.listdata)
-                }).catch((err) => {
-                    console.log(err)
-
-                })
-            var modal = document.getElementById("myModal1");
-
-            modal.style.display = "none";
-
         }
 
 
@@ -510,6 +524,56 @@ export default {
 // .container.container.container.container.container.container {
 //     max-width: 1140px;
 // }
+// .rangeslider{
+//     width: 250px;
+//     appearance: none;
+//     border-radius: 15px;
+//     border: solid 1px #A6B6AE;
+// }
+.rangeslider {
+    -webkit-appearance: none;
+    width: 250px;
+    height: 10px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.rangeslider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #A6B6AE;
+    cursor: pointer;
+}
+
+// .rangeslider::-moz-range-thumb {
+//   width: 25px;
+//   height: 25px;
+//   border-radius: 50%;
+//   background: #4CAF50;
+//   cursor: pointer;
+// }
+.rangemarker {
+    // border: solid 1px;
+    position: relative;
+    left: 10;
+    width: 60px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    background-color: #A6B6AE;
+    color: white;
+}
+
 .searchbar {
     margin-top: 70px;
     height: 75px;
@@ -544,7 +608,6 @@ export default {
             width: 90%;
             height: 25px;
             margin-top: 5px;
-
         }
     }
     .searchbtn {
@@ -622,7 +685,7 @@ export default {
             margin: 10px;
             color: #666B46;
         }
-        .drop{
+        .drop {
             // border: solid 1px;
             padding-left: 30px;
         }

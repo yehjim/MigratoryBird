@@ -10,52 +10,67 @@
                 </div>
                 <div class="profileinfo">
                     <div class="name">
-                        <span>Jacob liu</span>
+                        <span>{{name}}</span>
                     </div>
                     <div class="info">
                         <div class="loc">
-                            <span>Taiwan</span>
+                            <span>{{country}}</span>
                         </div>
                         <div class="birth">
-                            <span>03/22/2020</span>
+                            <span>{{birth}}</span>
     
                         </div>
                         <div class="gender">
-                            <span>male</span>
+                            <span>{{gender}}</span>
     
                         </div>
                         <div class="mail">
-                            <span>jej123@gmail.com</span>
+                            <span>{{username}}</span>
     
                         </div>
                         <div class="phone">
-                            <span>09-1234567</span>
+                            <span>{{phone}}</span>
     
                         </div>
                     </div>
                     <div class="livehabit">
                         <span>Living Habit</span>
                         <!-- <hr> -->
-                        <input type="text">
+                        <textarea></textarea>
+                        <!-- <input type="text"> -->
                     </div>
                     <div class="livehabit">
                         <span>Living Habit</span>
                         <!-- <hr> -->
-                        <input type="text">
+                        <textarea></textarea>
                     </div>
                     <div class="livehabit">
                         <span>Living Habit</span>
                         <!-- <hr> -->
-                        <input type="text">
+                        <textarea></textarea>
                     </div>
                     <div class="livehabit">
                         <span>Living Habit</span>
                         <!-- <hr> -->
-                        <input type="text">
+                        <textarea></textarea>
                     </div>
                     <div class="habitcheck">
-                        <label for="">smoke</label>
-                        <input type="checkbox" name="" id="">
+                        <div>
+                            <label for="">抽煙</label>
+                            <span>會</span>
+                            <input type="radio" name="" id="">
+                            <span>不會</span>
+                            <input type="radio" name="" id="">
+                        </div>
+                        <div>
+                            <label for="">用藥</label>
+                            <span>會</span>
+                            <input type="radio" name="" id="">
+                            <span>不會</span>
+                            <input type="radio" name="" id="">
+                        </div>
+    
+    
                     </div>
                 </div>
     
@@ -79,8 +94,28 @@ export default {
         next() {
             this.$emit('next2handler')
         },
-        back(){
+        back() {
             this.$emit('backhandler')
+        }
+    },
+    computed: {
+        name() {
+            return this.$store.state.userdata[0].name
+        },
+        country() {
+            return this.$store.state.userdata[0].country
+        },
+        birth() {
+            return this.$store.state.userdata[0].birth
+        },
+        gender() {
+            return this.$store.state.userdata[0].gender
+        },
+        username() {
+            return this.$store.state.userdata[0].username
+        },
+        phone() {
+            return this.$store.state.userdata[0].phone
         }
     }
 
@@ -104,7 +139,7 @@ export default {
     }
     .cv {
         border: solid 1px;
-        height: 700px;
+        height: 800px;
         width: 600px;
         border-radius: 10px;
         border: solid 1px #707070; // width: 400px;
@@ -160,7 +195,7 @@ export default {
                 color: #a6b6ae;
                 border-bottom: 1px solid;
             }
-            input {
+            textarea {
                 margin-top: 10px; // width: px;
                 height: 40px;
                 border-radius: 5px;
@@ -169,10 +204,29 @@ export default {
             }
         }
         .habitcheck {
-            border: solid 1px;
+            // border: solid 1px;
+            width: 500px;
+            margin: auto;
+            margin-top: 17px;
+            display: flex;
+            justify-content: space-around;
+            label {
+                font-size: 18px; // border: solid 1px;
+                margin-right: 10px;
+                 color: #a6b6ae;
+            }
+            span {
+                font-size: 17px;
+                 color: #a6b6ae;
+                 margin-right: 5px;
+                 margin-left: 5px;
+            }
+            input {
+                border: solid 1px #a6b6ae;
+            }
         }
     }
-    .btnwrap{
+    .btnwrap {
         display: flex;
         justify-content: space-between;
     }

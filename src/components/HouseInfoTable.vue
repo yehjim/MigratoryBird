@@ -25,11 +25,13 @@
         <table class="table2">
             <tr>
                 <td>開伙</td>
-                <td class="data">{{open_fire}}</td>
+                <td class="data" v-if="open_fire">是</td>
+                <td class="data" v-else>否</td>
             </tr>
             <tr>
                 <td>養寵物</td>
-                <td class="data">{{pet}}</td>
+                <td class="data" v-if="pet">是</td>
+                <td class="data" v-else>否</td>
             </tr>
             <tr>
                 <td>性別限制</td>
@@ -69,23 +71,25 @@ export default {
 <style lang="scss" scoped>
 .allTable {
     display: flex;
-    flex-direction: row;
+    justify-content: space-around;
     .table1,
     .table2 {
         display: inline-block;
         font-size: 15px;
         color: #7e7e7e;
+        // border: solid 1px;
+        margin-bottom: 20px;
+        width: 40%;
         td {
             padding-top: 5px;
+            padding-left: 10px;
         }
         .data {
-            display: flex;
-            justify-content: left;
-            padding-left: 10px;
+            padding-left: 20px;
         }
     }
     .table2 {
-        margin-left: 70px;
+        // margin-left: 70px;
     }
 }
 </style>

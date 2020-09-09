@@ -41,7 +41,7 @@
                 <b-col class="wrap" cols="4">
     
                     <!-- <signindrop labelname="Gender" isdrop=true stayplace="male"></signindrop> -->
-                    <signindrop @inputchagehandler="save" labelname="Birth" :isdrop=isdropparent place="yyyy-mm-dd"></signindrop >
+                    <signindrop @inputchagehandler="save" labelname="Birth" :isdrop=isdropparent place="yyyy-mm-dd"></signindrop>
     
                 </b-col>
                 <b-col class="wrap" cols="4">
@@ -58,17 +58,35 @@
                 </b-col>
     
             </b-row>
+            <b-row class="signininfo">
+                <b-col cols="4" class="flexbox">
+                    <signindrop @inputchagehandler="save" labelname="Name" :isdrop=isdropparent place="jimyeh"></signindrop>
+                </b-col>
+                <b-col cols="4" class="flexbox">
+                    <signindrop @inputchagehandler="save" labelname="Country" :isdrop=isdropparent place="Taiwan"></signindrop>
+                </b-col>
+                <b-col cols="4" class="flexbox">
+                    <!-- <signindrop @inputchagehandler="save" labelname="Password" :isdrop=isdropparent place="enter"></signindrop>
+                                                <span>請輸入</span> -->
+                </b-col>
+    
+            </b-row>
             <b-row>
-                <b-col cols="8"></b-col>
-                <b-col cols="4" class="paymentbtn">
-                    <span class="pay">Payment</span>
+                <b-col cols="9"></b-col>
+                <b-col cols="3" class="paymentbtn">
+    
                     <!-- <router-link to="/"> -->
-                    <div @click="login">
-                        <span class="later">later</span>
+                    <div class="loginbtn" @click="login" v-show="ishost==false">
+                        <span>LOGIN</span>
                     </div>
     
                     <!-- </router-link> -->
-                    <div class="nextbtn">></div>
+                    <span class="pay" v-show="ishost">Payment</span>
+                    <span v-show="ishost" @click="login">later</span>
+                    <router-link to="/signinpayment" v-show="ishost">
+                        <div class="nextbtn" @click="signinpayment">></div>
+                    </router-link>
+    
                 </b-col>
     
             </b-row>
@@ -103,6 +121,7 @@ export default {
                     hosttype: "landord"
                 }
             ],
+            ishost: false,
             userdata: {
                 // id: '',
                 username: '',
@@ -110,7 +129,16 @@ export default {
                 phone: '',
                 gender: '',
                 birth: '',
-                type: ''
+                type: '',
+                name: '',
+                country: '',
+                likelist: [],
+                needid: null,
+                hashouse: false,
+                houseid: null,
+                pay_list: [],
+                my_house: [],
+
             }
         }
     },
@@ -122,9 +150,9 @@ export default {
                     .then(res => {
                         let vm = this;
                         console.log(res.data);
-                        vm.$router.push('/')
+                        vm.$router.push('/login')
                     })
-                this.$store.commit('logincheck')
+                // this.$store.commit('logincheck')
             } else {
                 alert('請輸入完整資訊！')
             }
@@ -157,8 +185,27 @@ export default {
                 console.log(this.userdata)
             } else if (datatype === "Birth") {
                 this.userdata.birth = data;
+            } else if (datatype === "Name") {
+                this.userdata.name = data;
+            } else if (datatype === "Country") {
+                this.userdata.country = data;
             }
 
+        },
+        signinpayment() {
+            this.$store.commit("setsigninuserdata", this.userdata);
+            let iscomple = this.checkdata(this.userdata);
+            if (iscomple == true) {
+                axios.post('http://localhost:7000/user', this.userdata)
+                    .then(res => {
+                        // let vm = this;
+                        console.log(res.data);
+                        // vm.$router.push('/')
+                    })
+                this.$store.commit('logincheck')
+            } else {
+                alert('請輸入完整資訊！')
+            }
         },
         clickgender() {
             document.querySelector(".dropdown-content").style.display = "block";
@@ -176,6 +223,12 @@ export default {
         clicktypeitem(index) {
             this.typetest = this.type[index].hosttype;
             this.userdata.type = this.type[index].hosttype;
+            if (this.type[index].hosttype == "host") {
+
+                this.ishost = false
+            } else {
+                this.ishost = true
+            }
             // console.log(index + "按到")
             document.querySelector(".dropdowncontent").style.display = "none";
         }
@@ -194,6 +247,22 @@ export default {
     align-items: center;
 }
 
+.loginbtn {
+    // border: solid 1px;
+    border-radius: 3px;
+    background-color: #656b41;
+    // color: white;
+    width: 100px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span{
+        color: white;
+        font-size: 14px;
+    }
+}
+
 .signin {
     // font-family: Futura;
     height: 100vh;
@@ -202,8 +271,8 @@ export default {
     justify-content: center;
     align-items: center;
     .signpage {
-        width: 70%;
-        height: 70%;
+        width: 80%;
+        height: 85%;
         background-color: #ededed;
         box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
         border-radius: 4px; // margin: auto;
@@ -222,7 +291,7 @@ export default {
             align-items: center;
         }
         .profileinfo {
-            font-size: 25px;
+            font-size: 28px;
             color: #6a6a6a; // border: solid 1px;
             display: flex;
             justify-content: center;
@@ -231,7 +300,7 @@ export default {
         .signininfo {
             // border: solid 1px;
             // margin-top: 100px;
-            width: 85%;
+            width: 90%;
             margin: auto;
             margin-top: 50px;
             .wrap {
@@ -245,7 +314,7 @@ export default {
                 // border: solid 1px;
                 display: flex;
                 flex-direction: column;
-                width: 200px;
+                width: 230px;
                 margin-left: 15px;
                 label {
                     width: 55px;
@@ -263,7 +332,7 @@ export default {
                 }
                 input {
                     border: none;
-                    width: 180px;
+                    width: 260px;
                     border-bottom: solid 2px #707070;
                     background-color: transparent;
                 }
@@ -302,7 +371,7 @@ export default {
                     position: absolute;
                     top: 21px;
                     background-color: #f9f9f9;
-                    min-width: 160px; // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+                    min-width: 190px; // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
                     // transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
                     z-index: 2;
                 }
@@ -337,7 +406,7 @@ export default {
         }
         .paymentbtn {
             // border: solid 1px;
-            margin-top: 130px;
+            margin-top: 50px;
             display: flex; // justify-content: space-between;
             // align-items: flex-end;
             .pay {
@@ -349,8 +418,6 @@ export default {
             .later {
                 font-size: 15px;
                 color: rgba(106, 106, 106, 0.56);
-                margin-right: 15px;
-                margin-top: 15px;
             }
             .nextbtn {
                 width: 25px;

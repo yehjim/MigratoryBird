@@ -7,8 +7,8 @@
             </div>
             <div class="right">
                 <div class="title">
-                    <span class="name">{{name}}</span>
-                    <span class="coutry">{{coutry}}</span>
+                    <span class="name">{{coutry}}</span>
+                    <span class="coutry">{{name}}</span>
                 </div>
                 <div class="add">
                     <span>{{add}}</span>
@@ -20,10 +20,12 @@
                 <div class="price">
                     <span>NTD:${{price}}</span>
                 </div>
-                <div class="contactbtn">
+                <div class="contactbtn" @click.stop="contact" v-if="loginstatus">
                     <span>聯絡</span>
                 </div>
-    
+                <div class="contactbtn" @click.stop="loginalert" v-else>
+                    <span>聯絡</span>
+                </div>
             </div>
     
         </div>
@@ -33,10 +35,10 @@
 <script>
 import needcardmodal from '../components/needcardmodal'
 export default {
-    props: ['name', 'coutry', 'add', 'checkin', 'checkout', 'price','needid'],
+    props: ['name', 'coutry', 'add', 'checkin', 'checkout', 'price', 'needid'],
     data() {
         return {
-            display:'none'
+            display: 'none'
         }
     },
     components: {
@@ -45,10 +47,31 @@ export default {
     methods: {
         showdetail() {
             this.display = 'block'
+            console.log('有按到1')
         },
-        close(){
+        close() {
             this.display = 'none'
+        },
+        contact() {
+            if (this.hostcheck == true) {
+                this.$emit('contactopen',this.needid)
+                console.log('有按到2')
+            }else{
+                alert('你是房客')
+            }
+
+        },
+        loginalert(){
+            alert('請登入！')
         }
+    },
+    computed: {
+        hostcheck() {
+            return this.$store.state.hostcheck;
+        },
+        loginstatus() {
+            return this.$store.state.login;
+        },
     }
 }
 </script>

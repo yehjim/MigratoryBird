@@ -2,9 +2,7 @@
     <div class="account">
         <div class="itemwrap">
             <div v-for="(ppl,index) in pagedListdata" :key="index">
-                <router-link :to="{name:'HouseDetail',params:{id:ppl.houseid}}">
-                    <ProfileItem :loc="ppl.loc" :area="ppl.area" :price="ppl.price"></ProfileItem>
-                </router-link>
+                <ProfileItem :loc="ppl.city" :area="ppl.area" :price="ppl.monthly" :id="ppl.id"></ProfileItem>
             </div>
         </div>
     
@@ -35,17 +33,51 @@ export default {
         // Item
     },
     mounted() {
-        axios.get('http://localhost:7000/like')
-            .then((res) => {
-                console.log(res.data)
-                // this.itemdata = res.data
-                var vm = this;
-                vm.listdata = res.data
-                console.log(vm.listdata)
-            }).catch((err) => {
-                console.log(err)
+        // axios.get('http://localhost:7000/like')
+        //     .then((res) => {
+        //         console.log(res.data)
+        //         // this.itemdata = res.data
+        //         var vm = this;
+        //         vm.listdata = res.data
+        //         console.log(vm.listdata)
+        //     }).catch((err) => {
+        //         console.log(err)
 
-            })
+        //     })
+        if (this.likelist == '') {
+            console.log('未有like資料！')
+        } else {
+            axios({
+                    method: 'get',
+                    url: `http://localhost:7000/housedetail`,
+                    headers: { Pragma: 'no-cache' },
+                    params: {
+                        id: this.likelist
+                    }
+                })
+                .then((res) => {
+                    this.listdata = res.data
+                    // console.log('123', this.likelist)
+                    console.log('取得like資料', res, this.likelist)
+                })
+                .catch((err) => { console.error(err) })
+        }
+
+
+
+        // axios.get('http://localhost:7000/housedetail', {
+        //         params: {
+        //             id: this.likelist
+        //         }
+        //     })
+        //     .then((res) => {
+        //         // this.listdata = res.data
+        //         console.log('123', this.likelist)
+        //         console.log('取得like資料', res)
+        //     }).catch((err) => {
+        //         console.log(err)
+
+        //     })
     },
     computed: {
         pagedListdata: function() {
@@ -58,6 +90,9 @@ export default {
                 return [];
             }
         },
+        likelist() {
+            return this.$store.state.userdata[0].likelist
+        }
     },
     watch: {
         listdata: function() {
@@ -92,6 +127,7 @@ export default {
 <style lang="scss" scoped>
 .account {
     // overflow: scroll;
+    width: 700px;
     height: 570px; // border: solid 1px;
     margin-top: 40px;
     border-bottom: 10px solid #A6B6AE;

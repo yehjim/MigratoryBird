@@ -3,8 +3,11 @@
         <div class="about">
             <span>最後一步</span>
         </div>
-        <div class="itemwrap">
-            <item loc="台北" area="中山區" price="NTD12500"></item>
+        <div class="itemwrap" v-if="!editmode">
+            <item :loc="loc" :area="area" :price="price"></item>
+        </div>
+        <div class="itemwrap" v-else>
+            <item :loc="locprops" :area="areaprops" :price="price"></item>
         </div>
     
     </div>
@@ -13,6 +16,18 @@
 <script>
 import item from '../components/Item'
 export default {
+    props:['editmode','locprops','areaprops','priceprops'],
+    computed:{
+        loc(){
+           return this.$store.state.posthousedata.city
+        },
+        area(){
+            return this.$store.state.posthousedata.area
+        },
+        price(){
+            return this.$store.state.posthousedata.monthly
+        }
+    },
     components: {
         item
     }

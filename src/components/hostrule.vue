@@ -8,9 +8,7 @@
             <span>請詳閱後確認</span>
         </div>
         <div class="rule">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam sint aspernatur eos! Animi numquam facilis voluptat ibus! Quod corporis unde quaerat quia pariatur aspernatur et. Ab consequatur quo voluptas odio vitae Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Impedit quibusdam aspernatur doloremque adipisci itaque quidem, nulla, officia rem ipsum quasi architecto cum doloribus ea dicta! Cumque adipisci reiciendis quaerat doloribus.
-                lorem
+            <p>{{iteminfo.rule}}
             </p>
         </div>
         <div>
@@ -28,9 +26,27 @@
 
 <script>
 export default {
+    props:['iteminfo'],
+    data() {
+        return {
+        }
+    },
     methods: {
+        // setforeignerlist() {
+        //     this.foreignerlist = this.iteminfo.foreigner_id
+        //     this.foreignerlist.push(this.userid)
+        // },
         next() {
+            let foreignerlist = this.$store.state.foreignerlist
+            foreignerlist.push(this.userid)
+            this.$store.state.foreignerlist = foreignerlist
+            this.$store.commit('updatebookingdata',this.iteminfo);
             this.$emit('nexthandler')
+        }
+    },
+    computed:{
+        userid(){
+            return this.$store.state.userdata[0].id
         }
     }
 }

@@ -2,7 +2,7 @@
     <div class="HouseDetail">
         <HouseDTHeader></HouseDTHeader>
         <Carousel></Carousel>
-        <!-- <Popup></Popup> -->
+    
         <div id="myModal" class="modal" :style="{display:status}">
             <div class="modalcontent">
                 <div class="flexbox">
@@ -29,17 +29,15 @@
                     </div>
                     <div class="checkin">
                         <h5>checkin date</h5>
-                        <b-form-datepicker v-model="value1" class="mb-2"></b-form-datepicker>
+                        <b-form-datepicker v-model="datedata.start_date" class="mb-2"></b-form-datepicker>
                     </div>
                     <div class="checkout">
                         <h5>checkout date</h5>
-                        <b-form-datepicker v-model="value2" class="mb-2"></b-form-datepicker>
+                        <b-form-datepicker v-model="datedata.end_date" class="mb-2"></b-form-datepicker>
                     </div>
                     <div class="nextbtn" @click="checkdatedata">
-                        <router-link :to="{ name:'Book',params:{id}}">
-                            <span>NEXT</span>
     
-                        </router-link>
+                        <span>NEXT</span>
     
     
                     </div>
@@ -50,7 +48,9 @@
     
         </div>
         <BriefInfoBar @showcheckinhandler="showcheckin" :city="detaildata.city" :area="detaildata.area" :state="detaildata.type" :monthly="detaildata.monthly"></BriefInfoBar>
-        <HouseContent @showbarginhandler="show" :address="detaildata.address" :type="detaildata.type" :furniture="detaildata.furniture" :house_describe="detaildata.house_describe" :life_function="detaildata.life_function" :monthly="detaildata.monthly" :square="detaildata.square" :live_number="detaildata.live_number" :room="detaildata.room" :deposit="detaildata.deposit" :open_fire="detaildata.open_fire" :pet="detaildata.pet" :gender="detaildata.gender" :legal_use="detaildata.legal_use" :is_bargain="detaildata.is_bargain"></HouseContent>
+        <HouseContent @showbarginhandler="show" :address="detaildata.address" :type="detaildata.type" :furniture="detaildata.fur" :house_describe="detaildata.house_describe" :life_function="detaildata.life_function" :monthly="detaildata.monthly" :square="detaildata.square" :city="detaildata.city" :area="detaildata.area"
+            :live_number="detaildata.live_number" :room="detaildata.room" :deposit="detaildata.deposit" :open_fire="detaildata.open_fire" :pet="detaildata.pet" :gender="detaildata.gender" :legal_use="detaildata.legal_use" :is_bargain="detaildata.is_bargain" :fee="detaildata.fee"></HouseContent>
+        <Popup></Popup>
     
     
     </div>
@@ -64,7 +64,7 @@ import BriefInfoBar from '../components/BriefInfoBar'
 import HouseContent from '../components/HouseContent'
 import axios from 'axios'
 
-// import Popup from '../components/PopUp'
+import Popup from '../components/PopUp'
 
 export default {
     name: 'HouseDetail',
@@ -74,6 +74,10 @@ export default {
             checkinstatus: 'none',
             value1: '',
             value2: '',
+            datedata: {
+                start_date: '',
+                end_date: ''
+            },
             id: this.$route.params.id,
             detaildata: {
 
@@ -83,15 +87,16 @@ export default {
     mounted() {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
-        axios.get(`http://localhost:7000/housedetail/${this.id}`)
-            .then((res) => {
-                console.log(res.data)
-                // this.itemdata = res.data
-                this.detaildata = res.data;
-            }).catch((err) => {
-                console.log(err)
-
+        axios({
+                method: 'get',
+                url: `http://localhost:7000/housedetail/${this.id}`,
+                headers: { Pragma: 'no-cache' }
             })
+            .then((res) => { 
+                console.log('取得詳細資料')
+            this.detaildata = res.data; 
+            })
+            .catch((err) => { console.error(err) })
 
     },
     components: {
@@ -99,7 +104,7 @@ export default {
         Carousel,
         BriefInfoBar,
         HouseContent,
-        // Popup
+        Popup
 
     },
     methods: {
@@ -125,10 +130,24 @@ export default {
             this.checkinstatus = 'none';
         },
         checkdatedata() {
-            this.$store.state.checkindata.checkin = this.value1;
-            this.$store.state.checkindata.checkout = this.value2;
+            if (this.islogin == true) {
+                let vm = this
+                this.$store.commit('setbookingdata', this.datedata)
+                let id = this.id
+                vm.$router.push({ name: 'Book', params: { id } })
+            } else {
+                let vm = this;
+                alert('請登入')
+                vm.$router.push('/login')
+            }
 
 
+
+        }
+    },
+    computed: {
+        islogin() {
+            return this.$store.state.login
         }
     }
 }

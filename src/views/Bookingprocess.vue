@@ -22,7 +22,7 @@
                                 <div class="processnumnone" v-else>
                                     <span>2</span>
                                 </div>
-                                
+    
                             </div>
                         </div>
                         <div class="line" :style="{height:line1h}">
@@ -39,7 +39,7 @@
                                 <div class="processnumnone" v-else>
                                     <span>3</span>
                                 </div>
-                                
+    
                             </div>
                         </div>
                         <div class="line1" :style="{height:line2h}">
@@ -55,9 +55,9 @@
                         </div>
                     </b-col>
                     <b-col cols="10">
-                        <hostrule @nexthandler="Next" v-show="pronum===2"></hostrule>
+                        <hostrule @nexthandler="Next" v-show="pronum===2" :iteminfo="iteminfo"></hostrule>
                         <tenantprofile @next2handler="Next2" @backhandler="back" v-show="pronum===3"></tenantprofile>
-                        <payment @backhandler="back2" v-show="pronum===4"></payment>
+                        <payment @backhandler="back2" v-show="pronum===4" :iteminfo="iteminfo" :start="checkin" :end="checkout" :totalrent="totalrent" @showcompletepage="showmodal"></payment>
                     </b-col>
     
                 </b-row>
@@ -73,19 +73,17 @@
                         <div class="hosttype">
                             超級房東
                         </div>
-                        <span>
-                                                                                Taipei
-                                                                            </span>
+                        <span>{{iteminfo.city}}</span>
                     </div>
                     <div class="housedescribe">
                         <div class="add">
-                            <span>新北市板橋區銘傳街</span>
+                            <span>{{iteminfo.city}}{{iteminfo.area}}{{iteminfo.address}}</span>
                         </div>
                         <div class="type">
-                            <span>透天</span>
+                            <span>{{iteminfo.type}}</span>
                         </div>
                         <div class="price">
-                            <span>NTD : {{iteminfo.price}} / 月</span>
+                            <span>NTD : {{iteminfo.monthly}} / 月</span>
                         </div>
                     </div>
                     <div class="checkdate">
@@ -112,16 +110,17 @@
                         </div>
                         <div class="deposit">
                             <span>Depositt：</span>
-                            <span class="depositprice">NTD：65000</span>
+                            <span class="depositprice">NTD：{{iteminfo.deposit}}</span>
                         </div>
                         <div class="totalrent">
                             <span>Total：</span>
-                            <span class="totalprice">NTD：90000</span>
+                            <span class="totalprice">NTD：{{totalrent}}</span>
                         </div>
                     </div>
                 </div>
             </b-col>
         </b-row>
+        <complete v-if="show"></complete>
     </b-container>
 </template>
 
@@ -130,6 +129,7 @@ import hostrule from '../components/hostrule'
 import tenantprofile from '../components/tenantprofile'
 import payment from '../components/paymentprocess'
 import axios from 'axios'
+import complete from '../components/Completebooking'
 export default {
     data() {
         return {
@@ -137,7 +137,8 @@ export default {
             line1h: '450px',
             line2h: '100px',
             totalmon: 0,
-            iteminfo:{
+            show: false,
+            iteminfo: {
 
             }
         }
@@ -145,11 +146,12 @@ export default {
     components: {
         hostrule,
         tenantprofile,
-        payment
+        payment,
+        complete
     },
-    mounted(){
+    mounted() {
         let houseid = this.$route.params.id
-         axios.get(`http://localhost:7000/housedetail/?houseid=${houseid}`)
+        axios.get(`http://localhost:7000/housedetail/?id=${houseid}`)
             .then((res) => {
                 this.iteminfo = res.data[0]
                 console.log(this.iteminfo)
@@ -168,81 +170,90 @@ export default {
             this.pronum += 1;
             this.line2h = "50px";
         },
-        back(){
-            this.pronum-=1;
+        back() {
+            this.pronum -= 1;
             this.line1h = "450px";
             this.line2h = "100px"
         },
-        back2(){
-            this.pronum -=1;
+        back2() {
+            this.pronum -= 1;
             this.line2h = "1000px";
             this.line1h = "50px";
         },
-        computedtotalmon(){
-            let checkinmon =  this.checkinyearmon;
-            let checkoutmon  = this.checkoutmon;
-            let totalmon = checkoutmon-checkinmon;
+        computedtotalmon() {
+            let checkinmon = this.checkinyearmon;
+            let checkoutmon = this.checkoutmon;
+            let totalmon = checkoutmon - checkinmon;
             // this.test = checkinmon;
+            console.log('月份', totalmon)
             return totalmon;
             // return 1;
         },
-        computedtotalyear(){
+        computedtotalyear() {
             let checkinyear = this.checkinyear;
             let checkoutyear = this.checkoutyear
-            
-            let totalyear = checkoutyear-checkinyear;
-            totalyear = totalyear*12;
+
+            let totalyear = checkoutyear - checkinyear;
+            totalyear = totalyear * 12;
+            console.log('月份', totalyear)
             return totalyear;
+        },
+        showmodal() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+            this.show = true;
+            setTimeout(this.closemodal, 2000);
+
+            // setTimeout(this.show=true,5000)
+        },
+        closemodal() {
+            this.show = false
         }
     },
-    watch:{
+    watch: {
         //  rent(){
         //     let a = this.computedtotalmon();
         //     return a;
         // },
     },
-    computed:{
-        checkin(){
-            return this.$store.state.checkindata.checkin
+    computed: {
+        checkin() {
+            return this.$store.state.bookingRecord.start_date
         },
-        checkout(){
-            return this.$store.state.checkindata.checkout
+        checkout() {
+            return this.$store.state.bookingRecord.end_date
         },
-        rent(){
+        rent() {
             let mon = this.computedtotalmon();
-            let year =this.computedtotalyear();
-            let rent = this.iteminfo.price
-            return rent*(mon+year);
-        }
-        // rent:{
-        //     get(){
-        //         return this.totalmon
-        //     },
-        //     set(){
-        //         var mon = tcheckin.split('-');
-        //         this.totalmon = mon[0]
-
-        //     }
-            
-        // },
-       ,
-        checkinyear(){
+            let year = this.computedtotalyear();
+            let rent = this.iteminfo.monthly;
+            let totoalrent = rent * (mon + year);
+            if (mon == 0 && year == 0) {
+                totoalrent = this.iteminfo.monthly;
+            }
+            return totoalrent
+        },
+        checkinyear() {
             return parseInt(this.checkin.split('-')[0]);
         },
-        checkinyearmon(){
+        checkinyearmon() {
             return parseInt(this.checkin.split('-')[1]);
         },
-        checkinday(){
+        checkinday() {
             return this.checkin.split('-')[2];
         },
-        checkoutyear(){
+        checkoutyear() {
             return parseInt(this.checkout.split('-')[0]);
         },
-        checkoutmon(){
+        checkoutmon() {
             return parseInt(this.checkout.split('-')[1]);
         },
-        checkoutday(){
+        checkoutday() {
             return this.checkout.split('-')[2];
+        },
+        totalrent() {
+            let totalrent = parseInt(this.rent) + parseInt(this.iteminfo.deposit);
+            return totalrent
         }
     }
 }

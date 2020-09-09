@@ -4,26 +4,64 @@
             <b-col cols="2" class="logo flexcenter">
                 <router-link to="/"><span>Migratory Bird</span></router-link>
             </b-col>
-            <b-col cols="5">
-    
+            <b-col cols="4" v-if="host"></b-col>
+            <b-col cols="5" v-else></b-col>
+            <b-col cols="1" class="flexcenter find" v-if="host">
+                <router-link to="/post">
+                    <span class="find">Post</span>
+                </router-link>
             </b-col>
-            <b-col cols="1" class="flexcenter">
+            <b-col cols="1" class="flexcenter find" v-else>
                 <router-link to="/search">
                     <span class="find">FIND</span>
                 </router-link>
     
             </b-col>
-            <b-col cols="1" class="flexcenter">
-                <span>NEED</span>
+            <b-col cols="1" class="flexcenter" v-if="host">
+                <router-link to="/search">
+                    <span>Find</span>
+                </router-link>
+            </b-col>
+            <b-col cols="1" class="flexcenter" v-else>
+                <router-link to="/need">
+                    <span>NEED</span>
+                </router-link>
+            </b-col>
+            <b-col cols="1" class="flexcenter" v-if="host">
+                <router-link to="/need">
+                    <span>Mating</span>
+                </router-link>
+    
     
             </b-col>
-            <b-col cols="1" class="flexcenter">
-                <span>COMUNITY</span>
+    
+            <b-col cols="1" class="flexcenter" v-else>
+    
+                <router-link to="/about">
+                    <span>ABOUT</span>
+                </router-link>
     
             </b-col>
-            <b-col cols="1" class="flexcenter">
-                <span>ABOUT</span>
+            <b-col cols="1" class="flexcenter" v-if="host">
+                <router-link to="/about">
+                    <span>ABOUT</span>
+                </router-link>
+    
             </b-col>
+            <b-col cols="1" class="flexcenter" v-else>
+    
+                <div @click="changelang">
+                    <span>LANGUAGE</span>
+                </div>
+    
+            </b-col>
+            <b-col cols="1" class="flexcenter" v-show="host">
+                <div @click="changelang">
+                    <span>LANGUAGE</span>
+                </div>
+    
+            </b-col>
+    
             <b-col cols="1" class="profile flexcenter">
                 <div class="profilepic" v-if="loginstatus" @click="drop">
     
@@ -33,24 +71,31 @@
                 </router-link>
                 <div class="dropdownmenu" v-if="dropdown">
                     <router-link to="/profile">
-                        <span>Profile</span>
+                        <span>{{ $t('mainpagetop.profile') }}</span>
                     </router-link>
-                    <router-link to="/profile/MyNest">
-                        <span>MyNest</span>
+                    <router-link to="/profile/hostitem" v-if="host">
+                        <span>Item</span>
                     </router-link>
-                    <router-link to="/profile/Like">
-                        <span>Like</span>
+                    <router-link to="/profile/MyNest" v-else v-show="hashouse">
+                        <span>{{ $t('mainpagetop.mynest') }}</span>
                     </router-link>
-                    <div>
-                        <span>LFR Post</span>
-                    </div>
-                    <div @click="changelang">
-                        <span>Language</span>
-                    </div>
-                    <div class="logout" @click="logout">
-                        <!-- <router-link to="/login"> -->
-                        <span>Logout</span>
-                        <!-- </router-link> -->
+                    <router-link to="/profile/chatroom" v-if="host">
+                        <span>chatroom</span>
+                    </router-link>
+                    <router-link to="/profile/Like" v-else>
+                        <span>{{ $t('mainpagetop.like') }}</span>
+                    </router-link>
+                    <router-link to="/profile/hostinbox" v-if="host">
+                        <span>Inbox</span>
+                    </router-link>
+                    <router-link to="/profile/mbmating" v-else>
+                        <span>Need Inbox</span>
+                    </router-link>
+                    <router-link to="/profile/landordinbox" v-if="host==false">
+                        <span>Inbox</span>
+                    </router-link>
+                    <div @click="logout">
+                        <span>{{ $t('mainpagetop.logout') }}</span>
     
                     </div>
     
@@ -110,17 +155,27 @@ export default {
             this.dropdown = false;
         },
         changelang() {
+            //  this.$emit('changelanghandler');
+            console.log('app')
             this.$store.commit('diplaylangmodal')
+            // this.$store.commit('diplaylangmodal')
         }
     },
     computed: {
         loginstatus() {
             return this.$store.state.login;
+        },
+        host() {
+            return this.$store.state.hostcheck;
+        },
+        hashouse() {
+            return this.$store.state.userdata[0].hashouse
         }
     },
     beforedestroyed() { //离开该页面前需要移除这个监听的事件
         window.removeEventListener('scroll', this.handleScroll)
     },
+
 }
 </script>
 
@@ -136,7 +191,7 @@ export default {
 .flexcenter {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; // border: solid 1px;
 }
 
 .housedtnavbar {
@@ -146,9 +201,15 @@ export default {
     width: 100%;
     height: 50px;
     font-weight: bold;
+    .find {
+        font-size: 22px;
+        color: white; // color: black;
+    }
     span {
         // border: solid 1px;
         color: white;
+        font-size: 15px;
+        font-weight: bold;
     }
     .profile {
         .profilepic {
@@ -165,6 +226,7 @@ export default {
             display: flex;
             flex-direction: column;
             justify-content: space-around;
+            align-items: center;
             top: 55px;
             background-color: white;
             border-radius: 5px;
@@ -173,16 +235,10 @@ export default {
             span {
                 color: #7E7E7E;
                 font-size: 15px;
-                border: solid 1px; // width: 100%;
                 width: 100%;
             }
         }
     }
-}
-
-.find {
-    font-size: 20px;
-    color: white; // color: black;
 }
 
 @mixin size($w, $h) {
@@ -197,11 +253,4 @@ $color_darkWhite: #e8e8e8;
 $color_darkBrown: #75572e;
 $color_darkGreen: #666b46;
 $color_tagColor: #a6b6ae;
-* {
-    font-family: 微軟正黑體;
-    position: relative;
-    box-sizing: border-box;
-} // .HouseDTHeader{
-//   border: 1px solid yellow;
-// }
 </style>

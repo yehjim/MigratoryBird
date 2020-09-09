@@ -3,12 +3,20 @@
         <headerbar headercolor="#666B46"></headerbar>
         <searchbar @searchinputhandler="searchloc"></searchbar>
         <div class="container needresult">
+            <!-- <div>
+                        <span v-for="(item,index) in filterlist" :key="index">{{item.Budget}}</span>
+                    </div> -->
             <div v-for="(item,index) in pagedListdata" :key="index">
-                <needcard :name="item.name" :coutry="item.country" :add="item.add" :checkin="item.checkin" :checkout="item.checkout" :price="item.Budget" :needid="item.id"></needcard>
+                <needcard :name="item.name" :coutry="item.country" :add="item.add" :checkin="item.checkin" :checkout="item.checkout" :price="item.Budget" :needid="item.id" @contactopen="contact"></needcard>
+    
             </div>
     
         </div>
-        <div class="addneedbtn" @click="addneed">
+         
+        <div class="addneedbtn" @click="addneed" v-if="loginstatus">
+            <span>+</span>
+        </div>
+        <div class="addneedbtn"  @click="loginalert" v-else>
             <span>+</span>
         </div>
         <needpost v-if="needpostshow" @closeadd="close"></needpost>
@@ -19,31 +27,53 @@
                 </paginate>
             </div>
         </div>
+        <contactmodal v-show="iscontact" @closecontact="closecontact" :need_id="neddid"></contactmodal>
+        <PopUp></PopUp>
     </div>
 </template>
 
 <script>
+import PopUp from '../components/PopUp'
 import headerbar from '../components/Header'
 import searchbar from '../components/searchbar'
 import needcard from '../components/needcard'
 import needpost from '../components/needpost'
 import axios from 'axios'
 import Paginate from 'vuejs-paginate'
+import contactmodal from '../components/needcontact'
+
 export default {
     data() {
         return {
             display: 'none',
             needlist: [],
             needpostshow: false,
-            listdata:[],
+            listdata: [],
             currentPage: 1,
             pageCount: 4,
+            iscontact: false,
+            filterlist: [],
+            neddid:'',
+            testlist: [{
+                    val: 1,
+                },
+                {
+                    val: 2
+                },
+                {
+                    val: 3,
+                },
+                {
+                    val: 4
+                }
+            ]
+
         }
     },
     mounted() {
         axios.get('http://localhost:7000/need')
             .then((res) => {
-                console.log(res.data)
+                console.log('我們的資料', res.data)
                 // this.itemdata = res.data
                 var vm = this;
                 vm.needlist = res.data
@@ -54,7 +84,13 @@ export default {
 
             })
     },
-    computed:{
+    computed: {
+        loginstatus() {
+            return this.$store.state.login;
+        },
+        hostcheck() {
+            return this.$store.state.hostcheck;
+        },
         pagedListdata: function() {
             var vm = this;
             if (vm.listdata && vm.listdata.length > 0) {
@@ -65,27 +101,56 @@ export default {
                 return [];
             }
         },
+        testfilter() {
+            return this.testlist.filter((item) => {
+                return item.val > 2;
+            })
+        },
+        needid(){
+            return this.$store.state.userdata[0].needid;
+        }
+
     },
-     watch: {
+    watch: {
         listdata: function() {
             this._setPage2Model();
         }
 
     },
     methods: {
+        closecontact() {
+            this.iscontact = false
+        },
         addneed() {
-            this.needpostshow = true;
+            if (this.loginstatus == true && this.hostcheck == false && this.needid == null) {
+                this.needpostshow = true;
+            } else if (this.loginstatus == true && this.hostcheck == true) {
+                alert('你是房東')
+            }else if(this.needid != '' || this.needid != null){
+                alert('你已增加過需求')
+
+            }
+
+        },
+        loginalert(){
+            alert('請登入！')
         },
         close() {
             this.needpostshow = false;
         },
-        searchloc(val){
-            this.listdata = this.listdata.filter(function(filteritems){
-                return filteritems.Budget < val;
-
+        searchloc(val) {
+            this.listdata = this.listdata.filter((item) => {
+                return item.Budget < val;
             })
-            console.log(val);
+
         },
+        contact(val) {
+            this.iscontact = true
+            this.neddid = val
+            console.log(this.neddid)
+        },
+
+        // console.log(val);
         _setPage2Model: function() {
             const PAGE_SIZE = 6; //Show how many records in a single page
 
@@ -111,7 +176,9 @@ export default {
         searchbar,
         needcard,
         needpost,
-        Paginate
+        Paginate,
+        contactmodal,
+        PopUp
 
     }
 }

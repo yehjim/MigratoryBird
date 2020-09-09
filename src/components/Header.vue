@@ -1,54 +1,93 @@
 <template>
     <b-container fluid>
-        <b-row v-bind:style="{backgroundColor: headercolor}">
+        <b-row v-bind:style="{backgroundColor: headercolor, color:fontcolor} ">
             <div class="col-2 logo">
                 <router-link to="/">
-                    <span>Migratory Bird</span>
+                    <span v-bind:style="{color:fontcolor} ">Migratory Bird</span>
                 </router-link>
             </div>
-            <div class="col-5"></div>
-            <div class="col-1">
+            <div class="col-4" v-if="host"></div>
+            <div class="col-5" v-else></div>
+            <div class="col-1" v-if="host">
+                <router-link to="/post">
+                    <span class="find" v-bind:style="{color:fontcolor} ">{{ $t('mainpagetop.post') }}</span>
+                </router-link>
+            </div>
+            <div class="col-1" v-else>
                 <router-link to="/search">
-                    <span class="find">{{ $t('mainpagetop.find') }}</span>
+                    <span class="find" v-bind:style="{color:fontcolor} ">{{ $t('mainpagetop.find') }}</span>
+                </router-link>
+    
+            </div>
+            <div class="col-1" v-if="host">
+                <router-link to="/search">
+                    <span v-bind:style="{color:fontcolor} ">{{ $t('mainpagetop.find') }}</span>
                 </router-link>
             </div>
-            <div class="col-1">
+            <div class="col-1" v-else>
                 <router-link to="/need">
-                    <span>{{ $t('mainpagetop.need') }}</span>
+                    <span v-bind:style="{color:fontcolor} ">{{ $t('mainpagetop.need') }}</span>
                 </router-link>
             </div>
-            <div class="col-1">
-                <router-link to="/payment">
-                    <span>COMUNITY</span>
+    
+            <div class="col-1" v-if="host">
+                <router-link to="/need" >
+                    <span v-bind:style="{color:fontcolor} ">{{ $t('mainpagetop.mating') }}</span>
+                </router-link>
+               
+            </div>
+    
+            <div class="col-1" v-else>
+                <router-link to="/about">
+                    <span v-bind:style="{color:fontcolor} ">{{$t('mainpagetop.about')}}</span>
+    
                 </router-link>
             </div>
-            <div class="col-1">
-                <span>ABOUT</span>
+            <div class="col-1" v-show="host">
+                <router-link to="/about">
+                    <span v-bind:style="{color:fontcolor} ">{{$t('mainpagetop.about')}}</span>
+    
+                </router-link>
+            </div>
+            <div class="col-1" @click="changelang">
+                <span v-bind:style="{color:fontcolor} ">{{ $t('mainpagetop.language') }}</span>
             </div>
             <div class="col-1 profile">
                 <div class="profilepic" v-if="loginstatus==true" @click="dropdownopen">
                 </div>
                 <router-link to="/login" v-else>
-                    <span class="login">LOGIN</span>
+                    <span class="login" v-bind:style="{color:fontcolor} ">{{ $t('mainpagetop.login') }}</span>
                 </router-link>
                 <div class="dropdownmenu" v-if="dropdown">
                     <router-link to="/profile">
-                        <span>Profile</span>
+                        <span>{{ $t('mainpagetop.profile') }}</span>
                     </router-link>
-                    <router-link to="/profile/MyNest">
-                        <span>MyNest</span>
+                    <router-link to="/profile/hostitem" v-if="hoststauts">
+                        <span>Item</span>
                     </router-link>
-                    <router-link to="/profile/Like">
-                        <span>Like</span>
+                    <router-link to="/profile/MyNest" v-else v-show="hashouse">
+                        <span>{{ $t('mainpagetop.mynest') }}</span>
                     </router-link>
-                    <div>
-                        <span>LFR Post</span>
-                    </div>
-                    <div @click="changelang">
-                        <span>Language</span>
-                    </div>
+                    <router-link to="/profile/chatroom" v-if="hoststauts">
+                        <span>chatroom</span>
+                    </router-link>
+                    <router-link to="/profile/Like" v-else>
+                        <span>{{ $t('mainpagetop.like') }}</span>
+                    </router-link>
+                    <router-link to="/profile/hostinbox" v-if="hoststauts">
+                        <span>Inbox</span>
+                    </router-link>
+                    <router-link to="/profile/mbmating" v-else>
+                        <span>Need Inbox</span>
+                    </router-link>
+                    <router-link to="/profile/landordinbox" v-if="hoststauts==false">
+                        <span>Inbox</span>
+                    </router-link>
+                    <!-- <div @click="changelang">
+                            <span>{{ $t('mainpagetop.language') }}</span>
+                        </div> -->
                     <div @click="logout">
-                        <span>Logout</span>
+                        <span>{{ $t('mainpagetop.logout') }}</span>
     
                     </div>
     
@@ -56,15 +95,15 @@
             </div>
         </b-row>
         <!-- <div class="row">
-                                                                                    
-                                                                                        </div> -->
+                                                                                                                    
+                                                                                                                        </div> -->
     </b-container>
 </template>
 
 <script>
 export default {
     name: 'Header',
-    props: ['headercolor'],
+    props: ['headercolor', 'fontcolor'],
     data() {
         return {
             isShow_hiddenNav: false,
@@ -105,8 +144,17 @@ export default {
         loginstatus() {
             return this.$store.state.login;
         },
+        hashouse() {
+            return this.$store.state.userdata[0].hashouse
+        },
+        hoststauts() {
+            return this.$store.state.hostcheck;
+        },
         test() {
             return this.$store.state.test
+        },
+        host() {
+            return this.$store.state.hostcheck;
         }
     }
 }
@@ -164,7 +212,6 @@ export default {
             span {
                 color: #7E7E7E;
                 font-size: 15px;
-                border: solid 1px; // width: 100%;
                 width: 100%;
             }
         } // .dropdown span:hover {

@@ -6,12 +6,20 @@
                 <dropdown class="drop" dropdownwidth="300px" dropcontentwidth="300px" :locdata="citydata" loc="城市" @clickcity="cityhandler" backgroundColor="#ededed"></dropdown>
                 <dropdown class="drop" dropdownwidth="300px" dropcontentwidth="300px" :locdata="areadata" loc="地區" @clickcity="areahandler" backgroundColor="#ededed"></dropdown>
                 <input class="loctext" type="text" placeholder="地址" v-model="locdata.add" @change="emitlocdata">
-                <span>{{address}}</span>
+                <!-- <span>{{add}}</span> -->
+            </div>
+            <div class="searchbtn" @click="searchloc">
+                <span>找尋地點</span>
             </div>
         </div>
         <div class="right">
             <div class="gmap">
+                <GmapMap :center="{lat:lat, lng:lng}" :zoom="18" map-type-id="terrain" style="width:600px;height:400px;">
+                    <GmapMarker :key="index" v-for="(m, index) in markers" :position="m.position" :clickable="true" :draggable="false" @click="center=m.position">
     
+                    </GmapMarker>
+    
+                </GmapMap>
             </div>
         </div>
     </div>
@@ -26,6 +34,17 @@ export default {
             alldata: [],
             citydata: [],
             areadata: [],
+            lat: '',
+            lng: '',
+            markers: [{
+                    position: {
+
+                        lat: '',
+                        lng: '',
+                    }
+                }
+
+            ],
             locdata: {
                 city: '',
                 area: '',
@@ -53,7 +72,7 @@ export default {
 
     },
     methods: {
-        emitlocdata(){
+        emitlocdata() {
             console.log('成功')
             this.$store.commit("setpostlocdata", this.locdata)
         },
@@ -82,16 +101,35 @@ export default {
             this.locdata.area = val;
             this.$store.commit("setpostlocdata", this.locdata)
 
+        },
+        searchloc() {
+            let add = this.locdata.city + this.locdata.area + this.locdata.add;
+            axios({
+                    method: 'get',
+                    url: `https://maps.googleapis.com/maps/api/geocode/json?address=${add}&key=AIzaSyCmPMc8NK4yokjDWOCoLXMgJ6UdhWIJam0`
+                })
+                .then((res) => {
+                    this.lat = res.data.results[0].geometry.location.lat;
+                    this.lng = res.data.results[0].geometry.location.lng
+                    this.markers[0].position.lat = res.data.results[0].geometry.location.lat;
+                    this.markers[0].position.lng = res.data.results[0].geometry.location.lng;
+                    console.log(res.data.results[0])
+                })
+                .catch((err) => { console.error(err) })
         }
     },
     computed: {
         address() {
-            return this.city + this.area + this.add;
+            return this.$store.state.posthousedata.address;
+        },
+        add() {
+            return this.locdata.city + this.locdata.area + this.locdata.add
         }
     },
 
     components: {
-        dropdown
+        dropdown,
+        // gmap
     }
 }
 </script>
@@ -102,6 +140,19 @@ export default {
     .left {
         width: 45%; // border: solid 1px;
         height: 660px;
+        .searchbtn {
+            // border: solid 1px;
+            width: 150px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 400px;
+            margin-top: 50px;
+            border-radius: 5px;
+            background-color: #ededed;
+            color: #666b46;
+        }
         .about {
             display: flex;
             flex-direction: column;
@@ -164,7 +215,7 @@ export default {
     width: 55%; // border: solid 1px;
     height: 660px; // border: solid 1px;
     .gmap {
-        border: solid 1px;
+        // border: solid 1px;
         width: 600px;
         height: 450px;
         margin: auto;

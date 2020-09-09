@@ -8,24 +8,37 @@
                     <div class="propic"></div>
                     <div class="host_type">
                         <span>LFR Host</span> <br>
-                        <span class="address">{{address}}-{{type}}</span>
+                        <span class="address">{{address}}-{{type}} {{area}} {{city}}</span>
                     </div>
                 </div>
                 <HouseEquip :furniture="furniture"></HouseEquip>
             </div>
-            
-            <div class="col-5 bargain" >
+    
+            <div class="col-5 bargain">
                 <span class="b_title">Bargain</span>
                 <hr>
                 <div class="bargainCube" v-if="is_bargain">
-                    <div class="adjustwrap">
+                    <div class="adjustwrap" v-if="login">
                         <div class="arrow-left" @click="minusprice"></div>
-                        <span>NTD：{{monthly}}</span>
+                        <span>NTD：{{price}}</span>
                         <div class="arrow-right" @click="plusprice"></div>
                     </div>
-                    <div class="barginbtn" @click="showbargin">
-                        <span>議價</span>
+                    <div class="adjustwrap" v-else>
+                        <div class="arrow-left" @click="showlogin"></div>
+                        <span>NTD：{{price}}</span>
+                        <div class="arrow-right" @click="showlogin"></div>
                     </div>
+                    <div  v-if="login">
+                        <div class="barginbtn" @click="showbargin">
+                            <span>議價</span>
+                        </div>
+                    </div>
+                    <div  v-else>
+                        <div class="barginbtn" @click="showlogin">
+                            <span>議價</span>
+                        </div>
+                    </div>
+    
     
                 </div>
                 <div class="bargainCube" v-else>
@@ -45,9 +58,11 @@
                     <span d_title>房屋描述</span> <br>
                     <p>{{house_describe}}</p>
                 </div>
-                <HouseAround :life_function="life_function"></HouseAround>
+                <HouseAround :life_function="life_function" title="生活機能"></HouseAround>
+                <HouseAround :life_function="fee" title="租金包含" class="fee"></HouseAround>
+    
             </div>
-            
+    
             <div class="col-5 houseInfo">
                 <span n_title>House Info</span>
                 <hr>
@@ -56,23 +71,13 @@
             <div class="col-1"></div>
         </div>
         <div class="row map">
-            <div class="col-12 mapPlace">
-                <GoogleMap></GoogleMap>
-            </div>
-        </div>
-        <div class="row LFF">
-            <!-- <div class="col-1 waste"></div> -->
             <div class="col-1"></div>
-            <div class="col-10 LFFPlace">
-                <span class="LFFTitle">Living Friends Finding</span>
-                <hr>
-                <input type="button" class="btnLFFplus" />
-                <!-- <span>123</span> -->
-                <div class="LFFCube">LFF</div>
+            <div class="col-10 mapPlace">
+                <GoogleMap :area="area" :city="city" :add="address" w="900px" h="300px"></GoogleMap>
             </div>
-            <div class="col-1">
-            </div>
+             <div class="col-1"></div>
         </div>
+    
     </div>
 </template>
 
@@ -83,22 +88,34 @@ import HouseInfoTable from '../components/HouseInfoTable'
 import GoogleMap from '../components/GoogleMap'
 export default {
     name: "HouseContent",
-    props:['address','type','furniture','house_describe','life_function','monthly','square','live_number','room','stair','deposit','open_fire','pet','gender','legal_use','is_bargain'],
+    props: ['address', 'type', 'furniture', 'house_describe', 'life_function', 'monthly', 'square', 'live_number', 'room', 'stair', 'deposit', 'open_fire', 'pet', 'gender', 'legal_use', 'is_bargain', 'fee','city','area'],
+    mounted(){
+        this.price = this.monthly
+    },
     data() {
         return {
+            price: 0
         }
     },
-    methods:{
-        minusprice(){
+    methods: {
+        minusprice() {
             this.price -= 500;
         },
-        plusprice(){
-            this.price +=500;
+        plusprice() {
+            this.price += 500;
         },
-        showbargin(){
+        showbargin() {
             console.log('123')
             this.$emit('showbarginhandler')
+        },
+        showlogin(){
+            alert('請登入')
         }
+    },
+    computed: {
+        login() {
+            return this.$store.state.login;
+        },
     },
     components: {
         HouseEquip,
@@ -117,12 +134,6 @@ export default {
 
 $color_darkWhite: #EDEDED;
 $color_white: #ffffff;
-* {
-    font-family: 微軟正黑體;
-    position: relative;
-    box-sizing: border-box;
-}
-
 hr {
     border: 0;
     background-color: #A6B6AE;
@@ -132,19 +143,22 @@ hr {
 // .waste {
 //     background-color: $color_darkWhite;
 // }
-
 .top {
-    background-color: $color_white; 
-    // border: solid 1px;
+    background-color: $color_white; // border: solid 1px;
     // margin-top: 9px;
     .profile {
+        // border: solid 1px;
         padding-top: 40px; // border: 1px solid #000;
         .host {
+            // border: solid 1px;
+            display: flex;
+            align-items: center;
             .propic {
                 @include size($w: 80px, $h:80px);
                 border-radius: 50%;
                 background-color: #A6B6AE;
                 display: inline-block;
+                margin-right: 10px;
             }
             .host_type {
                 display: inline-block;
@@ -160,19 +174,20 @@ hr {
         }
     }
     .bargain {
-        padding-top: 80px;
+        padding-top: 30px;
         .b_title {
             color: #666B46;
             font-weight: bolder;
             font-size: 25px;
             display: block;
-            text-align: left;
+            text-align: left; // border: solid 1px;
         }
         .bargainCube {
             @include size($w: 90%, $h:200px); // margin-left: 20px;
             // margin-top: 40px;
             margin: auto;
             margin-top: 40px;
+            margin-bottom: 40px;
             background-color: #F2F2F2;
             border-radius: 5px;
             font-size: 27px;
@@ -182,11 +197,10 @@ hr {
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            .adjustwrap{
+            .adjustwrap {
                 width: 100%;
                 display: flex;
-                justify-content: space-between;
-                // margin: auto;
+                justify-content: space-between; // margin: auto;
                 // border: solid 1px;
                 // margin-top: 10px;
             }
@@ -195,8 +209,7 @@ hr {
                 height: 0;
                 border-top: 20px solid transparent;
                 border-bottom: 20px solid transparent;
-                border-right: 20px solid #C4C4C4;
-                // margin-right: 30px;
+                border-right: 20px solid #C4C4C4; // margin-right: 30px;
                 margin-left: 20px;
             }
             .arrow-right {
@@ -205,10 +218,9 @@ hr {
                 border-top: 20px solid transparent;
                 border-bottom: 20px solid transparent;
                 border-left: 20px solid #C4C4C4;
-                margin-right: 20px;
-                // margin-left: 30px;
+                margin-right: 20px; // margin-left: 30px;
             }
-            .barginbtn{
+            .barginbtn {
                 margin-top: 20px;
                 border-radius: 5px;
                 background-color: #A6B6AE;
@@ -226,7 +238,7 @@ hr {
 
 .middle {
     // border: 1px solid #000;
-    background-color: $color_white;
+    background-color: $color_white; // border: solid 1px;
     .aboutHouse {
         padding-top: 30px;
         color: #666B46;
@@ -242,7 +254,7 @@ hr {
         }
     }
     .houseInfo {
-        padding-top: 50px;
+        padding-top: 20px;
         color: #666B46;
         font-weight: bolder;
         font-size: 25px;
@@ -253,48 +265,10 @@ hr {
     // border: solid 1px;
     background-color: $color_white;
     .mapPlace {
-        padding-top: 40px;
+        margin-top: 70px;
+        margin-bottom: 50px;
         display: flex;
         justify-content: center;
-    }
-}
-
-.LFF {
-    // border: solid 1px;
-    background-color: $color_white;
-    // margin-bottom: 50px;
-    .LFFPlace {
-        padding-top: 30px;
-        .LFFTitle {
-            color: #666B46;
-            font-weight: bolder;
-            font-size: 25px;
-        }
-        .btnLFFplus {
-            @include size($w: 40px, $h:40px);
-            border-radius: 50%;
-            background-image: url(../assets/media/icon_plus.png);
-            background-color: $color_darkWhite;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: 15px 15px;
-            position: absolute;
-            left: 100%;
-            transform: translateX(-100%) translateY(-100%);
-            cursor: pointer;
-        }
-        .LFFCube {
-            // @include size($w: 800px, $h: 250px);
-            width: 100%;
-            height: 250px;  
-            margin-bottom: 50px;
-            border: 1px solid #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 30px;
-            font-size: 60px;
-        }
     }
 }
 </style>

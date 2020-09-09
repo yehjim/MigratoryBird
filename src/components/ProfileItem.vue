@@ -1,28 +1,43 @@
 <template>
     <div class="itemwrap">
         <img src="../assets/media/jarek-ceborski-jn7uVeCdf6U-unsplash.jpg" alt="">
-        <div class="wrap">
-            <div class="city">
-                <span>{{loc}}</span>
+        <router-link :to="{name:'HouseDetail',params:{id:id}}">
+            <div class="wrap">
+                <div class="city">
+                    <span>{{loc}}</span>
+                </div>
+                <div class="area">
+                    <span>{{area}}</span>
+                </div>
+                <div class="price">
+                    <span>
+                       {{price}}
+                      </span>
+                </div>
+                <router-link :to="{name:'Edit',params:{id:id}}">
+                    <div class="editbtn" v-if="hasedit" @click="edit">
+                        <span>編輯</span>
+                    </div>
+                    <div v-else>
+                        <span></span>
+                    </div>
+                </router-link>
+                <!--     <hr> -->
             </div>
-            <div class="area">
-                <span>{{area}}</span>
-            </div>
-            <div class="price">
-                <span>
-               {{price}}
-              </span>
-            </div>
-            <!--     <hr> -->
-        </div>
+        </router-link>
     </div>
 </template>
 
 <script>
 export default {
-    props: ['loc', 'area', 'price', 'gender'],
+    props: ['loc', 'area', 'price', 'gender', 'hasedit', 'id'],
     data() {
         return {}
+    },
+    methods:{
+        edit(){
+            this.$store.dispatch('GETEDITDATA');
+        }
     },
     name: 'Item'
 }
@@ -33,13 +48,12 @@ export default {
     /*   border: solid 1px; */
     width: 278px;
     height: 207px;
-    border-radius: 13px;
-    // background-image: url('../assets/media/jarek-ceborski-jn7uVeCdf6U-unsplash.jpg');
+    border-radius: 13px; // background-image: url('../assets/media/jarek-ceborski-jn7uVeCdf6U-unsplash.jpg');
     // filter: brightness(0.5);
     background-size: cover;
     /*   filter: brightness(0.5); */
     box-sizing: border-box;
-    img{
+    img {
         width: 278px;
         height: 207px;
         border-radius: 13px;
@@ -48,7 +62,10 @@ export default {
         z-index: -1;
     }
 }
-
+.wrap{
+    // border: solid 1px;
+    width: 278px;
+}
 // .wrap {
 //     /*   border:solid 1px; */
 //     width: 280px;
@@ -57,30 +74,35 @@ export default {
 //     // background-color:black;
 //     // opacity: 0.4;
 // }
-
 .city,
 .area,
 .price {
-    /*   border: solid 1px; */
+    // border: solid 1px;
+    // border: solid 1px;
+    padding-left: 30px;
     color: white;
-    font-size: 20px;
-    // padding-left: 45px;
-    padding-top: 20px;
-    padding-right: 70px;
+    font-size: 20px; // padding-left: 45px;
+    padding-top: 10px;
+    // padding-right: 70px;
 }
 
 .city {
     padding-top: 30px;
 }
-
-.price {
-    /*   border: solid 1px; */
-    padding-left: 0;
-    padding-bottom: 5px;
-    /*   border-bottom: solid 3px; */
-    width: 95%;
-    margin: auto;
-    transition-duration: 0.2s;
+.price{
+    font-size: 30px;
+    // border: solid 1px;
 }
 
+.editbtn {
+    // border: solid 1px;
+    // float: right;
+    width: 60px;
+    margin-left: 200px;
+    border-bottom: 1px solid white;
+    // z-index: 1;
+    span {
+        color: white;
+    }
+}
 </style>

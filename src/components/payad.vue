@@ -7,14 +7,14 @@
             <span>刊登金額 NT$ 180</span>
         </div>
         <div class="posttype">
-            <dropdown loc="超級刊登"></dropdown>
-            <span>NTD:$1200</span>
+            <dropdown class="drop" dropdownwidth="200px" dropcontentwidth="200px" :locdata="posttype" loc="刊登種類" backgroundColor="#ededed" @clickcity="postadtype"></dropdown>
+            <span>NTD:$ {{posttypeprice}}</span>
         </div>
         <div class="paywrap">
             <payment></payment>
         </div>
         <div class="total">
-            <span>付款金額 NTD$ 1380</span>
+            <span>付款金額 NTD$ {{totalad}}</span>
         </div>
     </div>
 </template>
@@ -23,6 +23,43 @@
 import payment from '../components/PaymentLine'
 import dropdown from '../components/itemlocdrop'
 export default {
+    data() {
+        return {
+            posttype: ['超級刊登', '普通刊登', '候鳥優選'],
+            posttypeprice: 0,
+            addata:{
+                adtype: '',
+                ad:false
+            }
+        }
+
+    },
+    methods: {
+        postadtype(val) {
+            console.log(val);
+            if (val === "超級刊登") {
+                this.addata.adtype = "超級刊登"
+                this.posttypeprice = 1200
+                this.addata.ad = true
+            } else if (val === "普通刊登") {
+                this.addata.adtype = "普通刊登"
+                this.posttypeprice = 600
+                this.addata.ad = true
+            }
+            else {
+                this.addata.adtype = "候鳥優選"
+                this.posttypeprice = 1500
+                this.addata.ad = true
+            }
+            this.$store.commit('setadtype',this.addata)
+
+        }
+    },
+    computed:{
+        totalad(){
+            return this.posttypeprice + 180;
+        }
+    },
     components: {
         payment,
         dropdown
@@ -32,8 +69,7 @@ export default {
 
 <style lang="scss" scoped>
 .payad {
-    height: 610px;
-    // border: solid 1px;
+    height: 610px; // border: solid 1px;
     .about {
         display: flex;
         flex-direction: column;
@@ -102,7 +138,7 @@ export default {
     }
     .total {
         // border: solid 1px;
-        margin-top: 100px;
+        margin-top: 20px;
         display: flex;
         justify-content: flex-end;
         padding-right: 100px;

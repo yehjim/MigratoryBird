@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid mbselect">
-        <span class="mbselecttitle">Mb Select</span>
+        <span class="mbselecttitle">{{ $t('mbselect.mbselect') }}</span>
         <div class="row multiple-items">
             <div v-for="(item,index) in selectlist" :key="index">
                 <div class="selectitems">
@@ -37,6 +37,7 @@
 
 <script>
 import axios from 'axios'
+import { Carousel, Slide } from 'vue-carousel';
 export default {
     name: 'MbSelect',
     data() {
@@ -44,8 +45,21 @@ export default {
             selectlist: []
         }
     },
+    comments:{
+          Carousel,
+    Slide
+    },
     mounted() {
+        // window.onload = function() {
+        //     document.querySelector('.multiple-items').slick({
+        //         infinite: true,
+        //         slidesToShow: 3,
+        //         slidesToScroll: 1,
+        //         autoplay: true,
+        //     });
+        // }
         $(document).ready(function() {
+
             $('.multiple-items').slick({
                 infinite: true,
                 slidesToShow: 3,
@@ -55,6 +69,7 @@ export default {
         });
         axios.get(`http://localhost:7000/housedetail?ad=true`)
             .then((res) => {
+                console.log(res.data)
                 this.selectlist = res.data
             }).catch((err) => {
                 console.log(err)
@@ -67,9 +82,9 @@ export default {
 
 <style lang="scss" scoped>
 .mbselect {
-    width: 100%;
-    height: 600px;
-    margin-top: 50px;
+    width: 100%; // border: solid 1px;
+    height: 550px;
+    margin-top: 100px;
     .mbselecttitle {
         font-size: 30px;
         color: #666B46;
@@ -80,19 +95,19 @@ export default {
     // }
     .multiple-items {
         // border: solid 1px;
+        // margin: auto;
         display: flex;
+        flex-wrap: nowrap;
         justify-content: center;
-        height: 500px; // justify-content: center;
-        // width: 100%;
-        // border: solid 1px;
-        align-items: center;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        width: 100%;
         .selectitems {
             // border: solid 1px;
             background-image: url('../assets/media/patrick_perkins_3wylDrjxH_E_un_bx@2x.png');
             background-position: center;
             background-size: cover;
-            border-radius: 5px;
-            // margin-top: 100px;
+            border-radius: 5px; // margin-top: 100px;
             // width: 33%;
             width: 400px;
             margin-right: 50px;

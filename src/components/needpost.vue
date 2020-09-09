@@ -80,22 +80,38 @@
                         </div>
                         <div class="name">
                             <span class="describetitle">開伙</span>
-                            <div class="wrap">
-                                <checkbox labelname="是" @checkedhandler="firecheck"></checkbox>
-                                <checkbox labelname="否" @checkedhandler="firecheck"></checkbox>
+    
+                            <div class="firewrap">
+                                <div class="radiowrap">
+                                    <span>是</span>
+                                    <input type="radio" @change="firecheck" :value="true" v-model="needpost.fire">
+                                </div>
+                                <div class="radiowrap">
+                                    <span>否</span>
+                                    <input type="radio" @change="firecheck" :value="false" v-model="needpost.fire">
+                                </div>
+    
+    
                             </div>
-                            <span class="describetitle">寵物{{username}}</span>
-                            <div class="wrap">
-                                <checkbox labelname="是" @checkedhandler="petcheck"></checkbox>
-                                <checkbox labelname="否" @checkedhandler="petcheck"></checkbox>
+                            <span class="describetitle">寵物</span>
+                            <div class="petwrap">
+                                <div class="radiowrap">
+                                    <span>是</span>
+                                    <input type="radio" @change="petcheck" :value="true" v-model="needpost.pet">
+                                </div>
+                                <div class="radiowrap">
+                                    <span>否</span>
+                                    <input type="radio" @change="petcheck" :value="false" v-model="needpost.pet">
+                                </div>
                             </div>
+    
                         </div>
                     </div>
                 </div>
                 <div class="right">
                     <div class="postcontent">
-                        <needpostcard :name="needpost.name" :country="needpost.country" :add="needpost.add" :Budget="needpost.Budget" :checkin="needpost.checkin" :checkout="needpost.checkout" :type="needpost.type" :rent="needpost.rent" :life="needpost.life" :pet="needpost.petlabel"
-                            :fire="needpost.firelabel"></needpostcard>
+                        <needpostcard :name="needpost.name" :country="needpost.country" :add="needpost.add" :Budget="needpost.Budget" :checkin="needpost.checkin" :checkout="needpost.checkout" :type="needpost.type" :rent="needpost.rent" :life="needpost.life" :pet="needpost.pet"
+                            :fire="needpost.fire"></needpostcard>
                     </div>
     
                 </div>
@@ -168,24 +184,12 @@ export default {
             }
 
         },
-        firecheck(val, check) {
+        firecheck() {
             console.log(this.needpost)
-            if (check == true) {
-                this.firelabel = val;
-                this.needpost.fire = true
-            } else {
-                this.needpost.fire = false
-            }
 
         },
-        petcheck(val, check) {
-            if (check == true) {
-                this.petlabel = val;
-                this.needpost.fire = true
-            } else {
-                this.fire = false
-            }
-
+        petcheck() {
+            console.log(this.needpost)
         },
         close() {
             this.$emit('closeadd')
@@ -215,9 +219,12 @@ export default {
             } else if (isfullbool == true && this.username != '') {
                 axios.post('http://localhost:7000/need', this.needpost)
                     .then(res => {
-                        console.log(res.data);
+                        console.log('post need 成功', res.data, res.data.id);
+                        this.$store.commit('setuserneedid', res.data.id)
+                        this.$store.dispatch('POSTNEEDID', res.data.id)
                     })
                 this.$emit('closeadd')
+                this.$router.push('/profile/mbmating')
             } else {
                 alert('沒有填妥歐')
             }
@@ -330,6 +337,18 @@ export default {
                     text-align: left;
                     color: #7e7e7e;
                 }
+            }
+            .petwrap {
+                display: flex;
+            }
+            .firewrap {
+                display: flex;
+            }
+            .radiowrap {
+                // border: solid 1px;
+                width: 60px;
+                display: flex;
+                align-items: center; // justify-content: flex-start;
             }
         }
         .right {

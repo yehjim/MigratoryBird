@@ -3,13 +3,12 @@
         <div class="left">
             <div class="about">
                 <span>About Item</span>
-                <textarea v-model="about" @change="abouttext"></textarea>
+                <textarea v-model="describedata.house_describe" @change="abouttext" id="housedecribe">
+                    </textarea>
             </div>
             <div class="rule">
                 <span>Host rule</span>
-                <textarea v-model="rule" @change="ruletext">
-                                                        
-                                                                        </textarea>
+                <textarea v-model="describedata.rule" @change="ruletext"></textarea>
                 <!-- <input type="text"> -->
             </div>
         </div>
@@ -30,10 +29,10 @@
                     <b-carousel id="carousel" controls :interval="0">
                         <b-carousel-slide>
                             <template v-slot:img>
-                                                <img
-                                                id="blah0"
-                                                class="pic"
-                                                >
+                                                                <img
+                                                                id="blah0"
+                                                                class="pic"
+                                                                >
 </template>
                     </b-carousel-slide>
                     <b-carousel-slide>
@@ -59,10 +58,14 @@
 
 <script>
 export default {
+    props: ['editmode'],
     data() {
         return {
-            about:'',
-            rule:''
+            describedata: {
+                house_describe: '',
+                rule: ''
+            }
+
         }
     },
     mounted: function mounted() {
@@ -71,14 +74,22 @@ export default {
         // fileUploader.addEventListener('change', function() {
         //     this.test();
         // });
+
     },
+    computed: {},
 
     methods: {
-        abouttext(){
-            this.$emit('abouttexthandler',this.about);
+        abouttext() {
+            // this.describedata.house_describe = this.housedescribe;
+
+            // console.log(text)
+            console.log('123123')
+            this.$store.commit('sethousedescribe', this.describedata)
+            // this.$emit('abouttexthandler',this.about);
         },
-        ruletext(){
-            this.$emit('rultexthandler',this.rule);
+        ruletext() {
+            this.$store.commit('sethousedescribe', this.describedata)
+            // this.$emit('rultexthandler',this.rule);
         },
         test() {
             let a = document.querySelector('#imgInp')
@@ -224,8 +235,7 @@ export default {
         }
         .pic {
             width: 100%;
-            height: 100%;
-            // border: solid 1px;
+            height: 100%; // border: solid 1px;
         }
     }
 }

@@ -12,18 +12,19 @@
         </div>
         <div class="row b1">
             <div class="col-3 searchloaction">
-                <span>城市</span>
-                <dropdown  dropdownwidth="200px" bordercolor="solid 1px #A6B6AE" dropcontentwidth="200px" :locdata="citydata" loc="城市" @clickcity="cityhandler"></dropdown> 
+                <span>{{ $t('mainpagetop.city') }}</span>
+                <dropdown dropdownwidth="200px" bordercolor="solid 1px #A6B6AE" dropcontentwidth="200px" :locdata="citydata" loc="城市" @clickcity="cityhandler"></dropdown>
                 <!-- <input type="text" placeholder="Taipei" v-model="searchdata.loc"> -->
             </div>
+    
             <div class="col-3 searchdate">
-                <span>地區</span>
+                <span>{{ $t('mainpagetop.area') }}</span>
                 <dropdown dropdownwidth="200px" bordercolor="solid 1px #A6B6AE" dropcontentwidth="200px" :locdata="areadata" loc="地區" @clickcity="areahandler"></dropdown>
             </div>
             <div class="col-3 searchstay">
-                <span>地址/關鍵字</span>
+                <span>{{ $t('mainpagetop.keyword') }}</span>
                 <!-- <span>2 months</span> -->
-                <input type="text" placeholder="" v-model="searchdata.key">
+                <input type="text" placeholder="" v-model="searchdata.key" @change="keyword">
             </div>
             <div class="col-3 search" @click="searchinput">
                 <router-link to="/search" style="color:white;"><span>{{ $t('mainpagetop.BOOKNOW') }}</span></router-link>
@@ -65,9 +66,9 @@ export default {
                 area: '',
                 key: ''
             },
-            alldata:[],
-            citydata:[],
-            areadata:[]
+            alldata: [],
+            citydata: [],
+            areadata: []
 
         }
     },
@@ -120,6 +121,7 @@ export default {
 
                 }
             }
+            this.$store.commit('setsearchdata',this.searchdata)
         },
         setzhlang() {
             console.log(this.labelname[0])
@@ -145,7 +147,11 @@ export default {
         },
         areahandler(val) {
             this.searchdata.area = val;
+            this.$store.commit('setsearchdata',this.searchdata)
 
+        },
+        keyword(){
+            this.$store.commit('setsearchdata',this.searchdata)
         }
     },
 }

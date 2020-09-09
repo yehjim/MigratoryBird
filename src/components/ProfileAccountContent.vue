@@ -3,17 +3,19 @@
         <div class="editwrap">
             <span>Account</span>
             <div class="editbtn">
-                <span>edit</span>
+                <router-link to="/profile/editprofile">
+                    <span>edit</span>
+                </router-link>
             </div>
         </div>
         <div class="accountcontent">
             <div>
-                <span>Name:</span>
+                <span>Account:</span>
                 <input type="text" placeholder="JIMYEH" v-model="userdata.username">
             </div>
             <div>
-                <span>Gender:</span>
-                <input type="text" placeholder="male" v-model="userdata.gender">
+                <span>Name:</span>
+                <input type="text" placeholder="Name" v-model="userdata.name">
             </div>
             <div>
                 <span>Birth:</span>
@@ -24,7 +26,7 @@
         <div class="accountcontent">
             <div>
                 <span>Phone:</span>
-                <input type="text" placeholder="JIMYEH" v-model="userdata.phone" >
+                <input type="text" placeholder="JIMYEH" v-model="userdata.phone">
             </div>
             <div>
                 <span>Password:</span>
@@ -32,32 +34,63 @@
             </div>
             <div>
                 <span>Type:</span>
-                <input type="text" placeholder="1999/02/14"  v-model="userdata.type">
+                <input type="text" placeholder="1999/02/14" v-model="userdata.type">
             </div>
     
         </div>
+    
     </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
+
     data() {
         return {
-            userdata:{
-                username:this.$store.state.userdata[0].username,
-                password: this.$store.state.userdata[0].password,
-                gender:this.$store.state.userdata[0].gender,
-                birth:this.$store.state.userdata[0].birth,
-                phone:this.$store.state.userdata[0].phone,
-                type:this.$store.state.userdata[0].type
-            }
+
+            userdata: {}
         }
     },
+    mounted() {
+        // setTimeout(this.getuserdata, 100)
+        axios({
+                method: 'get',
+                url: `http://localhost:7000/user/${this.userid}`,
+                headers: { 'Cache-Control': 'max-age=0' }
+            })
+            .then((res) => {
+                console.log('取得詳細資料')
+                this.userdata = res.data
+            })
+            .catch((err) => { console.error(err) })
+    },
+    methods: {
+        getuserdata() {
+            axios({
+                    method: 'get',
+                    url: `http://localhost:7000/user/${this.userid}`,
+                    headers: { 'Cache-Control': 'max-age=0' }
+                })
+                .then((res) => {
+                    console.log('取得詳細資料')
+                    this.userdata = res.data
+                })
+                .catch((err) => { console.error(err) })
+        }
+    },
+    computed: {
+        userid() {
+            return this.$store.state.userdata[0].id
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 .account {
+    // border: solid 1px;
+    width: 700px;
     height: 270px; // border: solid 1px;
     margin-top: 50px;
     border-bottom: 10px solid #A6B6AE;

@@ -2,13 +2,11 @@
     <b-container fluid>
         <div class="tenanttitle">
             <span>PaymentDetail</span>
-    
-    
         </div>
         <div class="rent">
-            <span>Rent:NT65000</span>
+            <span>Rent:NT{{iteminfo.monthly}}</span>
             <br>
-            <span>Deposit:NT5000</span>
+            <span>Deposit:NT{{iteminfo.deposit}}</span>
         </div>
         <b-row>
             <b-col>
@@ -17,16 +15,19 @@
                         <i></i>
                         <span>Save Card</span>
                     </div>
-                    <div class="cardwrap">
-                        <div class="cardcontent">
-                            <div class="cardicon">
-                                <img src="../assets/media/visa.svg" alt="">
-                            </div>
-                            <div class="cardnumber">
-                                <span>123 194 8612 111</span>
+                    <div class="flex">
+                        <div class="cardwrap" v-for="(card,index) in paylist" :key="index" @click="selectcard">
+                            <div class="cardcontent">
+                                <div class="cardicon">
+                                    <img src="../assets/media/visa.svg" alt="">
+                                </div>
+                                <div class="cardnumber">
+                                    <span>{{cardnumer(card.card_number)}}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
+    
                 </div>
             </b-col>
     
@@ -67,28 +68,57 @@
             </div>
         </div>
         <div class="total">
-            <span>Total:NT90000</span>
+            <span>Total:NT{{totalrent}}</span>
         </div>
         <div class="btnwrap">
             <div class="backbtn" @click="back">
                 <span>Back</span>
             </div>
-            <router-link to="/profile/MyNest">
-                <div class="nextbtn" @click="posthouseid">
-                    <span>NEXT</span>
-                </div>
-            </router-link>
+            <!-- <router-link to=""> -->
+            <div class="nextbtn" @click="posthouseid">
+                <span>NEXT</span>
+            </div>
+            <!-- </router-link> -->
         </div>
+    
     
     </b-container>
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
+
 export default {
+    props: ['iteminfo', 'start', 'end', 'totalrent'],
+    data() {
+        return {
+            itemdetail: this.iteminfo,
+            bookingRecord: {},
+        }
+    },
+    mounted() {
+        // this.setforeignerlist();
+    },
     methods: {
         back() {
             this.$emit('backhandler')
+        },
+        cardnumer(number) {
+            let num = ''
+            for (let i = 0; i < number.length; i += 4) {
+                let j = 4 + i;
+                num += number.slice(i, j) + ' '
+            }
+            return num;
+
+
+        },
+        // setforeignerlist() {
+        //     this.foreignerlist = this.iteminfo.foreigner_id
+        //     this.foreignerlist.push(this.userid)
+        // },
+        selectcard() {
+            document.querySelector(".cardcontent").style.transform = "scale(1.2)";
         },
         selectedsave() {
             document.querySelector(".savecard").style.overflow = "visible";
@@ -155,26 +185,50 @@ export default {
         },
         posthouseid() {
             let hashouse = true;
-            this.$store.commit('posthouseidtouser',this.$route.params.id,hashouse)
-            this.$store.commit('posthousestatus',hashouse);
-            // this.$store.dispatch('GETUSERDATA')
-            // // axios.post('http://localhost:7000/user', this.$route.params.id)
-            // //     .then(res => {
-            // //         let vm = this;
-            // //         console.log(res.data);
-            // //         vm.$router.push('/')
-            // //     })
-            // // this.$store.commit('logincheck')
+            this.$store.commit('posthouseidtouser', this.$route.params.id, hashouse);
+            this.$store.commit('posthousestatus', hashouse);
+            axios.patch(`http://localhost:7000/housedetail/${this.$route.params.id}`, {
+                    foreigner_id: this.foreignerlist
+                })
+                .then(res => {
+                    console.log('修改成功', res.data)
+                });
+            this.$store.dispatch('POSTBOOKHOUSEINFO');
+            this.$store.dispatch('POSTBOOKINGRECORD');
+            this.$emit('showcompletepage')
+            setTimeout(this.pushtoprofile, 1000);
+
+
+
+        },
+        pushtoprofile() {
+            this.$router.push('/profile')
         }
+
+
     },
-    computed:{
+    computed: {
+        userid() {
+            return this.$store.state.userdata[0].id
+        },
+        paylist() {
+            return this.$store.state.userdata[0].pay_list;
+        },
+        foreignerlist() {
+            return this.$store.state.foreignerlist
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
+.flex {
+    // border: solid 1px;
+    display: flex;
+}
+
 .tenanttitle {
-    margin-top: 270px;
+    margin-top: 240px;
     color: #a6b6ae;
     font-size: 25px;
 }

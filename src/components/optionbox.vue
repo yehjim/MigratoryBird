@@ -1,24 +1,33 @@
 <template>
-    <span class="optionbox">
-        <span>{{itemnam}}</span>
+    <span class="optionbox" :style="{backgroundColor:bgc}">
+        <span :style="{color:fontcolor}">{{itemnam}}</span>
+        <div class="delebtn" @click="deleitem"><span>X</span></div>
     </span>
 </template>
 
 <script>
 export default {
-    props: ['itemnam']
-
+    props: ['itemnam'],
+    data() {
+        return {
+            bgc: '#ededed',
+            fontcolor: '#666b46',
+            isclick: false
+        }
+    },
+    methods: {
+        deleitem(){
+            this.$emit('delefurhandler', this.itemnam)
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 .optionbox {
-    // display: inline;
-    // border: solid 1px;
     width: auto;
     height: 35px;
     border-radius: 4px;
-    background-color: #ededed;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,7 +41,23 @@ export default {
         line-height: 1;
         letter-spacing: normal;
         text-align: center;
-        color: #666b46;
+    }
+    .delebtn{
+        border: solid 1px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        position: absolute;
+        left: 65px;
+        top: -10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #a6b6ae;
+        color: white;
+        span{
+            font-size: 10px;
+        }
     }
 }
 

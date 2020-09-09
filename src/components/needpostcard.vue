@@ -63,14 +63,14 @@
             <div class="fire">
                 <div>
                     <span class="describe">開伙：</span>
-    
-                    <span class="describeinfo">{{fire}}</span>
+    <span class="describeinfo" v-if="fire">是</span>
+                    <span class="describeinfo" v-else>否</span>
                     
                 </div>
                 <div>
                     <span class="describe">寵物：</span>
-                    
-                    <span class="describeinfo">{{pet}}</span>
+                    <span class="describeinfo" v-if="pet">是</span>
+                    <span class="describeinfo" v-else>否</span>
     
                 </div>
     

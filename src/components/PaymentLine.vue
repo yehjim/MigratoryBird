@@ -1,6 +1,22 @@
 <template>
     <div>
-        <div class="savecard" :class="savepayment.savecardselect" @click="selectedsave()">
+        <div :class="mbwallet" @click="selectedmbwallet" v-if="hoststatus==true">
+            <div class="icon">
+                <i></i>
+                <span>MB wallet</span>
+            </div>
+            <div class="cardwrap" >
+                <div class="cardcontent">
+                    <div class="cardicon">
+                        <img src="../assets/media/visa.svg" alt="">
+                    </div>
+                    <div class="cardnumber">
+                        <span>123 194 8612 111</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div :class="savepayment" @click="selectedsave" v-if="hoststatus==false">
             <div class="icon">
                 <i></i>
                 <span>Save Card</span>
@@ -16,7 +32,7 @@
                 </div>
             </div>
         </div>
-        <div :class="linepaymet" @click="selectedline()">
+        <div :class="linepaymet" @click="selectedline">
             <div class="icon">
                 <img src="../assets/media/LINE Pay_PNG/LINE-Pay(h)_W238_n.png" alt="">
                 <!-- <span>Line Pay</span> -->
@@ -25,7 +41,7 @@
                 <P>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima quod vitae excepturi. Numquam, dolorum facilis debitis fugit natus aliquam dolores architecto eius id esse cum ipsa neque quam. Quasi, nihil!</P>
             </div>
         </div>
-        <div :class="sevenpaymet" @click="selectedseven()">
+        <div :class="sevenpaymet" @click="selectedseven">
             <div class="icon">
                 <i></i>
                 <span>7-11代碼繳費</span>
@@ -35,7 +51,7 @@
                 <P>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima quod vitae excepturi. Numquam, dolorum facilis debitis fugit natus aliquam dolores architecto eius id esse cum ipsa neque quam. Quasi, nihil!</P>
             </div>
         </div>
-        <div :class="atmpaymet" @click="selectedatm()">
+        <div :class="atmpaymet" @click="selectedatm">
             <div class="icon">
                 <i></i>
                 <span>ATM轉帳繳費</span>
@@ -68,34 +84,56 @@ export default {
                 savecard: true,
                 atmselect: false
 
+            },
+            mbwallet: {
+                savecard: true,
+                mbwallet: false
+
             }
 
         }
     },
     methods: {
-        selectedsave() {
-            this.savepayment.savecardselect = true
+        selectedmbwallet() {
+            this.mbwallet.mbwallet = true
             this.sevenpaymet.sevenselect = false
             this.linepaymet.linepayselect = false
             this.atmpaymet.atmselect = false
+            this.savepayment.savecardselect = false
+        },
+        selectedsave() {
+            this.mbwallet.mbwallet = false
+            this.sevenpaymet.sevenselect = false
+            this.linepaymet.linepayselect = false
+            this.atmpaymet.atmselect = false
+            this.savepayment.savecardselect = true
+            console.log('123')
         },
         selectedline() {
-            this.savepayment.savecardselect = false
+            this.mbwallet.mbwallet = false
             this.sevenpaymet.sevenselect = false
             this.linepaymet.linepayselect = true
             this.atmpaymet.atmselect = false
+            this.savepayment.savecardselect = false
         },
         selectedseven() {
-            this.savepayment.savecardselect = false
+            this.mbwallet.mbwallet = false
             this.sevenpaymet.sevenselect = true
             this.linepaymet.linepayselect = false
             this.atmpaymet.atmselect = false
+            this.savepayment.savecardselect = false
         },
         selectedatm() {
-            this.savepayment.savecardselect = false
+            this.mbwallet.mbwallet = false
             this.sevenpaymet.sevenselect = false
             this.linepaymet.linepayselect = false
             this.atmpaymet.atmselect = true
+            this.savepayment.savecardselect = false
+        }
+    },
+    computed:{
+        hoststatus(){
+            return this.$store.state.hostcheck;
         }
     }
 }
@@ -170,9 +208,10 @@ export default {
     }
 }
 
+.mbwallet,
 .savecardselect,
 .linepayselect,
-.evenselect,
+.sevenselect,
 .atmselect {
     overflow: visible;
     height: 205px;
@@ -180,8 +219,8 @@ export default {
 }
 
 .savecard:hover {
-    height: 205px !important;
-    overflow: visible !important;
+    // height: 205px !important;
+    // overflow: visible !important;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
@@ -196,24 +235,22 @@ export default {
     }
 }
 
-.linepay:hover {
-    height: 205px !important;
-    overflow: visible !important;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
-}
-
-.seven:hover {
-    height: 205px !important;
-    overflow: visible !important;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
-}
-
-.atm:hover {
-    height: 205px !important;
-    overflow: visible !important;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
-}
+// .linepay:hover {
+//     height: 205px !important;
+//     overflow: visible !important;
+//     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+//     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+// }
+// .seven:hover {
+//     height: 205px !important;
+//     overflow: visible !important;
+//     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+//     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+// }
+// .atm:hover {
+//     height: 205px !important;
+//     overflow: visible !important;
+//     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+//     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+// }
 </style>

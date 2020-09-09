@@ -18,6 +18,18 @@ import HouseDetail from '../views/housedetail.vue'
 import Signin from '../views/Signin.vue'
 import Book from '../views/Bookingprocess.vue'
 import Post from '../views/Post.vue'
+import MbMating from '../components/mbmating.vue'
+import Editingpayment from '../components/editpayment.vue'
+import MbWallet from '../components/MBWallet.vue'
+import MBwalletpage from '../views/MbWallet.vue'
+import Hostitem from '../components/Hostitem.vue'
+import chatroom from '../components/chatroom.vue'
+import hostinbox from '../components/hostinbox.vue'
+import landordinbox from '../components/landordinbox.vue'
+import signinpayment from '../views/signinpayment.vue'
+import about from '../views/About.vue'
+import Edit from '../views/Edit.vue'
+import editprofile from '../components/Editprofile.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +39,12 @@ const routes = [{
         component: Home
     },
     {
+        path: '/about',
+        name: about,
+        component: about
+    },
+
+    {
         path: '/search',
         name: 'Search',
         component: Search
@@ -35,6 +53,11 @@ const routes = [{
         path: '/test123',
         name: 'test123',
         component: test123
+    },
+    {
+        path: '/signinpayment',
+        name: signinpayment,
+        component: signinpayment
     },
     {
         path: '/need',
@@ -58,14 +81,19 @@ const routes = [{
         component: slidertest
     },
     {
-        path: '/payrent',
-        name: Payrent,
+        path: '/payrent/:id',
+        name: 'Payrent',
         component: Payrent
     },
     {
         path: '/payment',
         name: Payment,
         component: Payment
+    },
+    {
+        path: '/Edit/:id',
+        name: 'Edit',
+        component: Edit
     },
     {
         path: '/book/:id',
@@ -88,6 +116,11 @@ const routes = [{
         component: Post
     },
     {
+        path: '/mbwalletpage',
+        name: MBwalletpage,
+        component: MBwalletpage
+    },
+    {
         path: '/profile',
         name: 'profile',
         component: profile,
@@ -95,19 +128,55 @@ const routes = [{
                 path: '',
                 components: {
                     Profile11,
-                    PaymentCard
+                    PaymentCard,
+                    MbWallet
                 }
 
+            },
+            {
+                name: 'Editingpayment',
+                path: 'editingpayment',
+                component: Editingpayment
             },
             {
 
                 name: 'mynest',
                 path: 'MyNest',
-                component: MyNest
+                component: MyNest,
             }, {
                 name: 'like',
                 path: 'Like',
                 component: Like
+            }, {
+                name: 'mbmating',
+                path: 'mbmating',
+                component: MbMating
+            },
+            {
+                name: 'hostitem',
+                path: 'hostitem',
+                component: Hostitem
+
+            },
+            {
+                name: 'EditProfile',
+                path: 'editprofile',
+                component: editprofile
+            },
+            {
+                name: 'chatroom',
+                path: 'chatroom',
+                component: chatroom
+            },
+            {
+                name: 'hostinbox',
+                path: 'hostinbox',
+                component: hostinbox
+            },
+            {
+                name: 'landordinbox',
+                path: 'landordinbox',
+                component: landordinbox
             }
 
         ]

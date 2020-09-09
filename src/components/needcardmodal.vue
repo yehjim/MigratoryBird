@@ -2,16 +2,16 @@
     <div class="needcardmodal">
         <div class="content">
             <div class="title">
-                <span class="country describe">{{this.needlist[0].country}}</span>
-                <span class="name describe">{{this.needlist[0].name}}</span>
+                <span class="country describe">{{needlist[0].country}}</span>
+                <span class="name describe">{{needlist[0].name}}</span>
             </div>
             <div class="title loc">
                 <span class="add describe">地點：</span>
-                <span class="describeinfo">{{this.needlist[0].add}}</span>
+                <span class="describeinfo">{{needlist[0].add}}</span>
             </div>
             <div class="title loc">
                 <span class="add describe">預算：</span>
-                <span class="describeinfo">NTD:${{this.needlist[0].Budget}}</span>
+                <span class="describeinfo">NTD:${{needlist[0].Budget}}</span>
             </div>
             <div class="title date">
                 <div class="checkin">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="checkout">
                     <span class="add describe">離開日期</span>
-                    <span class="describeinfo">{{this.needlist[0].checkout}}</span>
+                    <span class="describeinfo">{{needlist[0].checkout}}</span>
                 </div>
     
             </div>
@@ -28,7 +28,7 @@
                 <div class="rent">
                     <span class="add describe">租金包含</span>
                     <div class="rentinclude">
-                        <div v-for="(rentitem,index) in this.needlist[0].rent" :key="index">
+                        <div v-for="(rentitem,index) in needlist[0].rent" :key="index">
                             <div class="rentitem">
                                 <span>{{rentitem}}</span>
                             </div>
@@ -39,7 +39,7 @@
                 <div class="rent">
                     <span class="add describe">種類</span>
                     <div class="rentinclude">
-                        <div v-for="(rentitem,index) in this.needlist[0].type" :key="index">
+                        <div v-for="(rentitem,index) in needlist[0].type" :key="index">
                             <div class="rentitem">
                                 <span>{{rentitem}}</span>
                             </div>
@@ -49,7 +49,7 @@
                 <div class="rent">
                     <span class="add describe">生活機能</span>
                     <div class="rentinclude">
-                        <div v-for="(rentitem,index) in this.needlist[0].life" :key="index">
+                        <div v-for="(rentitem,index) in needlist[0].life" :key="index">
                             <div class="rentitem">
                                 <span>{{rentitem}}</span>
                             </div>
@@ -60,12 +60,12 @@
                     <div>
                         <span class="describe">開伙：</span>
                         
-                        <span v-if="this.needlist[0].fire" class="describeinfo">是</span>
+                        <span v-if="needlist[0].fire" class="describeinfo">是</span>
                         <span v-else class="describeinfo">否</span>
                     </div>
                     <div>
                         <span  class="describe">寵物：</span>
-                        <span v-if="this.needlist[0].pet" class="describeinfo">是</span>
+                        <span v-if="needlist[0].pet" class="describeinfo">是</span>
                         <span v-else class="describeinfo">否</span>
                         
                     </div>
@@ -84,7 +84,7 @@
 <script>
 import axios from 'axios'
 export default {
-    props: ['display', 'needid', 'name', 'coutry', 'add', 'checkin', 'checkout', 'price'],
+    props: ['display', 'needid'],
     data() {
         return {
             needlist: [],

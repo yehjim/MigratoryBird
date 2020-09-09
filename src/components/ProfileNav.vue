@@ -5,23 +5,46 @@
         <div class="username">
             <span>JimYeh</span>
         </div>
-        <div class="profilebtn" @click="profilehandle">
+        <div class="profilebtn" >
             <router-link to="/profile">
-                <span>{{profile}}</span>
+                <span @click="profilehandle">{{profile}}</span>
             </router-link>
         </div>
-        <div class="mynestbtn" @click="mynesthandle" v-if="hashouse">
+        <div class="mynestbtn"  v-if="hoststatus">
+            <router-link :to="{name:'hostitem'}">
+                <span @click="itemhandle">{{item}}</span>
+            </router-link>
+        </div>
+        <div class="mynestbtn" v-else v-show="hashouse">
+            <router-link :to="{name:'mynest'}">
+                <span  @click="mynesthandle" >{{mynest}}</span>
+            </router-link>
+        </div>
+        <!-- <div class="mynestbtn" @click="mynesthandle" v-if="hashouse">
             <router-link :to="{name:'mynest'}">
                 <span>{{mynest}}</span>
             </router-link>
-        </div>
-        <div class="likebtn" @click="likehandle">
-            <router-link :to="{name:'like'}">
-                <span>{{like}}</span>
+        </div> -->
+        <div class="likebtn" >
+            <router-link :to="{name:'chatroom'}" v-if="hoststatus">
+                <span @click="chatroomhandle">{{chatroom}}</span>
+            </router-link>
+            <router-link :to="{name:'like'}" v-else>
+                <span @click="likehandle">{{like}}</span>
             </router-link>
         </div>
         <div class="lfrbtn">
-            <span>MB Mating</span>
+            <router-link :to="{name:'hostinbox'}"  v-if="hoststatus">
+                <span @click="inboxhandle">{{inbox}}</span>
+            </router-link>
+            <router-link :to="{name:'mbmating'}" v-else>
+                <span @click="mbmatinghandle">MB MATING</span>
+            </router-link>
+        </div>
+        <div class="lfrbtn" v-if="hoststatus==false">
+            <router-link :to="{name:'landordinbox'}" >
+                <span @click="inboxhandle">Inbox</span>
+            </router-link>
         </div>
     
     
@@ -38,7 +61,10 @@ export default {
             mynest: "MyNest",
             like: "Like",
             lfrpost: "LFR Post",
-            chatroom: "ChatRoom"
+            chatroom: "ChatRoom",
+            item:"Item",
+            inbox: 'Inbox',
+            mbmating: 'MB Mating'
 
         }
     },
@@ -46,6 +72,7 @@ export default {
     },
     methods: {
         profilehandle() {
+            
             this.$emit('profile-handle', this.profile)
         },
         mynesthandle() {
@@ -53,12 +80,27 @@ export default {
         },
         likehandle() {
             this.$emit('like-handle', this.like)
+        },
+        itemhandle(){
+            this.$emit('item-handle',this.item)
+        },
+        chatroomhandle(){
+            this.$emit('chatroom-handle',this.chatroom)
+        },
+        inboxhandle(){
+            this.$emit('inbox-handle',this.inbox)
+        },
+        mbmatinghandle(){
+            this.$emit('mbmating-handle',this.mbmating)
         }
     },
     computed:{
         hashouse(){
-            return this.$store.state.hashouse
-        }
+            return this.$store.state.userdata[0].hashouse
+        },
+        hoststatus() {
+            return this.$store.state.hostcheck;
+        },
     }
 
 }
@@ -73,11 +115,12 @@ export default {
     .userpic {
         width: 180px;
         height: 180px;
-        border: solid 1px;
+        // border: solid 1px;
         border-radius: 50%;
         margin: auto;
         margin-top: 30px;
         margin-bottom: 10px;
+        background-color: #cde2d8;
     }
     .username {
         margin: auto;

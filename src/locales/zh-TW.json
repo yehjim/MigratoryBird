@@ -1,14 +1,39 @@
 {
     "message": "大家好我是18n",
     "mainpagetop": {
-        "BOOKNOW": "訂房",
+        "BOOKNOW": "尋巢",
         "location": "地點",
         "date": "日期",
         "stay": "居住",
-        "find": "尋找",
-        "need": "求巢"
-
-
+        "find": "尋巢",
+        "need": "求巢",
+        "post": "鳥巢刊登",
+        "comunity": "社群",
+        "about": "關於候鳥",
+        "city": "城市",
+        "area": "地區",
+        "keyword": "地址/關鍵字",
+        "login": "登入",
+        "profile": "個人頁面",
+        "mynest": "我的鳥巢",
+        "like": "鳥巢收藏",
+        "language": "語言設定",
+        "logout": "登出",
+        "mating": "鳥巢配對"
+    },
+    "mbselect": {
+        "mbselect": "候鳥優選"
+    },
+    "search": {
+        "rentmon": "房租/月",
+        "gender": "性別",
+        "square": "評數",
+        "more": "更多條件",
+        "type": "房屋種類",
+        "lifefunction": "生活機能",
+        "rent": "租金包含",
+        "fire": "開伙",
+        "pet": "寵物"
     }
 
 }

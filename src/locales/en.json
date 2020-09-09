@@ -6,7 +6,39 @@
         "date": "Date",
         "stay": "Stay",
         "find": "FIND",
-        "need": "NEED"
+        "need": "NEED",
+        "comunity": "COMUNITY",
+        "about": "ABOUT",
+        "city": "City",
+        "area": "Area",
+        "keyword": "Adrress/Keyword",
+        "login": "LOGIN",
+        "profile": "Profile",
+        "mynest": "Mynest",
+        "like": "Like",
+        "language": "LANGUAGE",
+        "logout": "Logout",
+        "post": "Post",
+        "mating": "Mating"
+
+
+    },
+    "mbselect": {
+        "mbselect": "Mb Select"
+    },
+    "aboutmb": {
+
+    },
+    "search": {
+        "rentmon": "Rent/Mon",
+        "gender": "Gender",
+        "square": "Square",
+        "more": "More",
+        "type": "Type",
+        "lifefunction": "Lifefunction",
+        "rent": "Rent",
+        "fire": "Fire",
+        "pet": "Pet"
 
     }
 }

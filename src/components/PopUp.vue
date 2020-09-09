@@ -13,16 +13,16 @@
                 </div>
                 <div class="zh">
                     <label>繁體中文</label>
-                    <input type="checkbox" value="zh-TW" v-model="labelname" @click="setzhlang" id="zh">
+                    <input type="radio" value="zh-TW" v-model="lang" @click="setzhlang" id="zh">
                 </div>
                 <div class="en">
                     <label for="">English</label>
-                    <input type="checkbox" value="en" v-model="labelname" @click="setenlang" id="en">
+                    <input type="radio" value="en" v-model="lang" @click="setenlang" id="en">
     
                 </div>
                 <div class="jp">
                     <label for="">日本語</label>
-                    <input type="checkbox" value="jp" v-model="labelname" @click="setjplang" id="jp" />
+                    <input type="radio" value="jp" v-model="lang" @click="setjplang" id="jp" />
     
     
                 </div>
@@ -44,7 +44,7 @@ export default {
     props: ["displaystyle"],
     data() {
         return {
-            labelname: [],
+            lang: '',
             group: [],
             zh: ''
         }
@@ -64,7 +64,7 @@ export default {
             // this.$i18n.locale = this.labelname[0]
             // let a = document.getElementById("zh").value;
             // this.$i18n.locale = a;
-            console.log(this.labelname[0])
+            // console.log(this.labelname[0])
         },
         setenlang() {
         },
@@ -72,7 +72,8 @@ export default {
 
         },
         setlang() {
-            this.$i18n.locale = this.labelname[0];
+            console.log(this.lang)
+            this.$i18n.locale = this.lang
             this.$store.commit('closelangmodal');
         }
     },
